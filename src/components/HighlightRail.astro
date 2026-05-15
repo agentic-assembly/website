@@ -1,0 +1,141 @@
+---
+import { type Highlight, ICON_PATHS } from "../lib/icons";
+
+interface Props {
+  highlights: Highlight[];
+}
+
+const { highlights } = Astro.props;
+---
+
+<aside class="rail" aria-label="Referenced resources">
+  <h2 class="rail__heading">Referenced</h2>
+  <ol class="rail__list">
+    {
+      highlights.map((h, i) => (
+        <li>
+          <a
+            class="rail__item"
+            href={h.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-rail-id={h.id}
+          >
+            <span class="rail__num">{String(i + 1).padStart(2, "0")}</span>
+            <svg
+              class="rail__icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={ICON_PATHS[h.kind]}
+            />
+            <span class="rail__label">{h.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</aside>
+
+<dialog class="hl-modal" id="hl-modal">
+  <div class="hl-modal__body">
+    <div class="hl-modal__head">
+      <svg
+        class="hl-modal__icon"
+        id="hl-modal-icon"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"></svg>
+      <h3 class="hl-modal__label" id="hl-modal-label"></h3>
+    </div>
+    <p class="hl-modal__href" id="hl-modal-href"></p>
+    <div class="hl-modal__actions">
+      <button type="button" class="hl-modal__close" data-modal-close
+        >Close</button
+      >
+      <a
+        class="hl-modal__open"
+        id="hl-modal-open"
+        href=""
+        target="_blank"
+        rel="noopener noreferrer">Open →</a
+      >
+    </div>
+  </div>
+</dialog>
+
+<script is:inline define:vars={{ icons: ICON_PATHS }}>
+  (() => {
+    const MQ = window.matchMedia("(min-width: 1024px)");
+    const modal = document.getElementById("hl-modal");
+    if (!modal) return;
+    const modalLabel = document.getElementById("hl-modal-label");
+    const modalHref = document.getElementById("hl-modal-href");
+    const modalOpen = document.getElementById("hl-modal-open");
+    const modalIcon = document.getElementById("hl-modal-icon");
+
+    function openModal(data) {
+      modalLabel.textContent = data.label;
+      modalHref.textContent = data.href;
+      modalOpen.href = data.href;
+      modalIcon.innerHTML = icons[data.kind] || icons.file;
+      modal.showModal();
+    }
+
+    document.querySelectorAll("[data-mark-id]").forEach((mark) => {
+      const id = mark.dataset.markId;
+      const rail = document.querySelector(`[data-rail-id="${id}"]`);
+
+      if (rail) {
+        mark.addEventListener("mouseenter", () =>
+          rail.classList.add("is-active"),
+        );
+        mark.addEventListener("mouseleave", () =>
+          rail.classList.remove("is-active"),
+        );
+      }
+
+      mark.addEventListener("click", (e) => {
+        if (!MQ.matches) {
+          e.preventDefault();
+          openModal({
+            label: mark.dataset.markLabel || "",
+            href: mark.dataset.markHref || mark.href,
+            kind: mark.dataset.markKind || "link",
+          });
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-rail-id]").forEach((item) => {
+      const id = item.dataset.railId;
+      const mark = document.querySelector(`[data-mark-id="${id}"]`);
+      if (!mark) return;
+      item.addEventListener("mouseenter", () =>
+        mark.classList.add("is-active"),
+      );
+      item.addEventListener("mouseleave", () =>
+        mark.classList.remove("is-active"),
+      );
+    });
+
+    modal.querySelectorAll("[data-modal-close]").forEach((btn) => {
+      btn.addEventListener("click", () => modal.close());
+    });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.close();
+    });
+  })();
+</script>

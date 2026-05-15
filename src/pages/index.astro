@@ -1,0 +1,149 @@
+---
+import { getCollection } from "astro:content";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+import { partsRecord } from "../lib/date";
+
+const now = new Date();
+const all = (await getCollection("assemblies")).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime(),
+);
+
+const past = all.filter((e) => e.data.date < now).reverse();
+const upcoming = all.filter((e) => e.data.date >= now).slice(0, 5);
+
+const totalPast = past.length;
+const pastDateFmt = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "2-digit",
+});
+
+const pastRows = past.map((entry, i) => ({
+  id: `AA${String(totalPast - i).padStart(2, "0")}`,
+  date: pastDateFmt.format(entry.data.date),
+  title: entry.data.title,
+  href: `/assemblies/${entry.id}`,
+}));
+
+const upcomingDateFmt = new Intl.DateTimeFormat("en-GB", {
+  weekday: "short",
+  day: "2-digit",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "Asia/Tokyo",
+});
+
+const formatUpcomingDate = (d: Date) => {
+  const p = partsRecord(upcomingDateFmt, d);
+  return `${p.weekday.toUpperCase()} ${p.day} ${p.month.toUpperCase()} — ${p.hour}:${p.minute}`;
+};
+
+const relativeSoon = (d: Date) => {
+  const ms = d.getTime() - now.getTime();
+  const days = Math.round(ms / 86_400_000);
+  if (days <= 0) return "today";
+  if (days === 1) return "tomorrow";
+  if (days < 14) return `in ${days} days`;
+  const weeks = Math.round(days / 7);
+  return `in ${weeks} weeks`;
+};
+
+const upcomingRows = upcoming.map((entry, i) => {
+  const loc = entry.data.location ?? "Location TBD";
+  const locTbd = /\btbd\b/i.test(loc);
+  return {
+    id: `AA${String(totalPast + 1 + i).padStart(2, "0")}`,
+    date: formatUpcomingDate(entry.data.date),
+    topic: entry.data.summary,
+    loc,
+    locTbd,
+    isNext: i === 0,
+    soon: i === 0 ? relativeSoon(entry.data.date) : undefined,
+    href: `/assemblies/${entry.id}`,
+  };
+});
+---
+
+<Layout title="Agentic Assembly — A weekly gathering in Osaka">
+  <Header />
+
+  <main>
+    <section class="hero page">
+      <div class="hero__eyebrow">A weekly gathering — Osaka — Saturdays</div>
+      <h1 class="hero__title">
+        Engineers sitting together each Saturday — to compare notes on building
+        with <span class="accent">agentic coding tools</span>.
+      </h1>
+      <dl class="hero__meta">
+        <dt>Format</dt>
+        <dd>Open table. Bring a problem or a finding. No demos, no slides.</dd>
+        <dt>When</dt>
+        <dd>Saturdays, 10:00 — 12:30 JST</dd>
+        <dt>Where</dt>
+        <dd>Rotating cafés around Hommachi &amp; Honmachi-bashi</dd>
+        <dt>Cost</dt>
+        <dd>Free. Pay for what you drink.</dd>
+      </dl>
+    </section>
+
+    <section class="section page-wide">
+      <header class="section__head">
+        <h2 class="section__title">Upcoming</h2>
+        <span class="section__count">Next {upcomingRows.length} Saturdays</span>
+      </header>
+
+      <ol class="tl-list">
+        {
+          upcomingRows.map((item) => (
+            <li class={`tl-item${item.isNext ? " tl-item--next" : ""}`}>
+              <span class="tl-dot" />
+              <div class="tl-id">
+                {item.id}
+                {item.soon && <span class="tl-soon">— {item.soon}</span>}
+              </div>
+              <div class="tl-date">{item.date}</div>
+              {item.topic && <div class="tl-topic">{item.topic}</div>}
+              <div class={`tl-loc${item.locTbd ? " tl-loc--tbd" : ""}`}>
+                {item.loc}
+              </div>
+              {item.isNext && (
+                <a href={item.href} class="tl-rsvp">
+                  RSVP →
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="section page">
+      <header class="section__head">
+        <h2 class="section__title">Past assemblies</h2>
+        <span class="section__count">
+          {String(totalPast).padStart(2, "0")} / archive
+        </span>
+      </header>
+
+      <div class="assemblies">
+        {
+          pastRows.map((row) => (
+            <a href={row.href} class="assembly-row">
+              <span class="assembly-row__id">{row.id}</span>
+              <span class="assembly-row__date">{row.date}</span>
+              <span class="assembly-row__title">{row.title}</span>
+              <span class="assembly-row__loc" />
+              <span class="assembly-row__arrow">→</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

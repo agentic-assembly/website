@@ -1,0 +1,213 @@
+---
+const title = "Agentic Assembly — Sign";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0e0d0c;
+        --ink-dim: #4a463e;
+        --accent: oklch(0.7 0.2 130);
+        --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --sans: "Noto Sans", system-ui, sans-serif;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f3efe4;
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .sheet {
+        width: 297mm;
+        height: 210mm;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 18mm 22mm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14mm;
+      }
+
+      .brand__mark {
+        width: 36mm;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .brand__lockup {
+        text-align: left;
+      }
+
+      .brand__word {
+        font-family: var(--mono);
+        font-weight: 800;
+        font-size: 14mm;
+        letter-spacing: 0.02em;
+        line-height: 1;
+      }
+
+      .brand__word .accent {
+        color: var(--accent);
+      }
+
+      .brand__tag {
+        font-family: var(--mono);
+        font-size: 6.3mm;
+        color: var(--ink-dim);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: 3mm;
+      }
+
+      .middle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14mm;
+      }
+
+      .arrow {
+        width: 55mm;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .info {
+        text-align: left;
+      }
+
+      .info__time {
+        font-family: var(--mono);
+        font-size: 16mm;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+
+      .info__where {
+        font-family: var(--sans);
+        font-size: 10mm;
+        font-weight: 400;
+        margin-top: 6mm;
+        color: var(--ink);
+        letter-spacing: 0.01em;
+      }
+
+      .info__where strong {
+        font-weight: 700;
+      }
+
+      .footline {
+        font-family: var(--sans);
+        font-size: 7mm;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        text-align: center;
+      }
+
+      .footline em {
+        font-style: normal;
+        color: var(--accent);
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      @media print {
+        html,
+        body {
+          background: #ffffff;
+        }
+        .sheet {
+          box-shadow: none;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sheet">
+      <div class="brand">
+        <svg
+          class="brand__mark"
+          viewBox="0 0 220 200"
+          aria-hidden="true"
+        >
+          <g
+            fill="none"
+            stroke-width="28"
+            stroke-linecap="square"
+            stroke-linejoin="miter"
+          >
+            <polyline
+              points="20,80 110,20 200,80"
+              stroke="oklch(0.7 0.2 130)"
+            />
+            <polyline points="20,140 110,80 200,140" stroke="#0e0d0c" />
+          </g>
+        </svg>
+        <div class="brand__lockup">
+          <div class="brand__word">
+            <span class="accent">AGENTIC</span> ASSEMBLY
+          </div>
+          <div class="brand__tag">AI Engineers Support Group Osaka</div>
+        </div>
+      </div>
+
+      <div class="middle">
+        <svg
+          class="arrow"
+          viewBox="0 0 320 140"
+          aria-hidden="true"
+        >
+          <g fill="none" stroke="#0e0d0c" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="310" y1="70" x2="50" y2="70" />
+            <polyline points="110,15 30,70 110,125" />
+          </g>
+        </svg>
+
+        <div class="info">
+          <div class="info__time">10:00 ~ 12:00</div>
+          <div class="info__where">
+            Meeting Room inside <strong>TheDECK</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="footline">
+        Every Saturday — RSVP Required — find us on <em>meetup.com</em>
+      </div>
+    </div>
+  </body>
+</html>

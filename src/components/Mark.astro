@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const h = Astro.locals.highlights?.get(id);
+
+if (!h && import.meta.env.DEV) {
+  console.warn(`[Mark] no highlight registered for id="${id}"`);
+}
+
+const href = h?.href ?? "#";
+const label = h?.label ?? id;
+const kind = h?.kind ?? "link";
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="mark"
+  data-mark-id={id}
+  data-mark-label={label}
+  data-mark-kind={kind}
+  data-mark-href={href}><slot /></a>

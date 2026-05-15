@@ -1,0 +1,82 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import Mark from "../../components/Mark.astro";
+import AssemblyLayout from "../../layouts/AssemblyLayout.astro";
+import { loadAssemblyAssets } from "../../lib/assets";
+import { type Highlight, iconKindFromExt } from "../../lib/icons";
+
+export async function getStaticPaths() {
+  const entries = (await getCollection("assemblies")).sort(
+    (a, b) => a.data.date.getTime() - b.data.date.getTime(),
+  );
+  return entries.map((entry, i) => {
+    const aaId = `AA${String(i + 1).padStart(2, "0")}`;
+    const next = entries[i + 1] ?? null;
+    return {
+      params: { id: entry.id },
+      props: {
+        entry,
+        aaId,
+        nextAssembly: next
+          ? {
+              id: `AA${String(i + 2).padStart(2, "0")}`,
+              title: next.data.title,
+              date: next.data.date,
+              href: `/assemblies/${next.id}`,
+            }
+          : null,
+      },
+    };
+  });
+}
+
+interface NextAssembly {
+  id: string;
+  title: string;
+  date: Date;
+  href: string;
+}
+
+const { entry, aaId, nextAssembly } = Astro.props as {
+  entry: CollectionEntry<"assemblies">;
+  aaId: string;
+  nextAssembly: NextAssembly | null;
+};
+const { Content } = await render(entry);
+
+const assets = await loadAssemblyAssets(entry.id);
+const assetByName = new Map(assets.map((a) => [a.name, a]));
+
+const highlights: Highlight[] = (entry.data.highlights ?? []).map((h) => {
+  if (h.href) {
+    return { id: h.id, label: h.label, href: h.href, kind: "link" };
+  }
+  const asset = assetByName.get(h.asset ?? "");
+  if (!asset) {
+    throw new Error(
+      `Highlight "${h.id}" in "${entry.id}" references missing asset "${h.asset}". Available: ${assets.map((a) => a.name).join(", ") || "(none)"}`,
+    );
+  }
+  return {
+    id: h.id,
+    label: h.label,
+    href: asset.url,
+    kind: iconKindFromExt(asset.ext),
+  };
+});
+
+Astro.locals.highlights = new Map(highlights.map((h) => [h.id, h]));
+---
+
+<AssemblyLayout
+  title={entry.data.title}
+  date={entry.data.date}
+  location={entry.data.location}
+  summary={entry.data.summary}
+  references={entry.data.references}
+  assets={assets}
+  aaId={aaId}
+  nextAssembly={nextAssembly}
+>
+  <Content components={{ Mark }} />
+</AssemblyLayout>

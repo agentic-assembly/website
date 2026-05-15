@@ -1,0 +1,169 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { type Asset, formatSize } from "../lib/assets";
+import { partsRecord } from "../lib/date";
+import { iconKindFromExt } from "../lib/icons";
+import Layout from "./Layout.astro";
+
+interface Reference {
+  title: string;
+  url: string;
+}
+
+interface NextAssembly {
+  id: string;
+  title: string;
+  date: Date;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  date: Date;
+  location?: string;
+  summary?: string;
+  references?: Reference[];
+  assets?: Asset[];
+  aaId: string;
+  nextAssembly?: NextAssembly | null;
+}
+
+const {
+  title,
+  date,
+  location,
+  summary,
+  references = [],
+  assets = [],
+  aaId,
+  nextAssembly,
+} = Astro.props;
+
+const eyebrowDateFmt = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  weekday: "short",
+  timeZone: "Asia/Tokyo",
+});
+
+const formatEyebrowDate = (d: Date) => {
+  const p = partsRecord(eyebrowDateFmt, d);
+  return `${p.day} ${p.month} ${p.year} — ${p.weekday.toUpperCase()}`;
+};
+
+const teaserDateFmt = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "short",
+  timeZone: "Asia/Tokyo",
+});
+const formatTeaserDate = (d: Date) => teaserDateFmt.format(d).toUpperCase().replace(/\./g, "");
+
+const hostFromUrl = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+
+const refRows = references.map((r) => ({
+  title: r.title,
+  url: r.url,
+  src: hostFromUrl(r.url),
+}));
+---
+
+<Layout title={`${title} — Agentic Assembly`}>
+  <Header />
+
+  <main>
+    <article class="va-page">
+      <a href="/" class="va-back">← Assemblies</a>
+
+      <div class="va-eyebrow">
+        <span class="acc">{aaId}</span>
+        <span>{formatEyebrowDate(date)}</span>
+        {location && <span>{location}</span>}
+      </div>
+
+      <h1 class="va-title">{title}</h1>
+
+      {
+        summary && (
+          <section class="va-tldr">
+            <div class="va-tldr-label">TL;DR</div>
+            <p>{summary}</p>
+          </section>
+        )
+      }
+
+      <div class="va-prose">
+        <slot />
+      </div>
+
+      {
+        assets.length > 0 && (
+          <section class="va-assets">
+            <div class="va-section-label">Files dropped</div>
+            {assets.map((asset) => {
+              const ext = asset.ext.toLowerCase();
+              const isFile = iconKindFromExt(ext) !== "link";
+              return (
+                <a
+                  href={asset.url}
+                  class={`va-card${isFile ? " file" : ""}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="va-card-head">
+                    <span class="type">
+                      {isFile ? "FILE" : "LINK"} — {ext.toUpperCase()}
+                    </span>
+                    <span>{formatSize(asset.size)}</span>
+                  </div>
+                  <div class="va-card-title">{asset.name}</div>
+                </a>
+              );
+            })}
+          </section>
+        )
+      }
+
+      {
+        refRows.length > 0 && (
+          <section class="va-further">
+            <div class="va-further-title">Further reading — dropped in chat</div>
+            <ul>
+              {refRows.map((r) => (
+                <li>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer">
+                    {r.title}
+                  </a>
+                  <span class="src">{r.src}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        nextAssembly && (
+          <div class="va-teaser">
+            <div class="va-teaser-label">Next assembly</div>
+            <a href={nextAssembly.href} class="va-teaser-link">
+              <span class="id">
+                {nextAssembly.id} — {formatTeaserDate(nextAssembly.date)}
+              </span>
+              {nextAssembly.title} →
+            </a>
+          </div>
+        )
+      }
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

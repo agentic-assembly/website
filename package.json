@@ -1,0 +1,37 @@
+{
+  "name": "aa-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "biome check .",
+    "fmt": "biome format --write .",
+    "fix": "biome check --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "/home/dev/.drift/scaffold/aa-website/src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@tailwindcss/postcss": "^4.3.0",
+    "astro": "^6.3.1",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@biomejs/biome": "^2.4.15",
+    "@types/node": "^25.7.0",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,80 @@
+---
+title: "Test assembly"
+date: 2026-05-13
+summary: "End-to-end smoke test: MDX, co-located assets, image optimization, opaque file downloads, and embedded video."
+references:
+  - title: "Astro Content Collections"
+    url: "https://docs.astro.build/en/guides/content-collections/"
+  - title: "Astro MDX integration"
+    url: "https://docs.astro.build/en/guides/integrations-guide/mdx/"
+  - title: "Vite asset URL imports"
+    url: "https://vite.dev/guide/assets"
+highlights:
+  - id: content-collections
+    label: Astro content collections guide
+    href: https://docs.astro.build/en/guides/content-collections/
+  - id: mdx-integration
+    label: "@astrojs/mdx integration"
+    href: https://docs.astro.build/en/guides/integrations-guide/mdx/
+  - id: vite-assets
+    label: Vite asset URL imports
+    href: https://vite.dev/guide/assets
+  - id: paper
+    label: Reference paper (placeholder PDF)
+    asset: paper.pdf
+  - id: banner
+    label: Banner image
+    asset: banner.png
+---
+
+import { Image } from "astro:assets";
+import YouTube from "../../../components/YouTube.astro";
+import banner from "./assets/banner.png";
+import paperUrl from "./assets/paper.pdf?url";
+
+<Image src={banner} alt="Lavender-to-pink gradient banner reading 'test assembly banner'" />
+
+## What this assembly tests
+
+This page verifies that every authoring affordance we care about works end-to-end.
+Key terms below are <Mark id="content-collections">marked</Mark> — on desktop, look
+at the rail to the left; on a phone, tap a mark to open it as a modal.
+
+## Co-located assets
+
+Each assembly is a folder. Anything inside `assets/` ships with the entry:
+
+- **Images** — imported as ESM and rendered through <Mark id="vite-assets">`astro:assets`</Mark>
+  so Astro hashes the filename and emits responsive markup. The <Mark id="banner">banner above</Mark>
+  is one.
+- **Documents** — imported with Vite's `?url` suffix, which returns a stable
+  hashed URL. Use it for downloads like the <Mark id="paper">reference paper</Mark>.
+- **Opaque binaries** — the same `?url` pattern works for any file type
+  (`.mov`, `.mp4`, `.zip`, `.wasm`, …). Drop the file in `assets/`, import
+  it with `?url`, then reference the URL however you need.
+
+```tsx
+import clipUrl from "./assets/clip.mov?url";
+
+<video src={clipUrl} controls />
+```
+
+## Embedded components
+
+MDX lets us import `.astro` components inline. The <Mark id="mdx-integration">MDX integration</Mark>
+wires it up. The `<YouTube />` component wraps an iframe in a responsive
+aspect-ratio box:
+
+<YouTube id="aqz-KE-bpKQ" title="Big Buck Bunny" />
+
+## Listing
+
+A plain markdown list, rendered with the prose styles defined in
+`AssemblyLayout.astro`:
+
+1. Folder per assembly under `src/content/assemblies/[YYDDMM-slug]/`
+2. `index.md` or `index.mdx` is the entry; everything else is sidecar
+3. Frontmatter is validated by the zod schema in `src/content.config.ts`
+4. Unknown frontmatter fields are rejected (`.strict()`)
+5. The `references` array, if present, renders below the body
+6. The `highlights` array, if present, drives the rail and `<Mark>` resolution

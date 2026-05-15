@@ -1,10 +1,11 @@
 ---
 import { ICON_PATHS } from "../lib/icons";
 import Brand from "./Brand.astro";
+import Container from "./Container.astro";
 ---
 
 <header class="site-header">
-  <div class="site-header__inner">
+  <Container class="site-header__inner">
     <Brand href="/" size="38px" />
     <button
       id="theme-toggle"
@@ -39,7 +40,7 @@ import Brand from "./Brand.astro";
         set:html={ICON_PATHS.moon}
       />
     </button>
-  </div>
+  </Container>
 </header>
 
 <script>

@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import path from "node:path";
 import Layout from "../layouts/Layout.astro";
 
-const SHOT_DIR = path.resolve("public/dev/screenshots");
+const SHOT_DIR = path.resolve("dev-screenshots");
 
 let files: string[] = [];
 try {
@@ -14,11 +14,8 @@ try {
 
 const PAGES: { slug: string; label: string; url: string }[] = [
   { slug: "home", label: "Home", url: "/" },
-  {
-    slug: "test-assembly",
-    label: "Test assembly",
-    url: "/assemblies/261305-test-assembly",
-  },
+  { slug: "test-assembly", label: "Test assembly", url: "/2" },
+  { slug: "feedback", label: "Feedback", url: "/feedback" },
 ];
 
 const VIEWPORTS: { slug: string; label: string; w: number; h: number }[] = [
@@ -61,8 +58,9 @@ const empty = shots.length === 0;
     <header class="shots__head">
       <div class="shots__eyebrow">Dev — internal — not linked from nav</div>
       <h1 class="shots__title">
-        Screenshots — <span class="accent">/</span> &amp;
-        <span class="accent">/assemblies/261305-test-assembly</span>
+        Screenshots — <span class="accent">/</span> —
+        <span class="accent">/2</span> —
+        <span class="accent">/feedback</span>
       </h1>
       <p class="shots__sub">
         Captured by Playwright at three viewports &amp; both themes. Run
@@ -166,7 +164,7 @@ const empty = shots.length === 0;
 
   .shots__empty {
     color: var(--ink-dim);
-    border: 1px dashed var(--line-2);
+    border: 1px dashed var(--line);
     padding: 24px;
     border-radius: 6px;
   }
@@ -224,7 +222,7 @@ const empty = shots.length === 0;
 
   .shot__frame {
     display: block;
-    border: 1px solid var(--line-2);
+    border: 1px solid var(--line);
     border-radius: 4px;
     overflow: hidden;
     background: var(--bg-2);

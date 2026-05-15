@@ -1,5 +1,6 @@
 ---
 import Footer from "../components/Footer.astro";
+import Container from "../components/Container.astro";
 import Header from "../components/Header.astro";
 import { type Asset, formatSize } from "../lib/assets";
 import { partsRecord } from "../lib/date";
@@ -79,7 +80,7 @@ const refRows = references.map((r) => ({
   <Header />
 
   <main>
-    <article class="va-page">
+    <Container as="article" class="va-page">
       <a href="/" class="va-back">← Assemblies</a>
 
       <div class="va-eyebrow">
@@ -162,7 +163,7 @@ const refRows = references.map((r) => ({
           </div>
         )
       }
-    </article>
+    </Container>
   </main>
 
   <Footer />

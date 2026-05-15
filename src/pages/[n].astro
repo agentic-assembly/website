@@ -1,28 +1,29 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import Mark from "../../components/Mark.astro";
-import AssemblyLayout from "../../layouts/AssemblyLayout.astro";
-import { loadAssemblyAssets } from "../../lib/assets";
-import { type Highlight, iconKindFromExt } from "../../lib/icons";
+import Mark from "../components/Mark.astro";
+import AssemblyLayout from "../layouts/AssemblyLayout.astro";
+import { loadAssemblyAssets } from "../lib/assets";
+import { type Highlight, iconKindFromExt } from "../lib/icons";
 
 export async function getStaticPaths() {
   const entries = (await getCollection("assemblies")).sort(
     (a, b) => a.data.date.getTime() - b.data.date.getTime(),
   );
   return entries.map((entry, i) => {
-    const aaId = `AA${String(i + 1).padStart(2, "0")}`;
+    const n = i + 1;
+    const aaId = `AA${String(n).padStart(2, "0")}`;
     const next = entries[i + 1] ?? null;
     return {
-      params: { id: entry.id },
+      params: { n: String(n) },
       props: {
         entry,
         aaId,
         nextAssembly: next
           ? {
-              id: `AA${String(i + 2).padStart(2, "0")}`,
+              id: `AA${String(n + 1).padStart(2, "0")}`,
               title: next.data.title,
               date: next.data.date,
-              href: `/assemblies/${next.id}`,
+              href: `/${n + 1}`,
             }
           : null,
       },
@@ -42,9 +43,10 @@ const { entry, aaId, nextAssembly } = Astro.props as {
   aaId: string;
   nextAssembly: NextAssembly | null;
 };
-const { Content } = await render(entry);
-
-const assets = await loadAssemblyAssets(entry.id);
+const [{ Content }, assets] = await Promise.all([
+  render(entry),
+  loadAssemblyAssets(entry.id),
+]);
 const assetByName = new Map(assets.map((a) => [a.name, a]));
 
 const highlights: Highlight[] = (entry.data.highlights ?? []).map((h) => {

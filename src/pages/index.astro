@@ -1,5 +1,7 @@
 ---
 import { getCollection } from "astro:content";
+import BrandMark from "../components/BrandMark.astro";
+import Container from "../components/Container.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
@@ -20,12 +22,15 @@ const pastDateFmt = new Intl.DateTimeFormat("en-GB", {
   year: "2-digit",
 });
 
-const pastRows = past.map((entry, i) => ({
-  id: `AA${String(totalPast - i).padStart(2, "0")}`,
-  date: pastDateFmt.format(entry.data.date),
-  title: entry.data.title,
-  href: `/assemblies/${entry.id}`,
-}));
+const pastRows = past.map((entry, i) => {
+  const n = totalPast - i;
+  return {
+    id: `AA${String(n).padStart(2, "0")}`,
+    date: pastDateFmt.format(entry.data.date),
+    title: entry.data.title,
+    href: `/${n}`,
+  };
+});
 
 const upcomingDateFmt = new Intl.DateTimeFormat("en-GB", {
   weekday: "short",
@@ -53,17 +58,14 @@ const relativeSoon = (d: Date) => {
 };
 
 const upcomingRows = upcoming.map((entry, i) => {
-  const loc = entry.data.location ?? "Location TBD";
-  const locTbd = /\btbd\b/i.test(loc);
+  const n = totalPast + 1 + i;
   return {
-    id: `AA${String(totalPast + 1 + i).padStart(2, "0")}`,
+    id: `AA${String(n).padStart(2, "0")}`,
     date: formatUpcomingDate(entry.data.date),
     topic: entry.data.summary,
-    loc,
-    locTbd,
     isNext: i === 0,
     soon: i === 0 ? relativeSoon(entry.data.date) : undefined,
-    href: `/assemblies/${entry.id}`,
+    href: `/${n}`,
   };
 });
 ---
@@ -72,76 +74,87 @@ const upcomingRows = upcoming.map((entry, i) => {
   <Header />
 
   <main>
-    <section class="hero page">
-      <div class="hero__eyebrow">A weekly gathering — Osaka — Saturdays</div>
-      <h1 class="hero__title">
-        Engineers sitting together each Saturday — to compare notes on building
-        with <span class="accent">agentic coding tools</span>.
-      </h1>
-      <dl class="hero__meta">
-        <dt>Format</dt>
-        <dd>Open table. Bring a problem or a finding. No demos, no slides.</dd>
-        <dt>When</dt>
-        <dd>Saturdays, 10:00 — 12:30 JST</dd>
-        <dt>Where</dt>
-        <dd>Rotating cafés around Hommachi &amp; Honmachi-bashi</dd>
-        <dt>Cost</dt>
-        <dd>Free. Pay for what you drink.</dd>
-      </dl>
-    </section>
-
-    <section class="section page-wide">
-      <header class="section__head">
-        <h2 class="section__title">Upcoming</h2>
-        <span class="section__count">Next {upcomingRows.length} Saturdays</span>
-      </header>
-
-      <ol class="tl-list">
-        {
-          upcomingRows.map((item) => (
-            <li class={`tl-item${item.isNext ? " tl-item--next" : ""}`}>
-              <span class="tl-dot" />
-              <div class="tl-id">
-                {item.id}
-                {item.soon && <span class="tl-soon">— {item.soon}</span>}
-              </div>
-              <div class="tl-date">{item.date}</div>
-              {item.topic && <div class="tl-topic">{item.topic}</div>}
-              <div class={`tl-loc${item.locTbd ? " tl-loc--tbd" : ""}`}>
-                {item.loc}
-              </div>
-              {item.isNext && (
-                <a href={item.href} class="tl-rsvp">
-                  RSVP →
-                </a>
-              )}
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-
-    <section class="section page">
-      <header class="section__head">
-        <h2 class="section__title">Past assemblies</h2>
-        <span class="section__count">
-          {String(totalPast).padStart(2, "0")} / archive
-        </span>
-      </header>
-
-      <div class="assemblies">
-        {
-          pastRows.map((row) => (
-            <a href={row.href} class="assembly-row">
-              <span class="assembly-row__id">{row.id}</span>
-              <span class="assembly-row__date">{row.date}</span>
-              <span class="assembly-row__title">{row.title}</span>
-              <span class="assembly-row__loc" />
-              <span class="assembly-row__arrow">→</span>
+    <section class="hero">
+      <Container>
+        <div class="hero__eyebrow">Agentic Engineering — Every Saturday — Osaka</div>
+        <h1 class="hero__title">
+          Engineers sitting together each Saturday — to compare notes on
+          building with <span class="accent">agentic coding tools</span>.
+        </h1>
+        <dl class="hero__meta">
+          <dt>Format</dt>
+          <dd>Free Talk Round Table Discussion</dd>
+          <dt>When</dt>
+          <dd>Every Saturday, 10:00 — 12:00 JST</dd>
+          <dt>Where</dt>
+          <dd>
+            The DECK — 1F, 2-1-1 Minamihonmachi, Chuo-ku, Osaka —{" "}
+            <a
+              class="hero__meta-link"
+              href="https://www.google.com/maps/search/?api=1&query=The+DECK+Minamihonmachi+Osaka"
+              target="_blank"
+              rel="noopener"
+            >
+              Map ↗
             </a>
-          ))
-        }
-      </div>
+          </dd>
+          <dt>What</dt>
+          <dd>Claude Code, Codex, Cursor, Cline, Aider, Opencode, OpenClaw, ...</dd>
+          <dt>Cost</dt>
+          <dd>Free.</dd>
+        </dl>
+      </Container>
+    </section>
+
+    <section class="section">
+      <Container>
+        <header class="section__head">
+          <h2 class="section__title">Upcoming</h2>
+        </header>
+
+        <ol class="tl-list">
+          {
+            upcomingRows.map((item) => (
+              <li class={`tl-item${item.isNext ? " tl-item--next" : ""}`}>
+                <a href={item.href} class="tl-link">
+                  <BrandMark class="tl-mark" size="18px" rotate={90} />
+                  <div class="tl-id">
+                    {item.id}
+                    {item.soon && <span class="tl-soon">— {item.soon}</span>}
+                  </div>
+                  <div class="tl-date">{item.date}</div>
+                  {item.topic && <div class="tl-topic">{item.topic}</div>}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </Container>
+    </section>
+
+    <section class="section">
+      <Container>
+        <header class="section__head">
+          <h2 class="section__title">Past assemblies</h2>
+          <span class="section__count">
+            {String(totalPast).padStart(2, "0")} / archive
+          </span>
+        </header>
+
+        <div class="assemblies">
+          {
+            pastRows.map((row) => (
+              <a href={row.href} class="assembly-row">
+                <span class="assembly-row__id">{row.id}</span>
+                <span class="assembly-row__date">{row.date}</span>
+                <span class="assembly-row__title">{row.title}</span>
+                <span class="assembly-row__loc" />
+                <span class="assembly-row__arrow">→</span>
+              </a>
+            ))
+          }
+        </div>
+      </Container>
     </section>
   </main>
 

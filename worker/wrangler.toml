@@ -1,0 +1,19 @@
+name = "aa-feedback"
+main = "src/index.ts"
+compatibility_date = "2026-05-01"
+
+[vars]
+GITHUB_OWNER = "agentic-assembly"
+GITHUB_REPO = "feedback"
+ALLOWED_ORIGINS = "https://a13y.org,http://localhost:4321"
+
+# KV namespace for backup copies of every submission. Create via:
+#   npx wrangler kv namespace create SUBMISSIONS
+# then paste the printed id below.
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+id = "63a86f665cfd46709e7f0d32f5b6e366"
+
+# Secrets — set with `wrangler secret put <NAME>`:
+#   GITHUB_TOKEN        (fine-grained PAT, Contents: write on the feedback repo)
+#   TURNSTILE_SECRET    (optional — only if you wire up Turnstile)

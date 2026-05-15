@@ -1,0 +1,122 @@
+---
+import Container from "../components/Container.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+
+const RATINGS = [
+  { key: "overall", label: "Overall" },
+  { key: "venue", label: "Venue" },
+  { key: "discussion", label: "Discussion" },
+];
+---
+
+<Layout
+  title="Feedback — Agentic Assembly"
+  description="Tell us how the last assembly went. Anonymous by default; name and email optional."
+>
+  <Header />
+
+  <main>
+    <section class="hero">
+      <Container>
+        <div class="hero__eyebrow">Feedback</div>
+        <h1 class="hero__title">
+          How was the <span class="accent">assembly</span>?
+        </h1>
+        <p class="fb-lede">
+          Anonymous by default — leave your name or email only if you want.
+        </p>
+      </Container>
+    </section>
+
+    <section class="section">
+      <Container>
+        <form id="fb-form" class="fb-form" novalidate>
+          {
+            RATINGS.map((r) => (
+              <fieldset class="fb-stars" data-rating={r.key}>
+                <legend>{r.label}</legend>
+                <div class="fb-stars__row">
+                  {[5, 4, 3, 2, 1].map((n) => (
+                    <label>
+                      <input type="radio" name={r.key} value={n} />
+                      <span class="fb-star" aria-label={`${n} star${n === 1 ? "" : "s"}`}>★</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ))
+          }
+
+          <label class="fb-field">
+            <span>Message</span>
+            <textarea name="message" rows="6" maxlength="4000" placeholder="What worked, what didn't, anything you'd change…"></textarea>
+          </label>
+
+          <label class="fb-field">
+            <span>Name <em>— optional</em></span>
+            <input type="text" name="name" maxlength="200" autocomplete="off" />
+          </label>
+
+          <label class="fb-field">
+            <span>Email <em>— optional</em></span>
+            <input type="email" name="email" maxlength="200" autocomplete="off" />
+          </label>
+
+          <input type="text" name="honeypot" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="fb-actions">
+            <button type="submit" class="fb-submit">Send →</button>
+            <span class="fb-status" id="fb-status" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </Container>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const FEEDBACK_ENDPOINT = "https://feedback.a13y.org";
+
+  const form = document.getElementById("fb-form") as HTMLFormElement | null;
+  const status = document.getElementById("fb-status");
+  if (form && status) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const ratings: Record<string, number> = {};
+      for (const r of ["overall", "venue", "discussion"]) {
+        const v = fd.get(r);
+        if (v) ratings[r] = Number(v);
+      }
+      const payload = {
+        ratings,
+        message: String(fd.get("message") ?? ""),
+        name: String(fd.get("name") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        honeypot: String(fd.get("honeypot") ?? ""),
+      };
+
+      const submit = form.querySelector(".fb-submit") as HTMLButtonElement | null;
+      if (submit) submit.disabled = true;
+      status.textContent = "Sending…";
+
+      try {
+        const res = await fetch(FEEDBACK_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        status.textContent = "Thanks — got it.";
+        form.reset();
+      } catch (err) {
+        status.textContent = "Something broke. Try again in a bit.";
+        if (submit) submit.disabled = false;
+      }
+    });
+  }
+</script>

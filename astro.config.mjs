@@ -4,4 +4,5 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://a13y.org",
   integrations: [mdx()],
+  devToolbar: { enabled: false },
 });

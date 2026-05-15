@@ -9,16 +9,13 @@ import { chromium } from "playwright";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const OUT_DIR = path.join(ROOT, "public", "dev", "screenshots");
+const OUT_DIR = path.join(ROOT, "dev-screenshots");
 const BASE = process.env.SCREENSHOT_BASE ?? "http://localhost:4321";
 
 const targets = [
   { slug: "home", url: "/", label: "Home — /" },
-  {
-    slug: "test-assembly",
-    url: "/assemblies/261305-test-assembly",
-    label: "Test assembly — /assemblies/261305-test-assembly",
-  },
+  { slug: "test-assembly", url: "/2", label: "Test assembly — /2" },
+  { slug: "feedback", url: "/feedback", label: "Feedback — /feedback" },
 ];
 
 const viewports = [

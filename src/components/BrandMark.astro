@@ -1,0 +1,47 @@
+---
+interface Props {
+  size?: string;
+  rotate?: 0 | 90 | 180 | 270;
+  class?: string;
+}
+const { size = "100%", rotate = 0, class: className } = Astro.props;
+const style = [
+  `width: ${size}`,
+  `height: ${size}`,
+  rotate ? `transform: rotate(${rotate}deg)` : "",
+]
+  .filter(Boolean)
+  .join("; ");
+---
+
+<svg
+  class:list={["brand-mark", className]}
+  viewBox="0 0 220 200"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+  style={style}
+>
+  <g
+    fill="none"
+    stroke-width="28"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  >
+    <polyline points="20,80 110,20 200,80" class="brand-mark__accent" />
+    <polyline points="20,140 110,80 200,140" class="brand-mark__ink" />
+  </g>
+</svg>
+
+<style>
+  .brand-mark {
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+  .brand-mark__accent {
+    stroke: var(--mark-accent, var(--accent));
+  }
+  .brand-mark__ink {
+    stroke: var(--mark-ink, var(--ink));
+  }
+</style>

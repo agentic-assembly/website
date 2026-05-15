@@ -16,16 +16,16 @@ import Haiku from "../../../components/Haiku.astro";
 <Haiku
   lines={[
     {
-      text: "Eight agents now hum",
-      why: "xAI's Grok Build ships with up to 8 parallel subagents (16 in Heavy), 2M context, MCP support — and Anthropic formalised multi-agent orchestration + routines for managed agents at Code w/ Claude. The single-loop coding agent is no longer the only shape.",
+      text: "Hooks ring desktop bells",
+      why: "Claude Feature — v2.1.141 added `terminalSequence` to hook JSON output, so hooks can fire OS desktop notifications, change the window title, and ring the terminal bell without being attached to a controlling terminal. Headless agents can finally tap you on the shoulder when they need you.",
     },
     {
-      text: "your phone approves the next run",
-      why: "Codex landed inside the ChatGPT mobile app: approve tasks, review diffs, redirect a run mid-flight from iPhone, iPad, or Android. OpenAI cites 4M weekly Codex users — agents are leaking out of the terminal.",
+      text: "Grok runs eight agents at once",
+      why: "Industry News — xAI's Grok Build ships terminal-native with up to 8 parallel subagents (16 in Heavy), 2M context, MCP support, and plan-review approval before any change is applied. $99–$299/mo SuperGrok Heavy. The multi-agent CLI race has a new entrant.",
     },
     {
-      text: "trust still lags behind",
-      why: "Anthropic's 2026 Agentic Coding Trends Report flags the \"delegation gap\" — engineers use AI for ~60% of their work but fully delegate only 0–20%. The bottleneck this year is not capability; it's trust and the cost of review.",
+      text: "Eight cooks, one kitchen",
+      why: "Wordplay — the old proverb pushed back at the new shape of work. Eight subagents in one repo doesn't automatically mean eight times the shipping; coordination, merge conflicts, and review cost scale right alongside. Anthropic's 2026 report's \"delegation gap\" (~60% AI use, 0–20% full delegation) hints at where the wall actually sits.",
     },
   ]}
 />
@@ -34,10 +34,11 @@ import Haiku from "../../../components/Haiku.astro";
 
 1. **How are you using coding agents?** — round-the-table opener. Which tools, which loops, what's actually shipped vs. what's still vibes? What got dropped this week and why?
 2. **Agent SDK billing split (June 15)** — production `claude -p` cron jobs and GitHub Actions come off the subscription pool onto a separate monthly credit at standard API rates. Who's running what, and what does the math look like at Pro $20 / Max $100–$200 / Team $100 per seat?
-3. **Claude Code commands** — what custom slash commands has everyone built, which ones earned their keep, and which ones got deleted in a week?
-4. **DORA on AI ROI (Robert)** — Robert brings the two DORA reports. The amplifier thesis, the J-curve, the −$344k stability tax. Does the room buy it? Where do our own setups fall on the loose/tight-coupling axis?
-5. **The unreasonable effectiveness of HTML** — Simon's case for asking Claude for HTML over Markdown — SVG diagrams, widgets, sliders. Is anyone using this in real workflows?
-6. **CAD agent demo** — member demo — [Adam-CAD/CADAM](https://github.com/Adam-CAD/CADAM).
+3. **`/goal`** — Claude Code's new completion-condition command (v2.1.139). State a verifiable finish line; a smaller evaluator model decides each turn whether you're there yet; Claude keeps going until yes. Works in interactive, `-p`, and Remote Control. Who's tried it on something real? What kinds of goals does the evaluator get right vs. talk itself into? How does it interact with the rest of the autonomy stack (`/loop`, `/ultrareview`, `claude agents`)?
+4. **Claude Code commands** — what custom slash commands has everyone built, which ones earned their keep, and which ones got deleted in a week?
+5. **DORA on AI ROI (Robert)** — Robert brings the two DORA reports. The amplifier thesis, the J-curve, the −$344k stability tax. Does the room buy it? Where do our own setups fall on the loose/tight-coupling axis?
+6. **The unreasonable effectiveness of HTML** — Simon's case for asking Claude for HTML over Markdown — SVG diagrams, widgets, sliders. Is anyone using this in real workflows?
+7. **CAD agent demo** — member demo — [Adam-CAD/CADAM](https://github.com/Adam-CAD/CADAM).
 
 ## Show and Tell
 

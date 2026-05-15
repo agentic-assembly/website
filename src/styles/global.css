@@ -687,21 +687,6 @@ a:hover {
   padding-bottom: 80px;
 }
 
-.va-back {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  border: none;
-  margin-bottom: 40px;
-}
-.va-back:hover {
-  color: var(--accent);
-  border: none;
-}
-
 .va-eyebrow {
   display: flex;
   flex-wrap: wrap;
@@ -840,7 +825,7 @@ a:hover {
 }
 .va-prose blockquote {
   border-left: 2px solid var(--accent);
-  background: color-mix(in oklch, var(--ink-dim), var(--bg) 88%);
+  background: color-mix(in oklch, var(--accent), transparent 94%);
   padding: 14px 18px 14px 20px;
   margin: 26px 0;
   font-style: italic;

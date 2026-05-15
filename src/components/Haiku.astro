@@ -1,0 +1,110 @@
+---
+interface Line {
+  text: string;
+  why: string;
+}
+interface Props {
+  lines: Line[];
+}
+const { lines } = Astro.props;
+const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="haiku">
+  <input type="checkbox" id={id} class="haiku__toggle" />
+  <div class="haiku__quote">
+    {
+      lines.map((l, i) => (
+        <div class="haiku__row">
+          <span class="haiku__line">
+            {l.text}
+            {i < lines.length - 1 ? " —" : ""}
+          </span>
+          <span class="haiku__why">{l.why}</span>
+        </div>
+      ))
+    }
+  </div>
+  <label for={id} class="haiku__wtf">
+    <span class="haiku__wtf-trigger">WTF?</span>
+  </label>
+</div>
+
+<style>
+  .haiku {
+    position: relative;
+    border-left: 2px solid var(--accent);
+    background: color-mix(in oklch, var(--accent), transparent 92%);
+    padding: 28px 32px 56px 32px;
+    margin: 26px 0;
+  }
+
+  .haiku__toggle {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .haiku__quote {
+    font-size: 32px;
+    line-height: 1.25;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .haiku__row {
+    margin: 0 0 6px;
+  }
+  .haiku__line {
+    display: inline;
+  }
+  .haiku__why {
+    display: none;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 13px;
+    line-height: 1.55;
+    letter-spacing: 0;
+    color: var(--ink-dim);
+  }
+  .haiku__toggle:checked ~ .haiku__quote .haiku__why {
+    display: block;
+  }
+
+  .haiku__wtf {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    cursor: pointer;
+  }
+  .haiku__wtf-trigger {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px dashed var(--ink-dim);
+    padding-bottom: 1px;
+    transition:
+      color 0.12s,
+      border-color 0.12s;
+  }
+  .haiku__wtf:hover .haiku__wtf-trigger,
+  .haiku__toggle:focus-visible ~ .haiku__wtf .haiku__wtf-trigger,
+  .haiku__toggle:checked ~ .haiku__wtf .haiku__wtf-trigger {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .haiku__quote {
+      font-size: 22px;
+    }
+    .haiku {
+      padding: 20px 22px 48px 22px;
+    }
+  }
+</style>

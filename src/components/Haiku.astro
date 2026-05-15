@@ -5,9 +5,12 @@ interface Line {
 }
 interface Props {
   lines: Line[];
+  date?: string;
+  model?: string;
 }
-const { lines } = Astro.props;
+const { lines, date, model } = Astro.props;
 const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
+const showSig = Boolean(date || model);
 ---
 
 <div class="haiku">
@@ -25,9 +28,20 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
       ))
     }
   </div>
-  <label for={id} class="haiku__wtf">
-    <span class="haiku__wtf-trigger">WTF?</span>
-  </label>
+  <div class="haiku__footer">
+    {
+      showSig && (
+        <span class="haiku__sig">
+          — AA H-AI-KU
+          {date && <> — {date}</>}
+          {model && <> — {model}</>}
+        </span>
+      )
+    }
+    <label for={id} class="haiku__wtf">
+      <span class="haiku__wtf-trigger">WTF?</span>
+    </label>
+  </div>
 </div>
 
 <style>
@@ -35,7 +49,7 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
     position: relative;
     border-left: 2px solid var(--accent);
     background: color-mix(in oklch, var(--accent), transparent 92%);
-    padding: 28px 32px 56px 32px;
+    padding: 28px 32px 18px 32px;
     margin: 26px 0;
   }
 
@@ -60,7 +74,6 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
   .haiku__row:last-child {
     margin-bottom: 0;
   }
-  .haiku[open] .haiku__row,
   .haiku:has(.haiku__toggle:checked) .haiku__row {
     margin-bottom: 18px;
   }
@@ -81,11 +94,30 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
     display: block;
   }
 
+  .haiku__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 22px;
+    min-height: 16px;
+  }
+  .haiku__sig {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink-dim);
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .haiku__footer:has(.haiku__sig) .haiku__wtf {
+    margin-left: auto;
+  }
+
   .haiku__wtf {
-    position: absolute;
-    right: 18px;
-    bottom: 14px;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .haiku__wtf-trigger {
     font-family: var(--mono);
@@ -100,8 +132,8 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
       border-color 0.12s;
   }
   .haiku__wtf:hover .haiku__wtf-trigger,
-  .haiku__toggle:focus-visible ~ .haiku__wtf .haiku__wtf-trigger,
-  .haiku__toggle:checked ~ .haiku__wtf .haiku__wtf-trigger {
+  .haiku__toggle:focus-visible ~ .haiku__footer .haiku__wtf .haiku__wtf-trigger,
+  .haiku__toggle:checked ~ .haiku__footer .haiku__wtf .haiku__wtf-trigger {
     color: var(--accent);
     border-color: var(--accent);
   }
@@ -111,7 +143,10 @@ const id = `haiku-${Math.random().toString(36).slice(2, 8)}`;
       font-size: 22px;
     }
     .haiku {
-      padding: 20px 22px 48px 22px;
+      padding: 20px 22px 14px 22px;
+    }
+    .haiku__sig {
+      font-size: 12px;
     }
   }
 </style>

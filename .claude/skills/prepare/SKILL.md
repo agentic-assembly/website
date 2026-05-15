@@ -43,9 +43,27 @@ Read the template's `index.md`. Build the new file by copying it **verbatim**, t
 
 ### 4. Run the `/news` skill
 
-Invoke [[news]]. It detects the new upcoming entry, replaces the `<!-- news:start --> … <!-- news:end -->` block, and fills `references:`.
+Invoke [[news]]. It detects the new upcoming entry, replaces the `<!-- news:start --> … <!-- news:end -->` block (or the MDX equivalent `{/* news:start */} … {/* news:end */}`), and fills `references:`.
 
-### 5. Ask about Show and Tell
+### 5. Draft a haiku (only if the template has a `<Haiku />` component)
+
+If the template's body uses a `<Haiku lines={[...]} />` component (or any equivalent block clearly meant as the week's haiku), propose a draft for the user to edit. **Skip this step entirely if the template has no haiku block** — the user removed it on purpose and `/prepare` should not put it back.
+
+Structure — one item from each bucket, drawn from the freshly-written `/news` digest:
+
+| Line | Syllables | Bucket |
+| --- | --- | --- |
+| 1 | 5 | **Claude feature** — something from the week's Claude Code release notes / changelog |
+| 2 | 7 | **Industry news** — anything else from the digest: other vendors, partnerships, big shifts, papers, mobile / cloud / multi-agent moves |
+| 3 | 5 | **Wordplay** — a witty closer; can riff on a theme but should not just enumerate news. The haiku earns the read with this line. |
+
+For each line also draft a one-sentence "why" tying it to the specific news item it's pointing at. Do **not** prefix the "why" with the bucket name (no leading `Claude Feature —`, `Industry News —`, etc.) — the bucket is internal scaffolding for the draft, not user-facing copy.
+
+**Verify syllable counts before proposing.** Read each line aloud (mentally) and count. Fix anything that doesn't sit at 5-7-5. The form is the joke; it can't be off by one.
+
+Show the draft and ask the user to confirm or rewrite. They get final say — treat the lines as their voice, the draft is just a starting block.
+
+### 6. Ask about Show and Tell
 
 Ask the user, verbatim:
 
@@ -55,7 +73,7 @@ For each non-skipped item, append it under whatever section in the template curr
 
 If the template has no Show-and-Tell-style section at all, append a new section using the template's heading style and ask the user once whether the heading text is right before writing.
 
-### 6. Propose, then write
+### 7. Propose, then write
 
 Show a preview block:
 
@@ -64,28 +82,30 @@ Proposing:
   path: src/content/assemblies/<YYDDMM-slug>/index.md
   Template: <template-folder>
   News: <one-line summary from /news>
+  Haiku: <line 1> / <line 2> / <line 3>   (or "skipped" if the template has none)
   Show and Tell: <count> items, or "none"
 
 Heads-up — these sections were copied verbatim from the template and likely need a manual pass:
   - <heading 1>
   - <heading 2>
   ...
-  (everything that wasn't refreshed by /news or Show and Tell)
+  (everything that wasn't refreshed by /news, the haiku, or Show and Tell)
 
 Confirm to write, or tell me what to change.
 ```
 
 Wait for explicit confirmation (`y`, `yes`, `go`, `lgtm`, `ship it`, …). On any edit instruction, regenerate and re-propose.
 
-### 7. After writing
+### 8. After writing
 
 1. Run `npm run lint` for fast schema/Biome validation.
 2. Print the new path and remind the user which sections they need to author by hand.
 
 ## Do not
 
-- Do not encode any section names, headings, intro style, or block markers in this skill file. Read everything from the template.
-- Do not invent the human-voice sections (intros, weekly opener lines, suggested topic prose, etc.). Flag them in the "needs manual pass" list and let the human write them.
+- Do not encode any section names, headings, intro style, or block markers in this skill file (other than the haiku-bucket structure in step 5, which the user has chosen as a recurring shape). Read everything else from the template.
+- Do not invent prose for the human-voice sections beyond the haiku draft (intros, weekly opener lines, suggested topic prose, etc.). Flag them in the "needs manual pass" list and let the human write them.
+- Do not draft a haiku if the template has no `<Haiku />` component — that's an explicit removal signal.
 - Do not skip running `/news`.
 - Do not skip the Show-and-Tell question.
 - Do not write the file before the user confirms.

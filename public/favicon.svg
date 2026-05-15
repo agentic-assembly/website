@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <style>
+    .ink { stroke: #0e0d0c; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e8e3d6; }
+    }
+  </style>
+  <g fill="none" stroke-width="28" stroke-linecap="square" stroke-linejoin="miter">
+    <polyline points="20,110 110,50 200,110" stroke="oklch(0.85 0.2 130)" />
+    <polyline points="20,170 110,110 200,170" class="ink" />
+  </g>
+</svg>

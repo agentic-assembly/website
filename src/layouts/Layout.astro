@@ -29,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("theme");

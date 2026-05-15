@@ -114,6 +114,18 @@ a:hover {
   gap: 32px;
 }
 
+@media (max-width: 480px) {
+  .site-header {
+    padding: 18px 0;
+  }
+  .site-header__inner {
+    gap: 12px;
+  }
+  .site-header .container {
+    padding-inline: 20px;
+  }
+}
+
 .theme-toggle {
   background: none;
   border: 1px solid var(--line);
@@ -139,6 +151,12 @@ a:hover {
   display: block;
   width: 16px;
   height: 16px;
+}
+@media (max-width: 480px) {
+  .theme-toggle {
+    margin-left: 0;
+    flex-shrink: 0;
+  }
 }
 .theme-toggle .icon-moon {
   display: none;
@@ -173,6 +191,7 @@ a:hover {
   width: 28px;
   height: 3px;
   background: var(--accent);
+  flex-shrink: 0;
 }
 
 .hero__title {
@@ -514,6 +533,9 @@ a:hover {
 }
 .acc {
   color: var(--accent);
+}
+.nb {
+  white-space: nowrap;
 }
 
 /* ============ ASSEMBLY DETAIL: rail + grid ============ */
@@ -968,7 +990,11 @@ a:hover {
   letter-spacing: -0.01em;
   color: var(--ink);
   border: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .va-teaser-link:hover {
   color: var(--accent);
@@ -979,7 +1005,7 @@ a:hover {
   font-size: 12px;
   color: var(--ink-dim);
   letter-spacing: 0.22em;
-  margin-right: 14px;
+  white-space: nowrap;
 }
 
 @media (max-width: 720px) {

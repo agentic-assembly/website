@@ -840,13 +840,16 @@ a:hover {
 }
 .va-prose blockquote {
   border-left: 2px solid var(--accent);
-  padding: 4px 0 4px 20px;
+  background: color-mix(in oklch, var(--ink-dim), var(--bg) 88%);
+  padding: 14px 18px 14px 20px;
   margin: 26px 0;
   font-style: italic;
   font-size: 16px;
   line-height: 1.5;
   color: var(--ink);
 }
+.va-prose blockquote > :first-child { margin-top: 0; }
+.va-prose blockquote > :last-child { margin-bottom: 0; }
 .va-prose code {
   font-family: var(--mono);
   font-size: 13px;

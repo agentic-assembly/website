@@ -74,8 +74,9 @@ Now lean on domains you already know are reliable. Use these as a **safety net**
 | **Claude Code blog/docs** | `site:code.claude.com whats-new`, `site:claude.com blog claude-code <Month> <Year>` (catches feature posts that don't appear in the GitHub changelog) |
 | **Codex blog/docs** | `site:developers.openai.com codex changelog`, `site:openai.com codex <Month> <Year>` |
 | **Adjacent tools** | `Cursor changelog <Month> <Year>`, `Cline release <Month> <Year>`, `Aider release <Month> <Year>` |
+| **Simon Willison** | `site:simonwillison.net <Month> <Year>` — Simon publishes nearly every day and is a primary signal for what the LLM-tools community is paying attention to. Always check him separately. |
 | **Research & papers** | `arxiv agentic coding <Month> <Year>`, `arxiv LLM software engineering <Month> <Year>` |
-| **Notable posts** | `simonwillison.net <Month> <Year>`, `Hacker News agentic coding <Month> <Year>` |
+| **Notable posts** | `Hacker News agentic coding <Month> <Year>`, vendor blogs not covered above, named author write-ups surfaced in step 2 |
 
 Also follow up on any **new source domains** that the wide-net step surfaced — if step 2 turned up a Substack you didn't know existed, fetch it directly and scan for dated posts.
 
@@ -127,6 +128,9 @@ _Floor: <floor-date> (<floor-entry-id>). Generated <today>._
 
 ### Adjacent tools
 - [YYYY-MM-DD] short claim — [source](url)
+
+### Simon says
+- [YYYY-MM-DD] short claim — [post](https://simonwillison.net/...)
 
 ### Research & papers
 - [YYYY-MM-DD] short claim — [source](url)

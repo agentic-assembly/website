@@ -61,6 +61,7 @@ For each releases page:
 - Extract every release entry on the page (tag, publish date, title, body).
 - **Keep only entries with `publish_date > floor`**. Discard anything dated on or before the floor — those were already discussable.
 - From each kept release, pull out **notable line items** from the changelog body. A line is notable if it describes a *behavioural* change: new tool, new flag/command, new model wiring, new permission model, new SDK surface, new UI affordance, new MCP capability, new sub-agent type, billing change, model deprecation. Skip pure bug fixes, dependency bumps, lint/format/CI tweaks, internal refactors, and typos.
+- **Specifically harvest any new or expanded slash commands and `claude ...` subcommands** for Claude Code (e.g. `/goal`, `/loop`, `/ultrareview`, `claude agents`, `claude plugin details`). These go into a dedicated `### New Claude Code commands` bucket in the output — the room cares about what they can now type at the prompt, more than about hook-internals fixes. Treat the same way for Codex if it adds slash commands (`/hooks`, `codex remote-control`, etc.) — surface those under Codex.
 - Preserve the version tag so you can attribute the claim (e.g. "claude-code@1.0.34 — added /resume").
 
 If a release page paginates and the floor predates the visible window, follow the "Older" pagination once. Don't recurse deeper than two pages — that's already weeks of history.
@@ -122,6 +123,9 @@ _Floor: <floor-date> (<floor-entry-id>). Generated <today>._
 
 ### Claude Code
 - [YYYY-MM-DD] short claim — [source](url)
+
+### New Claude Code commands
+- **`/command`** (v.X.Y.Z, YYYY-MM-DD) — one-line description — [release](url)
 
 ### Codex
 - [YYYY-MM-DD] short claim — [source](url)

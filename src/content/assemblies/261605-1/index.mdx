@@ -16,16 +16,16 @@ import Haiku from "../../../components/Haiku.astro";
 <Haiku
   lines={[
     {
-      text: "Receipts come for code",
-      why: "Anthropic's June 15 split — Agent SDK, claude -p, GitHub Actions, and third-party Agent-SDK apps move off the subscription pool onto a separate metered monthly credit.",
+      text: "Eight agents now hum",
+      why: "xAI's Grok Build ships with up to 8 parallel subagents (16 in Heavy), 2M context, MCP support — and Anthropic formalised multi-agent orchestration + routines for managed agents at Code w/ Claude. The single-loop coding agent is no longer the only shape.",
     },
     {
-      text: "whatever was there gets loud",
-      why: "DORA's amplifier thesis — AI magnifies what your team already does. Strong delivery practices win bigger; weak ones see more instability (the −$344k stability tax in the calculator).",
+      text: "your phone approves the next run",
+      why: "Codex landed inside the ChatGPT mobile app: approve tasks, review diffs, redirect a run mid-flight from iPhone, iPad, or Android. OpenAI cites 4M weekly Codex users — agents are leaking out of the terminal.",
     },
     {
-      text: "HTML wins",
-      why: "Simon Willison's case for asking Claude for HTML instead of Markdown — SVG diagrams, widgets, and interactive explanations appear once you give the model a richer canvas.",
+      text: "trust still lags behind",
+      why: "Anthropic's 2026 Agentic Coding Trends Report flags the \"delegation gap\" — engineers use AI for ~60% of their work but fully delegate only 0–20%. The bottleneck this year is not capability; it's trust and the cost of review.",
     },
   ]}
 />
@@ -61,9 +61,16 @@ _Floor: 2026-05-09 (no prior entry — defaulted to 7-day window). Generated 202
 ### Claude Code
 - [2026-05-15] v2.1.143 — projected context cost (per-turn + per-invocation token estimates) shown in the `/plugin` marketplace browse pane; plugin dependency enforcement on `disable`/`enable`; `worktree.bgIsolation: "none"` for repos where worktrees are impractical — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.143)
 - [2026-05-14] v2.1.142 — Fast mode now defaults to Opus 4.7 (was 4.6); plugins with a root-level `SKILL.md` surface as a skill; `MCP_TOOL_TIMEOUT` finally raises the 60s remote-MCP fetch ceiling — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.142)
-- [2026-05-13] v2.1.141 — hooks gain `terminalSequence` (desktop notifications, window titles, bells); `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` for plugin clones without GitHub SSH; `claude agents --cwd <path>`; rewind "Summarize up to here" — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.141)
+- [2026-05-13] v2.1.141 — hooks gain `terminalSequence` (desktop notifications, window titles, bells); `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` for plugin clones without GitHub SSH; rewind menu adds "Summarize up to here"; `/feedback` can include the last 24h / 7d of sessions — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.141)
 - [2026-05-06] Anthropic — **Code w/ Claude 2026** keynote: SpaceX/xAI Colossus capacity deal, doubled 5-hour API limits, multi-agent orchestration + routines for Claude managed agents, API usage up 17× YoY — [Simon's live blog](https://simonwillison.net/2026/May/6/code-w-claude-2026/)
 - [2026-05] Anthropic announces June 15 billing split — Agent SDK, `claude -p`, GitHub Actions, and third-party Agent-SDK apps move onto a separate monthly credit pool at API rates — [help center](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan)
+
+### New Claude Code commands
+- **`/goal`** (v2.1.139, 2026-05-11) — set a completion condition; Claude keeps working across turns until a small evaluator model says it's met. Works in interactive, `-p`, and Remote Control; shows live elapsed / turns / tokens overlay — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.139)
+- **`claude agents`** (v2.1.139, Research Preview) — single dashboard of every Claude Code session (running / blocked-on-you / done); `--cwd <path>` to scope by directory (v2.1.141); `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, `--dangerously-skip-permissions` to configure dispatched background sessions (v2.1.142) — [agent view docs](https://code.claude.com/docs/en/agent-view)
+- **`claude plugin details <name>`** (v2.1.139) — component inventory + projected per-session token cost for an installed plugin — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.139)
+- **`/scroll-speed`** (v2.1.139) — tune mouse-wheel scroll speed with a live preview — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.139)
+- **Transcript view navigation** (v2.1.139) — `?` for keyboard shortcuts, `{` / `}` to jump between user prompts, `v` to toggle the shortcut panel — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.139)
 
 ### Codex
 - [2026-05-14] **Codex on the ChatGPT mobile app** — approve tasks, review diffs, redirect running runs, monitor terminal output from iPhone/iPad/Android; preview on all plans incl. Free; OpenAI cites 4M weekly Codex users — [TechCrunch](https://techcrunch.com/2026/05/14/openai-says-codex-is-coming-to-your-phone/)

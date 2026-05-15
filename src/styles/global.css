@@ -1190,7 +1190,7 @@ a:hover {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 .fb-stars legend {
   font-family: var(--mono);
@@ -1216,10 +1216,11 @@ a:hover {
   pointer-events: none;
 }
 .fb-star {
-  font-size: 28px;
+  font-size: 56px;
   color: var(--line);
   transition: color 0.1s;
   display: inline-block;
+  line-height: 1;
 }
 .fb-stars__row label:hover .fb-star,
 .fb-stars__row label:hover ~ label .fb-star,

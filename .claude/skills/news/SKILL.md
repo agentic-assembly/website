@@ -24,33 +24,55 @@ Read every `src/content/assemblies/*/index.md`. Compute:
 
 If there is no past entry, set the floor to `now - 7 days`. If there is no upcoming entry, stop and tell the user to run `/schedule` first.
 
-### 2. Search the canonical sources
+### 2. Pull primary release notes from GitHub
 
-Run `WebSearch` queries that lean on these domains and dated content. Make these queries in parallel where possible:
+Claude Code and the OpenAI Codex CLI both publish authoritative, dated, structured changelogs on GitHub. **Start there** — these are the ground truth, not press coverage. `WebFetch` them in parallel:
+
+| Tool | Releases URL |
+| --- | --- |
+| **Claude Code** | `https://github.com/anthropics/claude-code/releases` |
+| **Codex CLI** | `https://github.com/openai/codex/releases` |
+
+For each releases page:
+
+- Extract every release entry on the page (tag, publish date, title, body).
+- **Keep only entries with `publish_date > floor`**. Discard anything dated on or before the floor — those were already discussable.
+- From each kept release, pull out **notable line items** from the changelog body. A line is notable if it describes a *behavioural* change: new tool, new flag/command, new model wiring, new permission model, new SDK surface, new UI affordance, new MCP capability, new sub-agent type, billing change, model deprecation. Skip pure bug fixes, dependency bumps, lint/format/CI tweaks, internal refactors, and typos.
+- Preserve the version tag so you can attribute the claim (e.g. "claude-code@1.0.34 — added /resume").
+
+If a release page paginates and the floor predates the visible window, follow the "Older" pagination once. Don't recurse deeper than two pages — that's already weeks of history.
+
+### 3. Search adjacent sources
+
+For everything that isn't covered by the GitHub releases above, run `WebSearch` queries in parallel:
 
 | Bucket | Search hints |
 | --- | --- |
-| **Claude Code** | `site:code.claude.com whats-new`, `site:claude.com blog claude-code`, `site:github.com/anthropics/claude-code releases`, `Claude Code release <Month> <Year>` |
-| **Codex / OpenAI** | `site:developers.openai.com codex changelog`, `site:openai.com codex <Month>`, `OpenAI Codex release <Month> <Year>` |
-| **Adjacent tools** | `Cursor changelog <Month> <Year>`, `Cline release <Month> <Year>`, `Aider release <Month> <Year>`, `agentic coding news <Month> <Year>` |
+| **Claude Code blog/docs** | `site:code.claude.com whats-new`, `site:claude.com blog claude-code <Month> <Year>` (catches feature posts that don't appear in the GitHub changelog) |
+| **Codex blog/docs** | `site:developers.openai.com codex changelog`, `site:openai.com codex <Month> <Year>` |
+| **Adjacent tools** | `Cursor changelog <Month> <Year>`, `Cline release <Month> <Year>`, `Aider release <Month> <Year>` |
 | **Research & papers** | `arxiv agentic coding <Month> <Year>`, `arxiv LLM software engineering <Month> <Year>` |
-| **Notable posts** | `simonwillison.net <Month> <Year>`, `site:sdtimes.com AI updates <Month> <Year>` |
+| **Notable posts** | `simonwillison.net <Month> <Year>`, `Hacker News agentic coding <Month> <Year>` |
 
-Substitute `<Month>` and `<Year>` from today's date.
+Substitute `<Month>` and `<Year>` from today's date. Apply the same date-floor and notability filter as step 2.
 
-### 3. Filter
+### 4. Cross-reference to find the important ones
 
-For each result:
+Raw changelogs over-report — every release dumps a dozen items, most of which won't matter to the room. The signal you want is: **which of these features are people actually talking about?**
 
-- **Keep only if** there is an explicit publication date strictly after the floor.
-- Drop minor patch notes ("fixed a typo", "bumped dependency"). Keep behavioural changes, new features, model releases, papers, partnerships, or write-ups likely to spark discussion at a Saturday meetup.
-- Dedupe by canonical URL and by claim (the same news often appears across several outlets — keep the most primary source).
+For each candidate Claude Code or Codex feature from step 2, run a focused `WebSearch` for the feature name (e.g. `"claude code subagents"`, `"codex --full-auto"`, `"claude code MCP resources"`) restricted to the same time window. Then weight:
 
-### 4. Pick the standouts
+- **High signal** — covered by Simon Willison, Hacker News front page, a dedicated blog post, or multiple independent write-ups. Likely worth a discussion slot.
+- **Medium signal** — mentioned in one secondary write-up, or generates obvious Twitter/X chatter.
+- **Low signal** — appears only in the official release notes. Still worth a one-line mention in its bucket; not a topic slot.
 
-Choose **3 items** that are the highest-signal — the ones most worth a 5-minute discussion slot. These also become the `references:` in the frontmatter.
+Dedupe across step 2 / step 3 / cross-reference by canonical URL and by claim — the same feature often appears in the GitHub release, a vendor blog, and a Simon Willison roundup. Keep the most primary source (GitHub release > vendor blog > third-party coverage).
 
-### 5. Write into the target file
+### 5. Pick the standouts
+
+Choose **3 items** that are the highest-signal under the cross-reference weighting from step 4 — the ones most worth a 5-minute discussion slot. Prefer items where the *primary source* is a Claude Code or Codex GitHub release AND there is independent coverage confirming people care. These also become the `references:` in the frontmatter — link to the GitHub release tag URL when that's the primary source.
+
+### 6. Write into the target file
 
 Open the target file (next-upcoming entry).
 
@@ -98,7 +120,7 @@ On re-run: if the file already contains the `<!-- news:start -->` … `<!-- news
 
 Omit a bucket entirely if there are no items in it. Do not pad with low-signal entries.
 
-### 6. Verify
+### 7. Verify
 
 Run `npm run lint`. Report the target path and a one-line summary of the digest (e.g. `Wrote 7 items across 4 buckets to 262305-shape-of-a-useful-eval/index.md`).
 

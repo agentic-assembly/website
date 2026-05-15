@@ -25,7 +25,7 @@ const pastDateFmt = new Intl.DateTimeFormat("en-GB", {
 const pastRows = past.map((entry, i) => {
   const n = totalPast - i;
   return {
-    id: `AA${String(n).padStart(2, "0")}`,
+    id: `AA${String(n).padStart(3, "0")}`,
     date: pastDateFmt.format(entry.data.date),
     title: entry.data.title,
     href: `/${n}`,
@@ -59,10 +59,12 @@ const relativeSoon = (d: Date) => {
 
 const upcomingRows = upcoming.map((entry, i) => {
   const n = totalPast + 1 + i;
+  const id = `AA${String(n).padStart(3, "0")}`;
+  const label = entry.data.summary ?? entry.data.title;
   return {
-    id: `AA${String(n).padStart(2, "0")}`,
+    id,
     date: formatUpcomingDate(entry.data.date),
-    topic: entry.data.summary,
+    topic: label === id ? undefined : label,
     isNext: i === 0,
     soon: i === 0 ? relativeSoon(entry.data.date) : undefined,
     href: `/${n}`,
@@ -136,18 +138,18 @@ const upcomingRows = upcoming.map((entry, i) => {
       </Container>
     </section>
 
-    <section class="section">
-      <Container>
-        <header class="section__head">
-          <h2 class="section__title">Past assemblies</h2>
-          <span class="section__count">
-            {String(totalPast).padStart(2, "0")} / archive
-          </span>
-        </header>
+    {totalPast > 0 && (
+      <section class="section">
+        <Container>
+          <header class="section__head">
+            <h2 class="section__title">Past assemblies</h2>
+            <span class="section__count">
+              {String(totalPast).padStart(3, "0")} / archive
+            </span>
+          </header>
 
-        <div class="assemblies">
-          {
-            pastRows.map((row) => (
+          <div class="assemblies">
+            {pastRows.map((row) => (
               <a href={row.href} class="assembly-row">
                 <span class="assembly-row__id">{row.id}</span>
                 <span class="assembly-row__date">{row.date}</span>
@@ -155,11 +157,11 @@ const upcomingRows = upcoming.map((entry, i) => {
                 <span class="assembly-row__loc" />
                 <span class="assembly-row__arrow">→</span>
               </a>
-            ))
-          }
-        </div>
-      </Container>
-    </section>
+            ))}
+          </div>
+        </Container>
+      </section>
+    )}
   </main>
 
   <Footer />

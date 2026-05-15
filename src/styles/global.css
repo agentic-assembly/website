@@ -817,8 +817,18 @@ a:hover {
   font-size: 15px;
   line-height: 1.7;
 }
+.va-prose ul {
+  list-style: "—  ";
+}
+.va-prose ol {
+  list-style: decimal;
+}
 .va-prose li {
   margin: 6px 0;
+  padding-left: 4px;
+}
+.va-prose li::marker {
+  color: var(--ink-dim);
 }
 .va-prose a {
   color: var(--ink);

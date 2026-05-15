@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   );
   return entries.map((entry, i) => {
     const n = i + 1;
-    const aaId = `AA${String(n).padStart(2, "0")}`;
+    const aaId = `AA${String(n).padStart(3, "0")}`;
     const next = entries[i + 1] ?? null;
     return {
       params: { n: String(n) },
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
         aaId,
         nextAssembly: next
           ? {
-              id: `AA${String(n + 1).padStart(2, "0")}`,
+              id: `AA${String(n + 1).padStart(3, "0")}`,
               title: next.data.title,
               date: next.data.date,
               href: `/${n + 1}`,

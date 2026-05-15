@@ -24,9 +24,32 @@ Read every `src/content/assemblies/*/index.md`. Compute:
 
 If there is no past entry, set the floor to `now - 7 days`. If there is no upcoming entry, stop and tell the user to run `/schedule` first.
 
-### 2. Pull primary release notes from GitHub
+### 2. Cast a wide net first
 
-Claude Code and the OpenAI Codex CLI both publish authoritative, dated, structured changelogs on GitHub. **Start there** — these are the ground truth, not press coverage. `WebFetch` them in parallel:
+**Before any scoped search**, fish for unknown sources. The point is to *discover* the source landscape for this week — not to retrieve everything from a list of domains you already trust. Outlets, individual newsletters, surprise blog posts, and one-off threads will not show up in `site:` queries you didn't write.
+
+Run several broad `WebSearch` queries in parallel, all *unscoped*. Vary the phrasing — different wordings pull different domains:
+
+- `agentic coding news <Month> <Year>`
+- `AI coding tools updates this week <Month> <Year>`
+- `Claude Code OR Codex OR Cursor release <Month> <Year>`
+- `LLM software engineering news <Month> <Year>`
+- `what shipped in AI coding <Month> <Year>`
+- `agentic AI weekly roundup <Month> <Year>`
+
+Substitute `<Month>` and `<Year>` from today's date.
+
+From the combined results, harvest:
+
+- Any **dated** post (publication date strictly after the floor).
+- The **source domains** themselves — a domain you didn't expect (e.g. a Substack, a personal blog, a new newsletter, a YouTube channel transcript) is a finding in its own right. Add it to the candidate pool for step 4's targeted gap-filling.
+- Any **named feature or release** mentioned in passing — these become cross-reference seeds in step 5.
+
+Apply the same notability filter that step 3 uses (behavioural change > bug fix). Don't try to be comprehensive yet; this step is recall-oriented.
+
+### 3. Pull primary release notes from GitHub
+
+Claude Code and the OpenAI Codex CLI both publish authoritative, dated, structured changelogs on GitHub. **Anchor your Claude Code / Codex coverage here** — these are the ground truth, not press coverage. `WebFetch` them in parallel:
 
 | Tool | Releases URL |
 | --- | --- |
@@ -42,9 +65,9 @@ For each releases page:
 
 If a release page paginates and the floor predates the visible window, follow the "Older" pagination once. Don't recurse deeper than two pages — that's already weeks of history.
 
-### 3. Search adjacent sources
+### 4. Fill gaps with targeted scoped searches
 
-For everything that isn't covered by the GitHub releases above, run `WebSearch` queries in parallel:
+Now lean on domains you already know are reliable. Use these as a **safety net** to catch anything the wide-net pass missed — not as your primary source list. Run `WebSearch` queries in parallel:
 
 | Bucket | Search hints |
 | --- | --- |
@@ -54,25 +77,27 @@ For everything that isn't covered by the GitHub releases above, run `WebSearch` 
 | **Research & papers** | `arxiv agentic coding <Month> <Year>`, `arxiv LLM software engineering <Month> <Year>` |
 | **Notable posts** | `simonwillison.net <Month> <Year>`, `Hacker News agentic coding <Month> <Year>` |
 
-Substitute `<Month>` and `<Year>` from today's date. Apply the same date-floor and notability filter as step 2.
+Also follow up on any **new source domains** that the wide-net step surfaced — if step 2 turned up a Substack you didn't know existed, fetch it directly and scan for dated posts.
 
-### 4. Cross-reference to find the important ones
+Substitute `<Month>` and `<Year>` from today's date. Apply the same date-floor and notability filter as steps 2 and 3.
+
+### 5. Cross-reference to find the important ones
 
 Raw changelogs over-report — every release dumps a dozen items, most of which won't matter to the room. The signal you want is: **which of these features are people actually talking about?**
 
-For each candidate Claude Code or Codex feature from step 2, run a focused `WebSearch` for the feature name (e.g. `"claude code subagents"`, `"codex --full-auto"`, `"claude code MCP resources"`) restricted to the same time window. Then weight:
+For each candidate Claude Code or Codex feature from step 3, run a focused `WebSearch` for the feature name (e.g. `"claude code subagents"`, `"codex --full-auto"`, `"claude code MCP resources"`) restricted to the same time window. Reuse the wide-net hits from step 2 as evidence too — anything that *already* surfaced in an unscoped search is itself a signal of buzz. Then weight:
 
-- **High signal** — covered by Simon Willison, Hacker News front page, a dedicated blog post, or multiple independent write-ups. Likely worth a discussion slot.
+- **High signal** — covered by Simon Willison, Hacker News front page, a dedicated blog post, multiple independent write-ups, or surfaced naturally in step 2's wide net. Likely worth a discussion slot.
 - **Medium signal** — mentioned in one secondary write-up, or generates obvious Twitter/X chatter.
 - **Low signal** — appears only in the official release notes. Still worth a one-line mention in its bucket; not a topic slot.
 
-Dedupe across step 2 / step 3 / cross-reference by canonical URL and by claim — the same feature often appears in the GitHub release, a vendor blog, and a Simon Willison roundup. Keep the most primary source (GitHub release > vendor blog > third-party coverage).
+Dedupe across steps 2–5 by canonical URL and by claim — the same feature often appears in the GitHub release, a vendor blog, a wide-net hit, and a Simon Willison roundup. Keep the most primary source (GitHub release > vendor blog > third-party coverage).
 
-### 5. Pick the standouts
+### 6. Pick the standouts
 
-Choose **3 items** that are the highest-signal under the cross-reference weighting from step 4 — the ones most worth a 5-minute discussion slot. Prefer items where the *primary source* is a Claude Code or Codex GitHub release AND there is independent coverage confirming people care. These also become the `references:` in the frontmatter — link to the GitHub release tag URL when that's the primary source.
+Choose **3 items** that are the highest-signal under the cross-reference weighting from step 5 — the ones most worth a 5-minute discussion slot. Prefer items where the *primary source* is a Claude Code or Codex GitHub release AND there is independent coverage confirming people care. These also become the `references:` in the frontmatter — link to the GitHub release tag URL when that's the primary source.
 
-### 6. Write into the target file
+### 7. Write into the target file
 
 Open the target file (next-upcoming entry).
 
@@ -120,7 +145,7 @@ On re-run: if the file already contains the `<!-- news:start -->` … `<!-- news
 
 Omit a bucket entirely if there are no items in it. Do not pad with low-signal entries.
 
-### 7. Verify
+### 8. Verify
 
 Run `npm run lint`. Report the target path and a one-line summary of the digest (e.g. `Wrote 7 items across 4 buckets to 262305-shape-of-a-useful-eval/index.md`).
 

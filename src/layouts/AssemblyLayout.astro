@@ -45,13 +45,12 @@ const eyebrowDateFmt = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",
   month: "long",
   year: "numeric",
-  weekday: "short",
   timeZone: "Asia/Tokyo",
 });
 
 const formatEyebrowDate = (d: Date) => {
   const p = partsRecord(eyebrowDateFmt, d);
-  return `${p.day} ${p.month} ${p.year} — ${p.weekday.toUpperCase()}`;
+  return `${p.day} ${p.month} ${p.year}`;
 };
 
 const teaserDateFmt = new Intl.DateTimeFormat("en-GB", {
@@ -135,7 +134,7 @@ const refRows = references.map((r) => ({
       {
         refRows.length > 0 && (
           <section class="va-further">
-            <div class="va-further-title">Further reading — dropped in chat</div>
+            <div class="va-further-title">Further reading</div>
             <ul>
               {refRows.map((r) => (
                 <li>

@@ -1,4 +1,5 @@
 ---
+import QRCode from "qrcode";
 import Container from "../components/Container.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
@@ -9,6 +10,16 @@ const RATINGS = [
   { key: "venue", label: "Venue" },
   { key: "discussion", label: "Discussion" },
 ];
+
+const FEEDBACK_URL = "https://a13y.org/feedback";
+const qrSvg = (
+  await QRCode.toString(FEEDBACK_URL, {
+    type: "svg",
+    margin: 0,
+    errorCorrectionLevel: "M",
+    color: { dark: "#000", light: "#0000" },
+  })
+).replace(/fill="#000"/g, 'fill="currentColor"');
 ---
 
 <Layout
@@ -20,13 +31,25 @@ const RATINGS = [
   <main>
     <section class="hero">
       <Container>
-        <div class="hero__eyebrow">Feedback</div>
-        <h1 class="hero__title">
-          How was the <span class="accent">assembly</span>?
-        </h1>
-        <p class="fb-lede">
-          Anonymous by default — leave your name or email only if you want.
-        </p>
+        <div class="fb-hero">
+          <div class="fb-hero__copy">
+            <div class="hero__eyebrow">Feedback</div>
+            <h1 class="hero__title">
+              How was the <span class="accent">assembly</span>?
+            </h1>
+            <p class="fb-lede">
+              Anonymous by default — leave your name or email only if you want.
+            </p>
+          </div>
+          <a
+            class="fb-qr"
+            href={FEEDBACK_URL}
+            aria-label="QR code linking to this page — scan to open on a phone"
+          >
+            <span class="fb-qr__svg" set:html={qrSvg} />
+            <span class="fb-qr__caption">a13y.org/feedback</span>
+          </a>
+        </div>
       </Container>
     </section>
 

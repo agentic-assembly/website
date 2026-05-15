@@ -134,7 +134,7 @@ const qrSvg = (
           body: JSON.stringify(payload),
         });
         if (!res.ok) throw new Error(String(res.status));
-        status.textContent = "Thanks — got it.";
+        status.textContent = "Thanks — got it. ✅";
         form.reset();
       } catch (err) {
         status.textContent = "Something broke. Try again in a bit.";

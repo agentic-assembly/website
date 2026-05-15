@@ -1,4 +1,5 @@
 ---
+import Brand from "../components/Brand.astro";
 const title = "Agentic Assembly — Sign";
 ---
 
@@ -46,44 +47,6 @@ const title = "Agentic Assembly — Sign";
         justify-content: space-between;
         text-align: center;
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14mm;
-      }
-
-      .brand__mark {
-        width: 36mm;
-        height: auto;
-        flex-shrink: 0;
-      }
-
-      .brand__lockup {
-        text-align: left;
-      }
-
-      .brand__word {
-        font-family: var(--mono);
-        font-weight: 800;
-        font-size: 14mm;
-        letter-spacing: 0.02em;
-        line-height: 1;
-      }
-
-      .brand__word .accent {
-        color: var(--accent);
-      }
-
-      .brand__tag {
-        font-family: var(--mono);
-        font-size: 6.3mm;
-        color: var(--ink-dim);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-top: 3mm;
       }
 
       .middle {
@@ -158,32 +121,7 @@ const title = "Agentic Assembly — Sign";
   </head>
   <body>
     <div class="sheet">
-      <div class="brand">
-        <svg
-          class="brand__mark"
-          viewBox="0 0 220 200"
-          aria-hidden="true"
-        >
-          <g
-            fill="none"
-            stroke-width="28"
-            stroke-linecap="square"
-            stroke-linejoin="miter"
-          >
-            <polyline
-              points="20,80 110,20 200,80"
-              stroke="oklch(0.7 0.2 130)"
-            />
-            <polyline points="20,140 110,80 200,140" stroke="#0e0d0c" />
-          </g>
-        </svg>
-        <div class="brand__lockup">
-          <div class="brand__word">
-            <span class="accent">AGENTIC</span> ASSEMBLY
-          </div>
-          <div class="brand__tag">AI Engineers Support Group Osaka</div>
-        </div>
-      </div>
+      <Brand size="36mm" />
 
       <div class="middle">
         <svg
@@ -198,7 +136,7 @@ const title = "Agentic Assembly — Sign";
         </svg>
 
         <div class="info">
-          <div class="info__time">10:00 ~ 12:00</div>
+          <div class="info__time">10:00 — 12:00</div>
           <div class="info__where">
             Meeting Room inside <strong>TheDECK</strong>
           </div>

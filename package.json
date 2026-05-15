@@ -10,7 +10,8 @@
     "check": "astro check",
     "lint": "biome check .",
     "fmt": "biome format --write .",
-    "fix": "biome check --write ."
+    "fix": "biome check --write .",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "@astrojs/check": "^0.9.9",
     "@biomejs/biome": "^2.4.15",
     "@types/node": "^25.7.0",
+    "playwright": "^1.60.0",
     "typescript": "^6.0.3"
   }
 }

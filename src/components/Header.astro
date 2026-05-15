@@ -1,34 +1,11 @@
 ---
 import { ICON_PATHS } from "../lib/icons";
+import Brand from "./Brand.astro";
 ---
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a href="/" class="brand">
-      <svg
-        class="brand__mark"
-        width="38"
-        height="34"
-        viewBox="0 0 220 200"
-        aria-hidden="true"
-      >
-        <g
-          fill="none"
-          stroke-width="28"
-          stroke-linecap="square"
-          stroke-linejoin="miter"
-        >
-          <polyline points="20,80 110,20 200,80" class="stroke-accent" />
-          <polyline points="20,140 110,80 200,140" class="stroke-ink" />
-        </g>
-      </svg>
-      <div class="brand__lockup">
-        <div class="brand__word">
-          <span class="accent">AGENTIC</span> ASSEMBLY
-        </div>
-        <div class="brand__tag">AI Engineers Support Group Osaka</div>
-      </div>
-    </a>
+    <Brand href="/" size="38px" />
     <button
       id="theme-toggle"
       class="theme-toggle"

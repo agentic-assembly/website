@@ -1,0 +1,91 @@
+---
+interface Props {
+  size?: string;
+  href?: string;
+  class?: string;
+}
+
+const { size = "36px", href, class: className } = Astro.props;
+const Tag = href ? "a" : "div";
+---
+
+<Tag
+  {...href ? { href } : {}}
+  class:list={["brand-logo", className]}
+  style={`--logo-size: ${size}`}
+>
+  <svg
+    class="brand-logo__mark"
+    viewBox="0 0 220 200"
+    aria-hidden="true"
+  >
+    <g
+      fill="none"
+      stroke-width="28"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+    >
+      <polyline points="20,80 110,20 200,80" class="stroke-accent" />
+      <polyline points="20,140 110,80 200,140" class="stroke-ink" />
+    </g>
+  </svg>
+  <div class="brand-logo__lockup">
+    <div class="brand-logo__word">
+      <span class="accent">AGENTIC</span> ASSEMBLY
+    </div>
+    <div class="brand-logo__tag">AI Engineers Support Group Osaka</div>
+  </div>
+</Tag>
+
+<style>
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--logo-size) * 0.39);
+    color: inherit;
+    text-decoration: none;
+    border: none;
+  }
+  a.brand-logo:hover {
+    color: inherit;
+    border: none;
+  }
+
+  .brand-logo__mark {
+    width: var(--logo-size);
+    height: auto;
+    flex-shrink: 0;
+    display: block;
+  }
+  .brand-logo__mark .stroke-accent {
+    stroke: var(--accent);
+  }
+  .brand-logo__mark .stroke-ink {
+    stroke: var(--ink);
+  }
+
+  .brand-logo__lockup {
+    line-height: 1;
+  }
+
+  .brand-logo__word {
+    font-family: var(--mono);
+    font-weight: 800;
+    font-size: calc(var(--logo-size) * 0.507);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .brand-logo__word .accent {
+    color: var(--accent);
+  }
+
+  .brand-logo__tag {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: calc(var(--logo-size) * 0.2275);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: calc(var(--logo-size) * 0.108);
+  }
+</style>

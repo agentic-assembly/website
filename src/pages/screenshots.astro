@@ -1,0 +1,240 @@
+---
+import { readdir } from "node:fs/promises";
+import path from "node:path";
+import Layout from "../layouts/Layout.astro";
+
+const SHOT_DIR = path.resolve("public/dev/screenshots");
+
+let files: string[] = [];
+try {
+  files = (await readdir(SHOT_DIR)).filter((f) => f.endsWith(".png")).sort();
+} catch {
+  files = [];
+}
+
+const PAGES: { slug: string; label: string; url: string }[] = [
+  { slug: "home", label: "Home", url: "/" },
+  {
+    slug: "test-assembly",
+    label: "Test assembly",
+    url: "/assemblies/261305-test-assembly",
+  },
+];
+
+const VIEWPORTS: { slug: string; label: string; w: number; h: number }[] = [
+  { slug: "mobile", label: "Mobile", w: 390, h: 844 },
+  { slug: "tablet", label: "Tablet", w: 820, h: 1180 },
+  { slug: "desktop", label: "Desktop", w: 1440, h: 900 },
+];
+
+const THEMES = ["dark", "light"] as const;
+
+type Shot = {
+  page: (typeof PAGES)[number];
+  viewport: (typeof VIEWPORTS)[number];
+  theme: (typeof THEMES)[number];
+  src: string;
+};
+
+const shots: Shot[] = [];
+for (const page of PAGES) {
+  for (const viewport of VIEWPORTS) {
+    for (const theme of THEMES) {
+      const file = `${page.slug}--${viewport.slug}--${theme}.png`;
+      if (files.includes(file)) {
+        shots.push({
+          page,
+          viewport,
+          theme,
+          src: `/dev/screenshots/${file}`,
+        });
+      }
+    }
+  }
+}
+
+const empty = shots.length === 0;
+---
+
+<Layout title="Screenshots — dev">
+  <main class="shots">
+    <header class="shots__head">
+      <div class="shots__eyebrow">Dev — internal — not linked from nav</div>
+      <h1 class="shots__title">
+        Screenshots — <span class="accent">/</span> &amp;
+        <span class="accent">/assemblies/261305-test-assembly</span>
+      </h1>
+      <p class="shots__sub">
+        Captured by Playwright at three viewports &amp; both themes. Run
+        <code>npm run screenshots</code> while <code>npm run dev</code> is up.
+      </p>
+    </header>
+
+    {
+      empty && (
+        <p class="shots__empty">
+          No screenshots yet — run <code>npm run screenshots</code> against a
+          running dev server.
+        </p>
+      )
+    }
+
+    {
+      PAGES.map((page) => {
+        const pageShots = shots.filter((s) => s.page.slug === page.slug);
+        if (pageShots.length === 0) return null;
+        return (
+          <section class="shot-group">
+            <header class="shot-group__head">
+              <span class="shot-group__label">{page.label}</span>
+              <span class="shot-group__url">— {page.url}</span>
+            </header>
+            <div class="shot-grid">
+              {pageShots.map((shot) => (
+                <figure class="shot">
+                  <figcaption class="shot__cap">
+                    <span class="shot__viewport">{shot.viewport.label}</span>
+                    <span class="shot__dims">
+                      — {shot.viewport.w} × {shot.viewport.h}
+                    </span>
+                    <span class="shot__theme">— {shot.theme}</span>
+                  </figcaption>
+                  <a class="shot__frame" href={shot.src} target="_blank">
+                    <img
+                      src={shot.src}
+                      alt={`${page.label} — ${shot.viewport.label} — ${shot.theme}`}
+                      loading="lazy"
+                    />
+                  </a>
+                </figure>
+              ))}
+            </div>
+          </section>
+        );
+      })
+    }
+  </main>
+</Layout>
+
+<style>
+  .shots {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px var(--gutter) 96px;
+  }
+
+  .shots__head {
+    margin-bottom: 48px;
+  }
+
+  .shots__eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .shots__title {
+    font-size: clamp(24px, 3.2vw, 36px);
+    line-height: 1.2;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .accent {
+    color: var(--accent);
+    font-family: var(--mono);
+  }
+
+  .shots__sub {
+    color: var(--ink-dim);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .shots__sub code,
+  .shots__empty code {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    background: var(--bg-2);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+
+  .shots__empty {
+    color: var(--ink-dim);
+    border: 1px dashed var(--line-2);
+    padding: 24px;
+    border-radius: 6px;
+  }
+
+  .shot-group {
+    margin-top: 56px;
+  }
+
+  .shot-group__head {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .shot-group__label {
+    color: var(--ink);
+  }
+
+  .shot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+
+  .shot {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .shot__cap {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .shot__viewport {
+    color: var(--ink);
+  }
+
+  .shot__frame {
+    display: block;
+    border: 1px solid var(--line-2);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-2);
+    max-height: 720px;
+    overflow-y: auto;
+  }
+
+  .shot__frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

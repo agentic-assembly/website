@@ -54,6 +54,7 @@ import Haiku from "../../../components/Haiku.astro";
 - **`/simplify`** — custom Claude Code command — diff → three parallel review agents (reuse, quality, efficiency) → fix. Worth it on real code; overkill on prose-only diffs (skip the fanout).
 - **Hazy Research — "Minions"** (Stanford, 2025-02-24) — small local model + frontier cloud model collaborating: remote decomposes, local chews through long docs in parallel, remote aggregates. 97.9% of remote-only accuracy at 17.5% of the cost. — [post](https://hazyresearch.stanford.edu/blog/2025-02-24-minions)
 - **Liquid AI — LFM2** (2025-07-10) — on-device foundation models (350M / 700M / 1.2B, 10T tokens) tuned for edge inference; hybrid 16-block stack of gated short convolutions + grouped query attention, claimed 2× faster CPU decode/prefill vs. Qwen3. Pair-with-Minions material. — [post](https://www.liquid.ai/blog/liquid-foundation-models-v2-our-second-series-of-generative-ai-models)
+- **Chrome Translator API** (Chrome 138+, desktop) — `Translator.create()` / `translator.translate()`, fully on-device via downloaded language packs, no cloud round-trip. The on-device-AI thread continues into the browser itself. — [docs](https://developer.chrome.com/docs/ai/translator-api)
 
 ### Around town
 - **OKTech — Kitchen Robots & State of AI** — Sat 30 May, 17:00–19:30, Cybozu Osaka (35F Hankyu Bldg). Robotics in the home + AI in web dev. — [oktech.jp](https://oktech.jp/events/313772796-may-event-tbd)

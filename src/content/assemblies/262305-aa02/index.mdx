@@ -1,0 +1,129 @@
+---
+title: "Foothills of the Singularity"
+date: 2026-05-23T10:00:00+09:00
+location: "Office Park 703C"
+references:
+  - title: "Demis Hassabis — 'foothills of the singularity' (Semafor)"
+    url: "https://www.semafor.com/article/05/20/2026/google-exec-demis-hassabis-predicts-were-at-the-foothills-of-the-singularity"
+  - title: "Google — Transitioning Gemini CLI to Antigravity CLI"
+    url: "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
+  - title: "Google — Gemini Omni"
+    url: "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/"
+---
+
+import Haiku from "../../../components/Haiku.astro";
+
+<Haiku
+  date="2026-05-23"
+  model="claude-opus-4-7"
+  lines={[
+    {
+      text: "Lowlands look up at fog",
+      why: "Demis closed I/O 2026 with \"we're at the foothills of the singularity.\" Agents + multimodal + robotics + scientific AI as the four pillars of an AGI roadmap, ~50% probability by 2030 ± 1. From the foothills, the peak isn't visible — just the fog.",
+    },
+    {
+      text: "Twin gardens raise their walls",
+      why: "Two vendors shipped the same managed-agent shape the same week: a single API call spins up a reasoning agent inside a sandboxed Linux environment with persistent state. Anthropic added MCP tunnels and self-hosted sandboxes on May 19; Google launched its equivalent in the Gemini API at I/O. Walled gardens, doubled.",
+    },
+    {
+      text: "Understudies rehearse the lead",
+      why: "The open-source flank shipped architecture this week, not just polish. One extracted its agent harness into a standalone SDK now driving three editors from a single code path; another swapped flat-file sessions for a real database. The alternatives are learning the lead role.",
+    },
+  ]}
+/>
+
+## Talked About
+
+- [TBD: Fill out as we chat]
+
+## Announcements
+
+- **OKTech — Kitchen Robots & State of AI** — Sat 30 May, 17:00 ~ 19:30, Cybozu Osaka (35F Hankyu Bldg). Robotics in the home + AI in web dev. — [oktech.jp](https://oktech.jp/events/313772796-may-event-tbd)
+
+## Headlines
+
+1. **Google I/O 2026** — Demis's "foothills of the singularity" AGI framing (agents + multimodal + robotics + scientific AI, 2030 ± 1); Antigravity CLI replacing Gemini CLI with a June 18 deadline; Gemini Omni's physics-grounded video as a step toward general-purpose robotics; Gemini 3.5 Flash GA (4× faster, planned as the default behind everything Google); native Android in AI Studio; Google AI Ultra at $100/mo. What actually changes for engineers in this room? — [Semafor — foothills quote](https://www.semafor.com/article/05/20/2026/google-exec-demis-hassabis-predicts-were-at-the-foothills-of-the-singularity) — [Antigravity CLI transition](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/) — [Gemini Omni](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/) — [I/O developer recap](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/) — [Simon's I/O analysis](https://simonwillison.net/2026/May/20/google-io/)
+2. **Managed Agents — Anthropic *and* Google** — both shipped "single API call → reasoning agent in a sandboxed Linux env with persistent state" the same week. Anthropic added MCP tunnels (route to private MCP servers without exposing them) and self-hosted sandboxes (public beta) on May 19. Compare surfaces, isolation, billing, what developers actually have to think about. — [Google Managed Agents](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/) — [Anthropic — MCP tunnels + self-hosted sandboxes](https://9to5mac.com/2026/05/19/anthropic-enhances-claude-managed-agents-with-two-new-privacy-and-security-features/)
+
+## Robert Demo
+
+- TBD.
+
+## Discussion Topics
+
+1. **How are you using coding agents?** — opener. Which tools, what shipped, what got dropped, where AI hit a wall this week.
+2. **Claude alternatives — Cline SDK + OpenCode SQLite** — Cline extracted its agent harness into `@cline/sdk` (open-source TS, one harness across VS Code + JetBrains + CLI). OpenCode v1.2 swapped flat-file sessions for SQLite — and silently orphaned existing JSON sessions on incremental upgrades. Is the open-source agent stack reaching parity? — [cline/cline](https://github.com/cline/cline) — [OpenCode v1.2.0](https://github.com/anomalyco/opencode/releases/tag/v1.2.0)
+3. **`/code-review` (Claude Code)** — `/simplify` → `/code-review` with effort levels and `--comment` for inline PR review. Where does this fit alongside `gh pr review` and our existing review loops? — [v2.1.147 release](https://github.com/anthropics/claude-code/releases/tag/v2.1.147)
+
+## Show and Tell
+
+### Member picks
+- **PromptZero — `openbashok/promptzero`** — local proxy that anonymises sensitive data in prompts before they reach Claude. IPs, hostnames, emails, credentials, national IDs (AR / CL / ES / UY / CO / MX), phone numbers, credit cards, API tokens, person/org names — across English and Spanish via NLP plus regex. Real values get swapped for IANA documentation ranges (RFC 5737 / 3849 / 2606); session-scoped mapping tables restore them on the response. Pair with Burp Suite or mitmproxy to audit that only sanitised data leaves your box. — [github.com](https://github.com/openbashok/promptzero)
+- **Gemini Omni** — Google's new multimodal "world model" — text + image + audio + video in, editable physics-grounded video out. Demis frames physics-grounded video as a step toward general-purpose robotics; the practical bit today is video editing via natural-language conversation, SynthID-watermarked. Omni Flash rolls out to AI Plus / Pro / Ultra via the Gemini app and Google Flow, plus free on YouTube Shorts and YouTube Create. — [blog.google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/)
+- **Antigravity CLI** — Google's replacement for Gemini CLI, shipped at I/O 2026 alongside the desktop app rebuild. Terminal-first agent spawning, same harness as Antigravity 2.0, keeps Skills / Hooks / Subagents / Extensions (now plugins). Gemini CLI sunsets June 18. — [developers.googleblog.com](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/)
+- **Cline SDK — `@cline/sdk`** — Cline's internal agent harness extracted into a standalone open-source TypeScript SDK. Same code path now powers VS Code, JetBrains, and the CLI. Plugins register tools, observe lifecycle events, add rules and commands, and shape what the agent sees. New `--worktree` flag auto-creates `~/.cline/worktrees/<id>` so `--taskId` / `--continue` resume in isolation. — [github.com/cline/cline](https://github.com/cline/cline)
+- **OpenCode v1.2.0 — JSON → SQLite** — sessions now live in `~/.local/share/opencode/opencode.db` (Drizzle ORM + bun-sqlite, WAL mode). Heads-up: incremental upgrades silently skipped the migration and orphaned existing JSON sessions; some users also saw incomplete sessions in the CLI while the Desktop app kept full history. Back up the data directory before upgrading. — [release](https://github.com/anomalyco/opencode/releases/tag/v1.2.0)
+- **Cursor Composer 2.5** (2026-05-18) — matches Opus 4.7 and GPT-5.5 on coding benchmarks at $0.50 / $2.50 per M tokens (standard) or $3.00 / $15.00 (fast). Built on Kimi K2.5, 25× more synthetic training tasks than Composer 2. Next-gen Cursor model in training on SpaceXAI's Colossus 2 (~1M H100-equivalent GPUs, 10× the compute of 2.5). — [post](https://cursor.com/blog/composer-2-5)
+- **Codex 0.133.0 — Goals on by default** (2026-05-21) — Codex's equivalent of `/goal` lands enabled by default with dedicated storage and cross-turn progress tracking; goal continuations halt at usage limits rather than looping. `codex remote-control` becomes a foreground command with explicit `start` / `stop` and machine status. Permission profiles gain lists, inheritance, and managed `requirements.toml`. — [release](https://github.com/openai/codex/releases/tag/rust-v0.133.0)
+- **Simon Willison — "The last six months in LLMs in five minutes"** (2026-05-19) — annotated PyCon US lightning-talk slides. The fast-forward catch-up if you've been ignoring the timeline. — [post](https://simonwillison.net/2026/May/19/5-minute-llms/)
+- **Datasette Agent** (2026-05-21) — Simon's first release of the LLM + Datasette mashup as an extensible AI assistant. — [post](https://simonwillison.net/2026/May/21/datasette-agent/)
+
+## Next time
+- TBD.
+
+{/* news:start */}
+## Run [/news](https://github.com/agentic-assembly/website/blob/master/.claude/skills/news/SKILL.md) skill
+
+_Floor: 2026-05-16 (261605-1). Generated 2026-05-23._
+
+### New Claude Code commands & features
+- **`/simplify` → `/code-review`** (v2.1.147, 2026-05-21) — renamed; takes an effort level (`/code-review high`), `--comment` posts findings as inline PR comments; the old cleanup-and-fix behaviour is removed — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.147)
+- **Background session pinning** (v2.1.147) — `Ctrl+T` in `claude agents` pins idle sessions so they stay alive and restart in place for updates — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.147)
+- **`/usage` per-category breakdown** (v2.1.149, 2026-05-22) — limits split across skills, subagents, plugins, per-MCP-server cost — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.149)
+- **`/diff` keyboard navigation** (v2.1.149) — detail view scrollable with arrows / `j` / `k` / `PgUp` / `PgDn` / Space / Home / End — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.149)
+- **GFM task lists render** (v2.1.149) — `- [ ] todo` / `- [x] done` finally render as checkboxes — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.149)
+- **`allowAllClaudeAiMcps`** (v2.1.149) — enterprise managed setting to load claude.ai cloud MCP connectors alongside `managed-mcp.json` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.149)
+
+### Claude Code — other notes
+- [2026-05-21] v2.1.147 also: auto-updater retries transient network failures and reports specific error categories / OS codes; consecutive duplicate prompts no longer recorded in history — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.147)
+
+### Codex
+- [2026-05-21] **Codex 0.133.0** — Goals enabled by default with dedicated storage and cross-turn progress tracking; continuations halt at usage limits instead of looping. `codex remote-control` becomes foreground with explicit start/stop and machine status. Permission profiles gain list APIs, inheritance, managed `requirements.toml`, stronger Windows sandbox integration. Plugin discovery marketplace-aware with installed versions and remote collections. Extensions can observe subagent start/stop, tool execution, turn metadata, and async approval. — [release](https://github.com/openai/codex/releases/tag/rust-v0.133.0)
+- [2026-05-22] Codex 0.134.0-alpha train — daily alpha cuts landing on `main` — [releases](https://github.com/openai/codex/releases)
+
+### Google I/O 2026
+- [2026-05-19] **"Foothills of the singularity"** — Demis Hassabis frames Google's I/O announcements as the AGI roadmap; 2030 ± 1, ~50% probability; agents + multimodal + robotics + scientific AI as the four pillars — [Semafor](https://www.semafor.com/article/05/20/2026/google-exec-demis-hassabis-predicts-were-at-the-foothills-of-the-singularity) — [Fast Company](https://www.fastcompany.com/91544235/demis-hassabis-google-io-2026)
+- [2026-05-19] **Antigravity CLI replaces Gemini CLI** — terminal-first agent spawning, same harness as Antigravity 2.0; Skills / Hooks / Subagents / Extensions carry over as Antigravity plugins. Gemini CLI + Gemini Code Assist IDE extensions stop serving June 18, 2026 — [Google Developers Blog](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/)
+- [2026-05-19] **Antigravity 2.0 desktop app** — full rebuild, parallel-agent orchestration with dynamic subagents and scheduled task automation — [TechCrunch](https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool-at-io-2026/)
+- [2026-05-19] **Gemini 3.5 Flash GA** — 4× faster than Gemini 3.1 Pro, more expensive, planned as the default behind Google products — [Simon's analysis](https://simonwillison.net/2026/May/19/gemini-35-flash/)
+- [2026-05-19] **Gemini Omni** — multimodal world model: text + image + audio + video in, physics-grounded editable video out; SynthID-watermarked; Omni Flash to AI Plus / Pro / Ultra via Gemini app and Google Flow, free on YouTube Shorts and YouTube Create — [blog.google](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/)
+- [2026-05-19] **Managed Agents in Gemini API** — single API call spins up an agent that reasons, uses tools, and runs code in an isolated Linux env with persistent state across sessions — [Google I/O recap](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/)
+- [2026-05-19] **Native Android in AI Studio** — prompt → app with integrated emulator and Play test-track publish — [Google I/O recap](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/)
+- [2026-05-19] **Google AI Ultra ($100/mo)** — 5× higher Antigravity quota plus bonus credits for overages — [Google I/O recap](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/)
+
+### Adjacent tools
+- [2026-05-18] **Cursor Composer 2.5** — matches Opus 4.7 and GPT-5.5 on SWE-Bench Multilingual (79.8%) and CursorBench v3.1 (63.2%) at $0.50 / $2.50 per M tokens (standard); built on Kimi K2.5, 25× more synthetic training tasks than Composer 2; next-gen model in training on SpaceXAI's Colossus 2 — [post](https://cursor.com/blog/composer-2-5)
+- [2026-05-14] **Cline SDK — `@cline/sdk`** — Cline's agent harness extracted into a standalone open-source TypeScript SDK; same code path now powers VS Code, JetBrains, and the CLI; plugin architecture with tool registration, lifecycle events, rules, commands; `--worktree` for isolated `--taskId` / `--continue` runs — [MarkTechPost](https://www.marktechpost.com/2026/05/14/cline-releases-cline-sdk-an-open-source-agent-runtime-now-powering-its-cli-and-kanban-with-ide-extensions-being-migrated/)
+- [2026-05] **OpenCode v1.2.0** — JSON sessions → SQLite (Drizzle ORM + bun-sqlite, WAL mode); incremental upgrades silently skip the migration and orphan existing JSON sessions, so back up `~/.local/share/opencode/` before upgrading — [release](https://github.com/anomalyco/opencode/releases/tag/v1.2.0)
+- [2026-05-14] **xAI Grok Build** — early beta agent CLI for SuperGrok Heavy subscribers at $300/mo; 2M context, 8 parallel subagents, 16-agent Heavy architecture — [Engadget](https://www.engadget.com/2173482/xai-coding-agent-grok-build/)
+
+### Simon says
+- [2026-05-22] "The memory shortage is causing a repricing of consumer electronics" — HBM demand bleeding into smartphone RAM pricing — [post](https://simonwillison.net/2026/May/22/memory-shortage/)
+- [2026-05-21] **Datasette Agent** — first release of the LLM + Datasette mashup as an extensible AI assistant — [post](https://simonwillison.net/2026/May/21/datasette-agent/)
+- [2026-05-20] Google I/O coverage — Gemini Spark, Antigravity CLI transition, prompt-injection security concerns for agent products — [post](https://simonwillison.net/2026/May/20/google-io/)
+- [2026-05-19] **"The last six months in LLMs in five minutes"** — annotated PyCon US lightning-talk slides — [post](https://simonwillison.net/2026/May/19/5-minute-llms/)
+- [2026-05-19] "Gemini 3.5 Flash: more expensive, but Google plan to use it for everything" — pricing analysis — [post](https://simonwillison.net/2026/May/19/gemini-35-flash/)
+
+### Anthropic — other notes
+- [2026-05] **Managed Agents on Claude** — managed execution layer separating agent logic from runtime concerns (orchestration, sandboxing, state, credentials); long-running multi-step workflows with external tools, error recovery, session continuity — [news](https://www.anthropic.com/news)
+- [2026-05] **Claude for Small Business** — connectors + ready-to-run workflows across QuickBooks, PayPal, HubSpot, Canva, DocuSign, Google Workspace, Microsoft 365
+
+### Industry
+- [2026-05] **Snap fired ~1,000 engineers — 65% of code now AI** — controversial PR-by-PR analysis circulating; ammunition for both sides of the "agent productivity vs. fragility" debate — [post](https://blog.devgenius.io/snap-fired-1-000-engineers-because-65-of-their-code-is-now-ai-i-read-the-pull-requests-59196845a9d0)
+- [2026-05] **Cloudflare Infire** — custom AI inference engine that separates input processing from output generation across multiple GPUs; runs LLMs on Cloudflare's global network with reduced memory usage and faster startup — [InfoQ](https://www.infoq.com/news/2026/05/cloudflare-llm-infrastructure/)
+
+### Topics worth a 5-min slot
+1. **Foothills of the singularity** — what was actually new at I/O vs. AGI rhetoric, and which I/O announcement are you most likely to touch in the next month?
+2. **Antigravity CLI replaces Gemini CLI** — who's on Gemini CLI today, and what's the cost of the June 18 cutover?
+3. **Cline SDK + OpenCode SQLite** — the open-source side ships meaningful architecture this week; is the Claude-alternatives gap finally closing?
+{/* news:end */}

@@ -1,0 +1,365 @@
+---
+const title = "Rakuten";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --purple: #7d12ff;
+        --purple-hover: #6b00e6;
+        --ink: #1a1a1a;
+        --ink-soft: #444;
+        --headline: #c9c4d6;
+        --headline-soft: #d8d3e2;
+        --pill-bg: #ece6f7;
+        --pink-card: #fde9ec;
+        --pink-line: #f7c9d0;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        color: var(--ink);
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+      }
+
+      /* ─── Header ───────────────────────────────────────────────── */
+      header.nav {
+        display: flex;
+        align-items: center;
+        padding: 22px 32px;
+        gap: 32px;
+        height: 80px;
+      }
+
+      .logo {
+        color: var(--purple);
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        margin-right: 32px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+      }
+
+      .nav-link {
+        color: var(--ink);
+        font-weight: 500;
+        font-size: 15px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .caret {
+        width: 10px;
+        height: 10px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: translateY(-2px) rotate(45deg);
+        display: inline-block;
+      }
+
+      .nav-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .signin {
+        color: var(--ink);
+        font-weight: 500;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .pill {
+        background: var(--purple);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 14px 28px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      .pill:hover {
+        background: var(--purple-hover);
+      }
+
+      /* ─── Hero ─────────────────────────────────────────────────── */
+      main {
+        position: relative;
+        padding: 260px 48px 0;
+        min-height: 720px;
+      }
+
+      .headline {
+        font-family: "Noto Serif", Georgia, serif;
+        font-size: 52px;
+        line-height: 1.1;
+        font-weight: 500;
+        color: var(--headline);
+        letter-spacing: -0.01em;
+        margin: 0 0 28px;
+        max-width: 560px;
+      }
+
+      .headline-line-2 {
+        color: var(--headline-soft);
+      }
+
+      .rotator {
+        display: inline-block;
+        margin-top: 12px;
+        width: 56px;
+        height: 6px;
+        background: var(--purple);
+        border-radius: 2px;
+      }
+
+      .cta {
+        padding: 16px 36px;
+        font-size: 16px;
+      }
+
+      /* ─── Product card ────────────────────────────────────────── */
+      .stage {
+        position: absolute;
+        top: 0;
+        left: 520px;
+        right: 0;
+        bottom: 0;
+      }
+
+      .decor-card {
+        position: absolute;
+        top: 180px;
+        right: -120px;
+        width: 480px;
+        height: 480px;
+        background: var(--pink-card);
+        border-radius: 36px;
+        transform: rotate(8deg);
+        overflow: hidden;
+      }
+
+      .decor-card svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .product {
+        position: absolute;
+        top: 230px;
+        left: 100px;
+        width: 220px;
+        height: 320px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow:
+          0 4px 8px rgba(0, 0, 0, 0.04),
+          0 12px 32px rgba(0, 0, 0, 0.08);
+        padding: 28px 24px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .bottle {
+        width: 96px;
+        height: 210px;
+        background: #f1ece8;
+        border-radius: 22px 22px 14px 14px;
+        position: relative;
+      }
+
+      .bottle::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 56px;
+        height: 10px;
+        background: #d8d0c9;
+        border-radius: 3px;
+      }
+
+      .bottle-label {
+        font-family: "Noto Serif", Georgia, serif;
+        position: absolute;
+        top: 78px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #d8a8b0;
+        font-size: 10px;
+        text-align: center;
+        line-height: 1.3;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+      }
+
+      .product-footer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding-top: 12px;
+        border-top: 1px solid #eee;
+      }
+
+      .ulta-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #ffd1c4 0%, #ffe7c8 100%);
+        color: #fff;
+        font-weight: 800;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .product-meta {
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .product-brand {
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      .product-name {
+        color: #555;
+      }
+
+      .badge {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--pill-bg);
+        border-radius: 999px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        z-index: 2;
+      }
+
+      .badge strong {
+        color: var(--purple);
+        font-weight: 700;
+        margin-right: 4px;
+      }
+
+      .disclaimer {
+        position: absolute;
+        top: 700px;
+        left: 720px;
+        color: var(--ink-soft);
+        font-size: 13px;
+        font-weight: 400;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="logo">Rakuten</div>
+      <nav class="nav-links">
+        <span class="nav-link">Shop by Category <i class="caret"></i></span>
+        <span class="nav-link">Browser Extension</span>
+        <span class="nav-link">Mobile App</span>
+      </nav>
+      <div class="nav-right">
+        <span class="signin">Sign In</span>
+        <button class="pill" type="button">Join for Free</button>
+      </div>
+    </header>
+
+    <main>
+      <h1 class="headline">
+        Earn Cash Back<br />
+        <span class="headline-line-2">when you</span><br />
+        <span class="rotator"></span>
+      </h1>
+      <button class="pill cta" type="button">Join for Free</button>
+
+      <div class="stage">
+        <div class="decor-card">
+          <svg viewBox="0 0 480 480" preserveAspectRatio="xMidYMid meet">
+            <g
+              fill="none"
+              stroke="#f6d0d6"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              opacity="0.7"
+            >
+              <path d="M 80 100 C 140 60, 220 100, 240 160 S 180 240, 240 270" />
+              <path d="M 60 220 C 120 180, 200 220, 220 280 S 160 360, 220 390" />
+              <path d="M 280 80 C 340 50, 420 90, 440 150" />
+              <path d="M 300 260 C 360 220, 440 260, 460 320" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="product">
+          <div class="badge"><strong>$8.28</strong>Cash Back</div>
+          <div class="bottle">
+            <div class="bottle-label">T.L.C.<br />SUKARI<br />BABYFACIAL</div>
+          </div>
+          <div class="product-footer">
+            <div class="ulta-mark" style="background:#e21836">ULTA</div>
+            <div class="product-meta">
+              <div class="product-brand">Ulta Beauty</div>
+              <div class="product-name">Drunk Elephant Mask</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="disclaimer">Your Cash Back may vary.</div>
+    </main>
+  </body>
+</html>

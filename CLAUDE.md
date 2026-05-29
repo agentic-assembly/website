@@ -33,3 +33,9 @@ Every visible element draws from exactly three colours: **base**, **dim**, **acc
 ## Print pages
 
 `/sign` is an A4-landscape print page — light mode, self-contained styles (does not import `global.css`). Print via the browser: File → Print → A4 → Landscape, margins off.
+
+## Assembly headlines — talking-point prompts, not essays
+
+Each `### Headline` under `## Headlines` is a discussion seed for the room, not a write-up. Aim for **one short paragraph** — three to six lines of prose, max — that names the *what* and ends with a question worth 30 seconds at the table. Links go in a single em-dash-separated strip at the end of the paragraph; never mid-sentence.
+
+Long-form context — full release notes, vendor showcases, HN reactions, benchmark tables — belongs in the `{/* news:start */} … {/* news:end */}` block, not the headline. The headline points there; it doesn't reproduce it.

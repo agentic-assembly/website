@@ -165,3 +165,28 @@ const refRows = references.map((r) => ({
 
   <Footer />
 </Layout>
+
+<script>
+  for (const pre of document.querySelectorAll<HTMLPreElement>(".va-prose pre")) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "va-copy";
+    btn.textContent = "copy";
+    btn.addEventListener("click", async () => {
+      const code = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+      try {
+        await navigator.clipboard.writeText(code);
+        btn.textContent = "copied";
+        btn.classList.add("is-copied");
+        setTimeout(() => {
+          btn.textContent = "copy";
+          btn.classList.remove("is-copied");
+        }, 1400);
+      } catch {
+        btn.textContent = "failed";
+        setTimeout(() => (btn.textContent = "copy"), 1400);
+      }
+    });
+    pre.appendChild(btn);
+  }
+</script>

@@ -843,6 +843,7 @@ a:hover {
   padding: 1px 6px;
 }
 .va-prose pre {
+  position: relative;
   background: var(--bg-card);
   border: 1px solid var(--line);
   padding: 16px 20px;
@@ -855,6 +856,35 @@ a:hover {
   background: transparent;
   border: none;
   padding: 0;
+}
+.va-prose pre .va-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.va-prose pre:hover .va-copy,
+.va-prose pre .va-copy:focus-visible {
+  opacity: 1;
+}
+.va-prose pre .va-copy:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.va-prose pre .va-copy.is-copied {
+  color: var(--accent);
+  border-color: var(--accent);
+  opacity: 1;
 }
 .va-prose img {
   display: block;

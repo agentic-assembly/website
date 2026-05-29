@@ -48,6 +48,19 @@ import Haiku from "../../../components/Haiku.astro";
 
 Claude writes a JavaScript orchestrator from your prompt; the runtime fans out up to 16 concurrent / 1,000 total subagents in the background while your session stays free. Trigger with the word `workflow` in any prompt or `/effort ultracode`. Bundled: `/deep-research`. Vendor showcase: Jarred Sumner's Bun port — Zig → Rust, ~750k lines, 99.8% test pass, 11 days. HN reception is split — some swear by it for anything bigger than a 1-shot PR, others blew through Max after 90 agents on a small package. We'll [run one live on this repo](#workflow-demo-live-this-repo). Where does this beat `/goal + /loop`, and what's the real cost? — [Anthropic blog](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — [Docs](https://code.claude.com/docs/en/workflows) — [HN](https://news.ycombinator.com/item?id=48311705) — [Register on Bun](https://www.theregister.com/devops/2026/05/14/anthropics-bun-rust-rewrite-merged-at-speed-of-ai/5240381)
 
+#### When to use a workflow
+
+Subagents, skills, and workflows can all run a multi-step task. The difference is who holds the plan:
+
+|  | Subagents | Skills | Workflows |
+|---|---|---|---|
+| **What it is** | A worker Claude spawns | Instructions Claude follows | A script the runtime executes |
+| **Who decides what runs next** | Claude, turn by turn | Claude, following the prompt | The script |
+| **Where intermediate results live** | Claude's context window | Claude's context window | Script variables |
+| **What's repeatable** | The worker definition | The instructions | The orchestration itself |
+| **Scale** | A few delegated tasks per turn | Same as subagents | Dozens to hundreds of agents per run |
+| **Interruption** | Restarts the turn | Restarts the turn | Resumable in the same session |
+
 ### Opus 4.8 shipped Thursday
 
 Released 2026-05-28, same price as 4.7. Modest on bench (SWE-Bench Pro 69.2%, GDPval-AA 1890 Elo, GPQA Diamond −0.6 pts); meaningful on candour — first Claude model at 0% on uncritically reporting flawed results, 4× fewer unflagged code flaws, 10× less overconfidence. New `effort` control (Low → Max). Simon: "a modest but tangible improvement." Does the room's lived experience match the candour claims, or does it confabulate the same as 4.7? — [Anthropic](https://www.anthropic.com/news/claude-opus-4-8) — [Simon](https://simonwillison.net/2026/May/28/claude-opus-4-8/) — [@claudeai](https://x.com/claudeai/status/2060042702150930686)

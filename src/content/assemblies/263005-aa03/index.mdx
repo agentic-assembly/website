@@ -1,0 +1,153 @@
+---
+title: "Workflows Unleashed"
+date: 2026-05-30T10:00:00+09:00
+location: "Office Park 703C"
+references:
+  - title: "Anthropic — Introducing dynamic workflows in Claude Code"
+    url: "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+  - title: "Claude Code Docs — Orchestrate subagents at scale with dynamic workflows"
+    url: "https://code.claude.com/docs/en/workflows"
+  - title: "Anthropic — Introducing Claude Opus 4.8"
+    url: "https://www.anthropic.com/news/claude-opus-4-8"
+  - title: "Armin Ronacher — Pi, OSS, and the AI flood"
+    url: "https://lucumr.pocoo.org/2026/5/24/pi-oss/"
+---
+
+import Haiku from "../../../components/Haiku.astro";
+
+<Haiku
+  date="2026-05-30"
+  model="claude-opus-4-7"
+  lines={[
+    {
+      text: "Plan to code, code to swarm",
+      why: "Dynamic workflows shipped Thursday alongside Opus 4.8. The plan moves into JavaScript: Claude writes the orchestrator from your prompt, a runtime executes it in the background, and up to 16 concurrent / 1,000 total subagents fan out. Intermediate state lives in script variables, so the conversation only sees the final answer. Claude writes its own swarm controller, then lets it loose.",
+    },
+    {
+      text: "Cleaner glass, fewer ghosts",
+      why: "Opus 4.8 shipped 2026-05-28. Simon calls it \"a modest but tangible improvement\" — the leap isn't on benchmarks but on candour. First Claude model to score 0% on uncritically reporting flawed results, 4× fewer unflagged code flaws, 10× less overconfidence. The shine is in what it stops pretending.",
+    },
+    {
+      text: "The flood scours the riverbed",
+      why: "Armin Ronacher on dogfooding Pi to build Pi (2026-05-24). LLM issue reports come in confidently wrong; AI patches defend locally instead of fixing root causes; the volume fragments upstream coordination and replaces human review with isolated workarounds. The flood is real — the question is whether strong foundational design and active maintainership still hold the banks.",
+    },
+  ]}
+/>
+
+## What we talked about
+
+- TBD.
+
+## Announcements
+
+- **OKTech — Kitchen Robots & State of AI** — Sat 30 May, 17:00 ~ 19:30, Cybozu Osaka (35F Hankyu Bldg). Robotics in the home + AI in web dev. — [oktech.jp](https://oktech.jp/events/313772796-may-event-tbd)
+
+## Headlines
+
+### Dynamic workflows in Claude Code
+
+Claude writes a JavaScript orchestrator from your prompt; the runtime fans out up to 16 concurrent / 1,000 total subagents in the background while your session stays free. Trigger with the word `workflow` in any prompt or `/effort ultracode`. Bundled: `/deep-research`. Vendor showcase: Jarred Sumner's Bun port — Zig → Rust, ~750k lines, 99.8% test pass, 11 days. HN reception is split — some swear by it for anything bigger than a 1-shot PR, others blew through Max after 90 agents on a small package. We'll [run one live on this repo](#workflow-demo-live-this-repo). Where does this beat `/goal + /loop`, and what's the real cost? — [Anthropic blog](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — [Docs](https://code.claude.com/docs/en/workflows) — [HN](https://news.ycombinator.com/item?id=48311705) — [Register on Bun](https://www.theregister.com/devops/2026/05/14/anthropics-bun-rust-rewrite-merged-at-speed-of-ai/5240381)
+
+### Opus 4.8 shipped Thursday
+
+Released 2026-05-28, same price as 4.7. Modest on bench (SWE-Bench Pro 69.2%, GDPval-AA 1890 Elo, GPQA Diamond −0.6 pts); meaningful on candour — first Claude model at 0% on uncritically reporting flawed results, 4× fewer unflagged code flaws, 10× less overconfidence. New `effort` control (Low → Max). Simon: "a modest but tangible improvement." Does the room's lived experience match the candour claims, or does it confabulate the same as 4.7? — [Anthropic](https://www.anthropic.com/news/claude-opus-4-8) — [Simon](https://simonwillison.net/2026/May/28/claude-opus-4-8/) — [@claudeai](https://x.com/claudeai/status/2060042702150930686)
+
+## Discussion Topics
+
+1. **How are you using coding agents?** — opener. Which tools, what shipped, what got dropped, where AI hit a wall this week.
+2. **Try many different harnesses** — round-the-table on which harnesses people are actively switching between (Claude Code, Codex, Cline, OpenCode, Antigravity, OpenHands, pi…) and what each one is genuinely best at. Are we converging on one daily driver, or running a stable of three?
+3. **Armin on pi-oss — "we are using Pi to build Pi"** — Armin Ronacher's post (2026-05-24) on dogfooding Pi to build Pi, and what AI-assisted development does to open source maintenance. Three claims worth pulling on: LLM-generated issue reports are confidently wrong and net-negative to triage; AI defaults to local defenses against every possible failure instead of fixing root causes or maintaining invariants; the surge in AI-generated code and issues fragments effort and replaces human-to-human upstream coordination with isolated workarounds. Does this match what we're seeing in the repos we maintain? — [post](https://lucumr.pocoo.org/2026/5/24/pi-oss/)
+
+## Robert Demo
+
+- **TOON — Token-Oriented Object Notation** ([toonformat.dev](https://toonformat.dev/)) — compact, human-readable data format positioned as a JSON alternative for LLM prompts. Claim: ~40% fewer tokens than JSON for the same structured data, with comparable or better model accuracy across providers. Indentation-based, minimal quoting. Robert to walk through the format and where it earns its keep vs. where JSON is still the right call.
+
+## Workflow demo (live, this repo)
+
+Live-run a dynamic workflow on the `aa-website` repo itself — codify the CLAUDE.md em-dash rule and let the workflow find every place we accidentally broke it. Demonstrates exactly the "codebase-wide consistency check" pattern Anthropic cites as the canonical use case.
+
+Workflows are pre-enabled for this repo via `.claude/settings.json` — no `/config` toggle needed:
+
+```json
+{
+  "disableWorkflows": false
+}
+```
+
+Then paste this into Claude Code:
+
+```
+Run a workflow to audit src/**/*.{astro,mdx,md} for places that should
+be em-dashes per the CLAUDE.md house rule but aren't. Look for:
+
+- `·` (middle dot) used as a divider
+- `|` used between list items in a three-item strip
+- `/` used between options (e.g. `light/dark`, `A/B`)
+- ` - ` (space-hyphen-space) used as a divider, not as a hyphen
+  in a compound word
+
+For each finding, return: file path, line number, the offending
+fragment, and the proposed em-dash replacement.
+
+Then run an adversarial reviewer pass that rejects findings that are
+actually legitimate hyphens (e.g. `A4-landscape`, `light-mode`),
+ranges (`10:00 ~ 12:00`), or code (paths, flags, identifiers). Only
+report violations that survive the review.
+```
+
+Fan-out: one generator agent per glob (or per directory under `src/`). Adversarial reviewer pass de-noises. Expected scale: ~10–20 agents total — well under the HN cautionary tale. Artifact: PR-ready diff against `master`.
+
+## Show and Tell
+
+### Member picks
+- TBD.
+
+## Next time
+- TBD.
+
+{/* news:start */}
+## Run [/news](https://github.com/agentic-assembly/website/blob/master/.claude/skills/news/SKILL.md) skill
+
+_Floor: 2026-05-23 (262305-aa02). Generated 2026-05-29._
+
+### New Claude Code commands & features
+- **Dynamic workflows + `/workflows` + `/deep-research`** (v2.1.154, 2026-05-28) — Claude writes a JS script from your prompt; runtime executes background subagents (16 concurrent / 1,000 total cap per run); script holds the loop, branching, and intermediate state so Claude's context only sees the final answer. Trigger with the word `workflow` in any prompt or `/effort ultracode`. `/workflows` opens the per-phase progress view with pause/resume/restart. `/deep-research` is the bundled cross-checked-research workflow. Save successful runs as `/<name>` to `.claude/workflows/` (project) or `~/.claude/workflows/` (personal). Pro requires turning on in `/config`; off-by-default on Enterprise — [blog](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — [docs](https://code.claude.com/docs/en/workflows) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **`claude agents` — background sessions** (v2.1.154, 2026-05-28) — `! <command>` runs shell commands as attach/detach background sessions; also `claude --bg --exec '<command>'` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **Opus 4.8 default + cheaper Fast Mode** (v2.1.154, 2026-05-28) — Opus 4.8 defaults to high effort (`/effort xhigh`); Fast Mode now 2× standard rate for 2.5× speed (down from prior pricing) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **`/chrome` — browser selection** (v2.1.154, 2026-05-28) — pick which connected Chrome instance Claude attaches to via `/chrome` → "Select browser…" — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **Lean system prompt default** (v2.1.154, 2026-05-28) — leaner system prompt now default for every model except Haiku, Sonnet, and Opus 4.7 and earlier — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **Plugin `defaultEnabled: false`** (v2.1.154, 2026-05-28) — plugins can declare default-off in `plugin.json`; enable with `/plugin` or `claude plugin enable` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- **`/reload-skills`** (v2.1.152, 2026-05-27) — re-scan skill directories without restarting the session — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **`/code-review --fix`** (v2.1.152, 2026-05-27) — after a review, apply the surfaced reuse / simplification / efficiency suggestions to the working tree — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **`MessageDisplay` hook** (v2.1.153, 2026-05-28) — new hook event for transforming or hiding assistant message text during display — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.153)
+- **SessionStart `sessionTitle` + `reloadSkills`** (v2.1.152, 2026-05-27) — SessionStart hooks can set session title via `hookSpecificOutput.sessionTitle` and return `reloadSkills: true` to re-scan skills in the same session — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **Skill `disallowed-tools`** (v2.1.152, 2026-05-27) — skill frontmatter can remove tools from the model while the skill is active — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **Vim `/` reverse history search** (v2.1.152, 2026-05-27) — `/` in NORMAL mode opens reverse search (like Ctrl+R) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **`pluginSuggestionMarketplaces` managed setting** (v2.1.153, 2026-05-28) — admins allowlist org marketplaces for context-aware plugin suggestions — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.153)
+- **Model fallback on missing model** (v2.1.152, 2026-05-27) — falls back to `--fallback-model` when the primary model isn't available — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+- **Auto Mode no longer needs opt-in consent** (v2.1.152, 2026-05-27) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.152)
+
+### Claude Code — other notes
+- [2026-05-28] v2.1.154 also: stdio MCP servers now receive `CLAUDE_CODE_SESSION_ID` and `CLAUDECODE=1` env vars; `/remote-control` shows "Disconnect Remote Control" when active; `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE` deprecated (removal 06/01) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.154)
+- [2026-05-29] **v2.1.156** — fix for Opus 4.8 thinking-block modification causing API errors — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.156)
+
+### Anthropic
+- [2026-05-28] **Opus 4.8 GA** — Claude API, Bedrock, Vertex, Foundry, same pricing as 4.7 ($5 / $25 per M). Headline numbers: SWE-Bench Pro 69.2% (from 64.3%), GDPval-AA 1890 Elo (+137 over 4.7, +121 over GPT-5.5), Terminal-Bench +8.5pts (GPT-5.5 still leads at 78.2%), GPQA Diamond −0.6pts. Anthropic claims 4× drop in unflagged code flaws, 10× drop in overconfidence, first Claude model at 0% uncritically reporting flawed results — [announcement](https://www.anthropic.com/news/claude-opus-4-8)
+- [2026-05-28] **Dynamic workflows — research preview** — official blog post + docs. Background runtime that orchestrates tens-to-hundreds of subagents per session (cap 16 concurrent / 1,000 total); script holds state outside Claude's context. Vendor showcase: Jarred Sumner's Bun Zig→Rust port — ~750k lines of Rust, 99.8% test pass, 11 days first-commit-to-merge, binary 3–8 MB smaller, memory safety (not perf) the stated motivation. HN reception is split — some users found it materially better than turn-by-turn for anything beyond a 1-shot PR; others hit Max limits after ~90 agents on a small package; multiple commenters argued the Bun port was mechanical and doesn't prove much — [blog](https://claude.com/blog/introducing-dynamic-workflows-in-claude-code) — [docs](https://code.claude.com/docs/en/workflows) — [HN](https://news.ycombinator.com/item?id=48311705) — [The Register on Bun](https://www.theregister.com/devops/2026/05/14/anthropics-bun-rust-rewrite-merged-at-speed-of-ai/5240381)
+
+### Codex
+- [2026-05-28] **Codex rust-v0.135.0** — `codex doctor` expanded with environment, Git, terminal, app-server, and thread diagnostics; `/status` shows remote connection + server version; `/permissions` understands named profiles and custom configs; vim text-object editing + configurable interrupt-turn binding; Python SDK exposes `Sandbox` presets — [release](https://github.com/openai/codex/releases/tag/rust-v0.135.0)
+- [2026-05-26] **Codex rust-v0.134.0** — search across local conversation history with content-match previews; `--profile` becomes primary profile selector across CLI / TUI / sandbox; MCP setup gains per-server environment targeting and OAuth options; connector schemas preserve `$ref` / `$defs`; read-only MCP tools (`readOnlyHint`) can run concurrently — [release](https://github.com/openai/codex/releases/tag/rust-v0.134.0)
+
+### Adjacent tools
+- [2026-05-24] **Armin Ronacher — "Pi, OSS, and the AI flood"** — dogfooding Pi to build Pi; the three problems: confidently-wrong LLM issue reports, AI patches that locally defend instead of fixing root causes or maintaining invariants, and the volume fragmenting upstream human-to-human coordination — [post](https://lucumr.pocoo.org/2026/5/24/pi-oss/)
+- **TOON — Token-Oriented Object Notation** — compact JSON alternative for LLM prompts; vendor-cited ~40% fewer tokens than JSON with comparable or better model accuracy across providers; indentation-based, minimal quoting — [toonformat.dev](https://toonformat.dev/)
+
+### Simon says
+- [2026-05-28] **"Claude Opus 4.8: 'a modest but tangible improvement'"** — Simon's read on the 4.8 release: incremental on benchmarks, meaningful on hallucination / overconfidence — [post](https://simonwillison.net/2026/May/28/claude-opus-4-8/)
+
+### Topics worth a 5-min slot
+1. **Opus 4.8 — modest bench, big honesty story** — does the room's lived experience match the vendor's "0% uncritical reporting" claim, or does it still confabulate the same as 4.7?
+2. **Dynamic workflows + `claude agents`** — Claude Code now lets you fan out across hundreds of background subagents from one prompt, and detach/reattach to shell sessions. Anyone tried it yet? Where does it beat /goal + /loop?
+3. **The AI flood on OSS maintainers** — Armin's three claims: bad issue reports, local-defense patches, fragmented upstream coordination. Match the room's experience maintaining repos?
+{/* news:end */}

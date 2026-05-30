@@ -53,14 +53,12 @@ Claude writes a JavaScript orchestrator from your prompt; the runtime fans out u
 
 Subagents, skills, and workflows can all run a multi-step task. The difference is who holds the plan:
 
-|  | Subagents | Skills | Workflows |
-|---|---|---|---|
-| **What it is** | A worker Claude spawns | Instructions Claude follows | A script the runtime executes |
-| **Who decides what runs next** | Claude, turn by turn | Claude, following the prompt | The script |
-| **Where intermediate results live** | Claude's context window | Claude's context window | Script variables |
-| **What's repeatable** | The worker definition | The instructions | The orchestration itself |
-| **Scale** | A few delegated tasks per turn | Same as subagents | Dozens to hundreds of agents per run |
-| **Interruption** | Restarts the turn | Restarts the turn | Resumable in the same session |
+- **What it is** — Subagents: a worker Claude spawns — Skills: instructions Claude follows — Workflows: a script the runtime executes
+- **Who decides what runs next** — Subagents: Claude, turn by turn — Skills: Claude, following the prompt — Workflows: the script
+- **Where intermediate results live** — Subagents & Skills: Claude's context window — Workflows: script variables
+- **What's repeatable** — Subagents: the worker definition — Skills: the instructions — Workflows: the orchestration itself
+- **Scale** — Subagents: a few delegated tasks per turn — Skills: same as subagents — Workflows: dozens to hundreds of agents per run
+- **Interruption** — Subagents & Skills: restarts the turn — Workflows: resumable in the same session
 
 ### Opus 4.8 shipped Thursday
 

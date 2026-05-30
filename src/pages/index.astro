@@ -23,8 +23,14 @@ const all = (await getCollection("assemblies")).sort(
   (a, b) => a.data.date.getTime() - b.data.date.getTime(),
 );
 
-const past = all.filter((e) => e.data.date < now).reverse();
-const upcoming = all.filter((e) => e.data.date >= now).slice(0, 5);
+// Keep an event in "Upcoming" until 4 hours past its start, so it still shows
+// while the meetup is happening (10:00–12:00 + slack).
+const ONGOING_GRACE_MS = 4 * 60 * 60 * 1000;
+const stillUpcoming = (d: Date) =>
+  d.getTime() >= now.getTime() - ONGOING_GRACE_MS;
+
+const past = all.filter((e) => !stillUpcoming(e.data.date)).reverse();
+const upcoming = all.filter((e) => stillUpcoming(e.data.date)).slice(0, 5);
 
 const totalPast = past.length;
 const pastDateFmt = new Intl.DateTimeFormat("en-GB", {

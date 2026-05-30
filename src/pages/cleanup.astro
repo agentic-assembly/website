@@ -1,0 +1,236 @@
+---
+import Container from "../components/Container.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+
+interface Ref {
+  title: string;
+  url: string;
+}
+
+const hostFromUrl = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+
+// Credible sources only — the deep-research run flagged a CNN explainer, two
+// UNEP landing pages, and two marketing blogs as unreliable/low-signal; those
+// are excluded here. What remains is primary org material, peer-reviewed
+// journals, intergovernmental bodies, and reputable trade/news outlets.
+const refGroups: { label: string; items: Ref[] }[] = [
+  {
+    label: "The Ocean Cleanup — primary",
+    items: [
+      { title: "Updates", url: "https://theoceancleanup.com/updates/" },
+      { title: "Milestones", url: "https://theoceancleanup.com/milestones/" },
+      {
+        title: "The Ocean Cleanup deploys Mumbai Interceptors",
+        url: "https://theoceancleanup.com/press/press-releases/the-ocean-cleanup-deploys-mumbai-interceptors/",
+      },
+      {
+        title: "Taking the next step in our ocean operations",
+        url: "https://theoceancleanup.com/updates/taking-the-next-step-in-our-ocean-operations/",
+      },
+      {
+        title: "Funding unlocked for the 30 Cities Program",
+        url: "https://theoceancleanup.com/updates/funding-unlocked-for-the-30-cities-program/",
+      },
+      {
+        title: "First milestone with Meycauayan Interceptor rollout",
+        url: "https://theoceancleanup.com/press/press-releases/the-ocean-cleanup-marks-first-milestone-with-meycauayan-plastic-interceptor-rollout/",
+      },
+    ],
+  },
+  {
+    label: "Peer-reviewed science",
+    items: [
+      {
+        title: "Egger et al. — floating plastic and the threat to marine life (Nature, May 2025)",
+        url: "https://www.nature.com/articles/s41586-025-09218-1",
+      },
+      {
+        title: "Nanoplastics outweigh micro- and macroplastics in the water column (Nature, 2025)",
+        url: "https://www.nature.com/articles/s41586-025-08818-1",
+      },
+      {
+        title: "Microplastic abundance far higher nearshore than open ocean (Scientific Reports, 2026)",
+        url: "https://www.nature.com/articles/s41598-025-00619-w",
+      },
+      {
+        title: "Distribution of small microplastics (Frontiers in Earth Science, 2026)",
+        url: "https://www.frontiersin.org/journals/earth-science/articles/10.3389/feart.2026.1752600/full",
+      },
+    ],
+  },
+  {
+    label: "Policy — the global plastics treaty",
+    items: [
+      {
+        title: "New chair elected to lead plastic-pollution treaty negotiations (UNEP)",
+        url: "https://www.unep.org/news-and-stories/press-release/new-chair-elected-lead-negotiations-global-plastic-pollution-treaty",
+      },
+      {
+        title: "INC-5.3 reaction (CIEL)",
+        url: "https://www.ciel.org/news/inc-5-3-reaction/",
+      },
+      {
+        title: "IMO sharpens plans to achieve zero plastic pollution from ships by 2030 (IMO)",
+        url: "https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-sharpens-plans-achieve-zero-plastic-pollution-from-ships-by-2030.aspx",
+      },
+      {
+        title: "Global plastics treaty — new chair, fresh momentum (FoodNavigator)",
+        url: "https://www.foodnavigator.com/Article/2026/02/23/global-plastics-treaty-new-chair-fresh-momentum/",
+      },
+    ],
+  },
+  {
+    label: "News & trade",
+    items: [
+      {
+        title: "The Ocean Cleanup marks first milestone with Meycauayan rollout (SEA Wave)",
+        url: "https://seawavemag.com/2026/05/12/the-ocean-cleanup-marks-first-milestone-with-meycauayan-plastic-interceptor-rollout/",
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Ocean cleanup — May 2026 — Agentic Assembly"
+  description="A fact-checked digest of this month's ocean-cleanup news — The Ocean Cleanup's milestones and river Interceptors, prevention-leaning marine science, and the UN plastics treaty — with credible sources only."
+>
+  <Header />
+
+  <main>
+    <Container as="article" class="va-page">
+      <div class="va-eyebrow">
+        <span class="acc">Deep research</span>
+        <span>30 May 2026</span>
+        <span>Credible sources only</span>
+      </div>
+
+      <h1 class="va-title">This month in ocean cleanup</h1>
+
+      <section class="va-tldr">
+        <div class="va-tldr-label">TL;DR</div>
+        <p>
+          Ocean-cleanup news this month centred on The Ocean Cleanup — a
+          50-million-kilogram collection milestone, its 100th peer-reviewed
+          study, and the first river Interceptors in Mumbai — set against a body
+          of recent marine science arguing that prevention beats open-ocean
+          cleanup, and a UN plastics treaty that has just seated a new chair.
+        </p>
+        <p>
+          Below, each finding survived a three-vote adversarial check; three
+          widely-repeated claims that did not are called out under
+          <a href="#verification">verification notes</a>.
+        </p>
+      </section>
+
+      <div class="va-prose">
+        <h2>The Ocean Cleanup — milestones and river interception</h2>
+        <p>
+          The organisation passed <strong>50 million kilograms</strong> of
+          plastic collected from oceans and rivers (reported by March 2026,
+          restated in May) and published its <strong>100th peer-reviewed
+          study</strong> on 10 April 2026. On 30 April it deployed its
+          <strong>first Interceptors in Mumbai</strong> — at Trombay and Malad,
+          with a combined design capacity of roughly 5 million kg/year — working
+          with partner Plastic Fischer. Its first Philippine Interceptor, at
+          Meycauayan, is targeted for operation by June 2026.
+        </p>
+        <p>
+          On the funding side, the <strong>30 Cities Program</strong> has
+          unlocked $121 million of a $350 million target, anchored by a TED
+          Audacious grant (announced 9 March 2026).
+        </p>
+
+        <h2>AI smart-steering — a summer 2026 expedition</h2>
+        <p>
+          In a 22 April 2026 update, The Ocean Cleanup outlined a six-week
+          expedition to the Great Pacific Garbage Patch this summer to
+          <strong>trial AI-driven steering toward plastic hotspots</strong>. The
+          group is now pursuing river-inflow interception and legacy-plastic
+          cleanup in parallel, and has paused open-ocean extraction for roughly
+          a year to map where the plastic actually concentrates.
+        </p>
+
+        <h2>The science — prevention over cleanup</h2>
+        <p>
+          The recent peer-reviewed literature leans toward prevention, in some
+          tension with the org's parallel-strategy messaging. Egger et al.
+          (Nature, May 2025) argue floating plastic threatens marine life more
+          directly than cleanup addresses. A 2026 study finds microplastic
+          abundance roughly <strong>30× denser nearshore</strong> than in the
+          open ocean — i.e. closer to the source. And work from the NIOZ /
+          Utrecht group finds <strong>nanoplastics outweigh larger micro- and
+          macroplastics</strong> in the water column and, once dispersed, cannot
+          practically be cleaned up.
+        </p>
+
+        <h2>Policy — the UN plastics treaty</h2>
+        <p>
+          On 7 February 2026 a UN Intergovernmental Negotiating Committee
+          session elected <strong>Julio Cordano of Chile</strong> as chair of
+          the global plastic-pollution treaty negotiations (92 of 153 votes) —
+          a procedural step ahead of resumed substantive talks. Separately, the
+          IMO has set out plans toward zero plastic pollution from ships by
+          2030.
+        </p>
+
+        <h2 id="verification">Verification notes — what didn't hold up</h2>
+        <p>
+          Three claims that circulated widely failed the adversarial check and
+          are <em>not</em> repeated above:
+        </p>
+        <ul>
+          <li>
+            That the 30 Cities Program will cut river-borne ocean plastic
+            <em>by one-third by 2030</em> — refuted (0–3).
+          </li>
+          <li>
+            That the Meycauayan Interceptor will capture ~370–540 tonnes/year —
+            refuted (1–2).
+          </li>
+          <li>
+            That a study found ~27 million tonnes of nanoplastics in the North
+            Atlantic — refuted (1–2) as an over-extrapolation from 12 sampling
+            stations. Cite the mass <em>comparison</em>, not the tonnage.
+          </li>
+        </ul>
+        <p>
+          A timing note: only the Ocean Cleanup operational items (10–30 April)
+          and the May restatement of the 50-million-kg figure fall strictly
+          within "this month". The treaty chair election (February) and the
+          peer-reviewed science (largely 2025) are recent context, not new this
+          month. Organisation tonnage figures are self-reported and not
+          independently audited.
+        </p>
+      </div>
+
+      {
+        refGroups.map((group) => (
+          <section class="va-further">
+            <div class="va-further-title">{group.label}</div>
+            <ul>
+              {group.items.map((r) => (
+                <li>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer">
+                    {r.title}
+                  </a>
+                  <span class="src">{hostFromUrl(r.url)}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </Container>
+  </main>
+
+  <Footer />
+</Layout>

@@ -176,6 +176,59 @@ a:hover {
   border-bottom: 1px solid var(--line);
 }
 
+.hero__layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+.hero__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero__qr {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hero__qr {
+    flex: 0 0 auto;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    border: none;
+    text-decoration: none;
+  }
+  .hero__qr:hover {
+    border: none;
+  }
+  .hero__qr-svg {
+    display: block;
+    width: 180px;
+    height: 180px;
+    padding: 16px;
+    background: #ffffff;
+    color: #0e0d0c;
+    line-height: 0;
+  }
+  .hero__qr-svg svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__qr-caption {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .hero__qr:hover .hero__qr-caption {
+    color: var(--accent);
+  }
+}
+
 .hero__eyebrow {
   font-size: 11px;
   letter-spacing: 0.3em;

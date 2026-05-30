@@ -1,4 +1,5 @@
 ---
+import QRCode from "qrcode";
 import { getCollection } from "astro:content";
 import BrandMark from "../components/BrandMark.astro";
 import Container from "../components/Container.astro";
@@ -6,6 +7,16 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Layout from "../layouts/Layout.astro";
 import { partsRecord } from "../lib/date";
+
+const SITE_URL = "https://a13y.org";
+const qrSvg = (
+  await QRCode.toString(SITE_URL, {
+    type: "svg",
+    margin: 0,
+    errorCorrectionLevel: "M",
+    color: { dark: "#000", light: "#0000" },
+  })
+).replace(/fill="#000"/g, 'fill="currentColor"');
 
 const now = new Date();
 const all = (await getCollection("assemblies")).sort(
@@ -78,31 +89,43 @@ const upcomingRows = upcoming.map((entry, i) => {
   <main>
     <section class="hero">
       <Container>
-        <h1 class="hero__title">
-          A casual Saturday meetup in Osaka — for engineers comparing
-          notes on building with <span class="accent">AI coding tools</span>.
-        </h1>
-        <dl class="hero__meta">
-          <dt>Format</dt>
-          <dd>Free Talk Round Table Discussion</dd>
-          <dt>When</dt>
-          <dd><span class="nb">Every Saturday</span>, 10:00 — 12:00 JST</dd>
-          <dt>Where</dt>
-          <dd>
-            <a
-              class="hero__meta-link"
-              href="https://maps.app.goo.gl/pW4p1Qm6VBV3HKET9"
-              target="_blank"
-              rel="noopener"
-            >
-              Office Park 703C — 7F, 2-1-1 Minamihonmachi, Chuo-ku, Osaka ↗
-            </a>
-          </dd>
-          <dt>What</dt>
-          <dd>Claude Code, Codex, Cursor, Cline, Aider, Opencode, OpenClaw, ...</dd>
-          <dt>Cost</dt>
-          <dd>Free.</dd>
-        </dl>
+        <div class="hero__layout">
+          <div class="hero__main">
+            <h1 class="hero__title">
+              A casual Saturday meetup in Osaka — for engineers comparing
+              notes on building with <span class="accent">AI coding tools</span>.
+            </h1>
+            <dl class="hero__meta">
+              <dt>Format</dt>
+              <dd>Free Talk Round Table Discussion</dd>
+              <dt>When</dt>
+              <dd><span class="nb">Every Saturday</span>, 10:00 — 12:00 JST</dd>
+              <dt>Where</dt>
+              <dd>
+                <a
+                  class="hero__meta-link"
+                  href="https://maps.app.goo.gl/pW4p1Qm6VBV3HKET9"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Office Park 703C — 7F, 2-1-1 Minamihonmachi, Chuo-ku, Osaka ↗
+                </a>
+              </dd>
+              <dt>What</dt>
+              <dd>Claude Code, Codex, Cursor, Cline, Aider, Opencode, OpenClaw, ...</dd>
+              <dt>Cost</dt>
+              <dd>Free.</dd>
+            </dl>
+          </div>
+          <a
+            class="hero__qr"
+            href={SITE_URL}
+            aria-label="QR code linking to a13y.org — scan to open on a phone"
+          >
+            <span class="hero__qr-svg" set:html={qrSvg} />
+            <span class="hero__qr-caption">a13y.org</span>
+          </a>
+        </div>
       </Container>
     </section>
 

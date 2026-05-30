@@ -53,12 +53,28 @@ Claude writes a JavaScript orchestrator from your prompt; the runtime fans out u
 
 Subagents, skills, and workflows can all run a multi-step task. The difference is who holds the plan:
 
-- **What it is** — Subagents: a worker Claude spawns — Skills: instructions Claude follows — Workflows: a script the runtime executes
-- **Who decides what runs next** — Subagents: Claude, turn by turn — Skills: Claude, following the prompt — Workflows: the script
-- **Where intermediate results live** — Subagents & Skills: Claude's context window — Workflows: script variables
-- **What's repeatable** — Subagents: the worker definition — Skills: the instructions — Workflows: the orchestration itself
-- **Scale** — Subagents: a few delegated tasks per turn — Skills: same as subagents — Workflows: dozens to hundreds of agents per run
-- **Interruption** — Subagents & Skills: restarts the turn — Workflows: resumable in the same session
+- **What it is**
+  - Subagents — a worker Claude spawns
+  - Skills — instructions Claude follows
+  - Workflows — a script the runtime executes
+- **Who decides what runs next**
+  - Subagents — Claude, turn by turn
+  - Skills — Claude, following the prompt
+  - Workflows — the script
+- **Where intermediate results live**
+  - Subagents & Skills — Claude's context window
+  - Workflows — script variables
+- **What's repeatable**
+  - Subagents — the worker definition
+  - Skills — the instructions
+  - Workflows — the orchestration itself
+- **Scale**
+  - Subagents — a few delegated tasks per turn
+  - Skills — same as subagents
+  - Workflows — dozens to hundreds of agents per run
+- **Interruption**
+  - Subagents & Skills — restarts the turn
+  - Workflows — resumable in the same session
 
 ### Opus 4.8 shipped Thursday
 
@@ -68,11 +84,7 @@ Released 2026-05-28, same price as 4.7. Modest on bench (SWE-Bench Pro 69.2%, GD
 
 1. **How are you using coding agents?** — opener. Which tools, what shipped, what got dropped, where AI hit a wall this week.
 2. **Try many different harnesses** — round-the-table on which harnesses people are actively switching between (Claude Code, Codex, Cline, OpenCode, Antigravity, OpenHands, pi…) and what each one is genuinely best at. Are we converging on one daily driver, or running a stable of three?
-3. **Armin on pi-oss — "we are using Pi to build Pi"** — Armin Ronacher's post (2026-05-24) on dogfooding Pi to build Pi, and what AI-assisted development does to open source maintenance. Three claims worth pulling on: LLM-generated issue reports are confidently wrong and net-negative to triage; AI defaults to local defenses against every possible failure instead of fixing root causes or maintaining invariants; the surge in AI-generated code and issues fragments effort and replaces human-to-human upstream coordination with isolated workarounds. Does this match what we're seeing in the repos we maintain? — [post](https://lucumr.pocoo.org/2026/5/24/pi-oss/)
-
-## Robert Demo
-
-- **TOON — Token-Oriented Object Notation** ([toonformat.dev](https://toonformat.dev/)) — compact, human-readable data format positioned as a JSON alternative for LLM prompts. Claim: ~40% fewer tokens than JSON for the same structured data, with comparable or better model accuracy across providers. Indentation-based, minimal quoting. Robert to walk through the format and where it earns its keep vs. where JSON is still the right call.
+3. **TOON vs. JSON for prompts** — tees up Robert's show-and-tell. Token-Oriented Object Notation claims ~40% fewer tokens than JSON for structured prompt data with comparable model accuracy. Where does a compact, indentation-based format actually earn its keep, and where is JSON still the right call? — [toonformat.dev](https://toonformat.dev/)
 
 ## Workflow demo (live, this repo)
 
@@ -112,6 +124,7 @@ Fan-out: one generator agent per glob (or per directory under `src/`). Adversari
 ## Show and Tell
 
 ### Member picks
+- **TOON — Token-Oriented Object Notation** (Robert) ([toonformat.dev](https://toonformat.dev/)) — compact, human-readable data format positioned as a JSON alternative for LLM prompts. Claim: ~40% fewer tokens than JSON for the same structured data, with comparable or better model accuracy across providers. Indentation-based, minimal quoting. Robert to walk through the format and where it earns its keep vs. where JSON is still the right call.
 - **`/lab/` route convention** — drop a `/lab/` route into a project as a scratch space for technical testing — quick UI experiments, agent-driven prototypes, integration trials, throwaway demos. Keeps the spike code reachable in the running app without leaking into production routing or polluting the main IA. Worth comparing notes: how do people gate it (env flag, dev-only build, robots-noindex), and what's the rule for graduating something out of `/lab/`?
 
 ## Next time

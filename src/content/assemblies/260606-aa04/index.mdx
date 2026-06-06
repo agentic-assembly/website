@@ -32,6 +32,48 @@ import Haiku from "../../../components/Haiku.astro";
   ]}
 />
 
+## What we talked about
+
+### Knowledge graphs
+
+Came up as the structured counterpart to raw retrieval — entities and the typed relations between them, so a model can traverse "who connects to what" instead of guessing from adjacent text. The pull is grounding: an explicit graph gives an LLM a fact substrate it can walk, and a place to catch contradictions. Open question for the room — where does building the graph actually pay off versus just throwing more context at the model? — [Knowledge graph — Wikipedia](https://en.wikipedia.org/wiki/Knowledge_graph) — [Neo4j — What is a knowledge graph?](https://neo4j.com/blog/what-is-knowledge-graph/) — [Microsoft GraphRAG](https://microsoft.github.io/graphrag/)
+
+### Graph databases
+
+The storage layer under the above — Neo4j, FalkorDB and friends, where nodes and edges are first-class and a query is a traversal rather than a pile of joins. The interesting bit is the pairing with agents: an LLM that can emit Cypher (or read a graph summary) turns "explore the neighbourhood of this entity" into a cheap, deterministic lookup. When does a graph DB earn its keep over a plain relational schema? — [Neo4j](https://neo4j.com/) — [FalkorDB](https://www.falkordb.com/) — [Graph database — Wikipedia](https://en.wikipedia.org/wiki/Graph_database)
+
+### Vector databases
+
+The other half of the retrieval conversation — embeddings and nearest-neighbour search for "find me things that mean roughly this." Contrasted with graph DBs as fuzzy-vs-precise: vectors are great at semantic recall and terrible at exact multi-hop relationships, graphs the reverse. The live debate was hybrid retrieval — vector search to find the entry points, graph traversal to walk the structure from there. — [pgvector](https://github.com/pgvector/pgvector) — [Pinecone](https://www.pinecone.io/) — [Weaviate](https://weaviate.io/) — [Qdrant](https://qdrant.tech/)
+
+### Perseus
+
+Lettria's pipeline for turning documents (or raw text) into a knowledge graph — extract entities and relations, optionally constrained by an ontology, then push the result into Neo4j or FalkorDB. Sits right at the intersection of the three topics above: it's the "documents → graph" on-ramp, with an MCP server so an agent can drive the whole build-and-export flow. — [perseus.lettria.com](https://perseus.lettria.com/)
+
+### ElevenLabs and AI voice technologies
+
+The voice side of the table — ElevenLabs for high-fidelity TTS, voice cloning, and increasingly real-time conversational agents. Discussion ranged from the obvious uses (narration, dubbing, accessibility) to the agentic ones: giving a coding or research agent a voice, or wiring speech in/out so you can talk to a workflow instead of typing. Open question — where does voice genuinely beat text as the interface, and where is it just a novelty? — [elevenlabs.io](https://elevenlabs.io/)
+
+### Claude vs Claude Code vs Codex
+
+Untangling three things that get lumped together — Claude the model, Claude Code the agentic harness wrapped around it, and Codex as OpenAI's competing harness. The point that landed: the harness matters as much as the model, since it owns the tools, the context, and the loop. Round-the-table on who's running which, and whether people pick by model quality, by harness ergonomics, or just by what their employer pays for. — [Claude](https://www.claude.com/) — [Claude Code](https://code.claude.com/) — [OpenAI Codex](https://openai.com/codex/)
+
+### Getting AI to write better design docs
+
+How to make an agent produce a design doc worth reading instead of a padded restatement of the prompt. Tactics that came up — make it interrogate you first (grill the assumptions before drafting), ground it in the actual codebase rather than generic best-practice, force explicit trade-offs and rejected alternatives, and keep it at the right altitude instead of drowning in implementation detail. Open question — what's the prompt or workflow that reliably gets you a doc you'd actually hand to a teammate? — [Design Docs at Google](https://www.industrialempathy.com/posts/design-docs-at-google/) — [Anthropic — Prompt engineering](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview)
+
+### llama-swap (demo)
+
+Someone demo'd llama-swap — a lightweight proxy that sits in front of llama.cpp (and other OpenAI-compatible backends) and hot-swaps the loaded model on demand, so one endpoint can serve many local models without you babysitting which is loaded. Came up as the practical glue for running a stable of local models on limited VRAM — request a model, it loads it, unloads the last one. Handy for keeping a local coding/embedding/voice stack on one box. — [github.com/mostlygeek/llama-swap](https://github.com/mostlygeek/llama-swap)
+
+### Claude Code dynamic workflows
+
+Revisited the dynamic workflows Anthropic shipped recently — Claude writes a JavaScript orchestrator from your prompt and the runtime fans it out across up to 1,000 background subagents, with the script (not the chat context) holding the intermediate state. Tied back into the day's threads: it's the obvious engine for "documents → knowledge graph" builds and other fan-out jobs. Note the trigger keyword moved from `workflow` to `ultracode` in v2.1.160. Where does it actually beat `/goal` + `/loop`, and what's the real token cost? — [Anthropic — A harness for every task](https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code)
+
+### Engels' pause
+
+Brought up as the historical rhyme for the moment we're in — the stretch of early-19th-century Britain (roughly 1790s–1840s) when industrial output and productivity climbed steeply but real wages for workers flatlined for decades before finally catching up. The parallel on the table: AI may be opening a similar gap now, where the gains land with capital and the labour side waits a generation for the lift. Open question — is this time a pause that resolves the same way, or a structural break, and what shortens the lag? — [Engels' pause — Wikipedia](https://en.wikipedia.org/wiki/Engels%27_pause)
+
 ## Announcements — 11:55
 
 - **OKTech — June event** — Date, time & venue TBD — details and signup at [oktech.jp](https://oktech.jp/events).

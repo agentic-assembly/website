@@ -74,6 +74,26 @@ Revisited the dynamic workflows Anthropic shipped recently — Claude writes a J
 
 Brought up as the historical rhyme for the moment we're in — the stretch of early-19th-century Britain (roughly 1790s–1840s) when industrial output and productivity climbed steeply but real wages for workers flatlined for decades before finally catching up. The parallel on the table: AI may be opening a similar gap now, where the gains land with capital and the labour side waits a generation for the lift. Open question — is this time a pause that resolves the same way, or a structural break, and what shortens the lag? — [Engels' pause — Wikipedia](https://en.wikipedia.org/wiki/Engels%27_pause)
 
+### Remotion
+
+The "video as React" angle — write components, drive them with props and a frame counter, and render the timeline to MP4 with a headless browser. The agentic pull is that video becomes code an LLM can author and diff: parametrise a template, feed it data, batch-render variants. Where does programmatic video actually beat a timeline editor — data-driven explainers and per-user clips, or is the authoring overhead only worth it at scale? — [remotion.dev](https://www.remotion.dev/) — [github.com/remotion-dev/remotion](https://github.com/remotion-dev/remotion)
+
+### HeyGen
+
+The avatar end of AI video — script in, a talking presenter (cloned or stock) out, with translation and lip-sync across languages. Came up alongside ElevenLabs as the visual counterpart to AI voice: between them you can stand up a synthetic presenter from text alone. Open question — is this genuinely useful for docs, onboarding, and localisation, or does the uncanny-valley tax still outweigh the time saved? — [heygen.com](https://www.heygen.com/)
+
+### hyperframes
+
+HeyGen's open-source take on controllable AI video — a framework for stitching generated frames into coherent sequences rather than one-shot clips. Interesting as the hackable layer under the polished product: if the frame-level control is real, it's the bit you'd wire into an agentic pipeline. Worth a look at how much steering it actually gives versus the hosted product. — [github.com/heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)
+
+### Timestamp-based cutting
+
+The editing trick that ties the video thread together — transcribe a recording, then cut by editing the transcript: delete a sentence, the corresponding clip drops out. Pairs naturally with the AI-voice and avatar tools above, and it's squarely agent-shaped since the model works on timestamped text, not pixels. Where's the line where this replaces a real editor versus just roughing out a first pass? 
+
+### Cline
+
+Back to coding harnesses — Cline as the open-source, VS Code-native agent, often paired with whatever model you bring (including local backends via something like llama-swap). Slotted into the Claude Code vs Codex comparison as the BYO-model, fully-in-editor option. Round-the-table on who's running it, and whether open + editor-native wins out over the polish of the hosted harnesses. — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
+
 ## Announcements — 11:55
 
 - **OKTech — June event** — Date, time & venue TBD — details and signup at [oktech.jp](https://oktech.jp/events).

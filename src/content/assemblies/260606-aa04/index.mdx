@@ -11,6 +11,27 @@ references:
     url: "https://simonwillison.net/2026/Jun/3/uber-caps-usage/"
 ---
 
+import Haiku from "../../../components/Haiku.astro";
+
+<Haiku
+  date="2026-06-06"
+  model="claude-opus-4-8"
+  lines={[
+    {
+      text: "Whisper \"ultracode\" — it swarms",
+      why: "Claude Code v2.1.160 (2026-06-02) renamed the dynamic-workflow trigger from `workflow` to `ultracode` — same fan-out, new magic word. Say it in a prompt, or pin it with `/effort ultracode`, and the runtime writes an orchestrator that runs across up to 1,000 subagents. The keyword we covered last week is already obsolete; the swarm answers to a different name now.",
+    },
+    {
+      text: "Each credit bleeds as you build",
+      why: "GitHub Copilot moved every plan to usage-based AI Credits on 2026-06-01. Completions stay free, but a single agentic session can burn $30–40 — power users posted projected 10–50× jumps, and the community thread piled up 400+ comments and ~900 downvotes within days. The all-you-can-eat era of agentic coding quietly ended on the first of the month.",
+    },
+    {
+      text: "Even Uber caps the spend",
+      why: "Simon Willison (2026-06-03): Uber capped employee AI-tool spend at $1,500/month after blowing its entire 2026 AI budget in four months. When the company that wrote the book on burning cash for growth starts metering Claude Code, the cost conversation has truly arrived. Question for the room — what's your own ceiling, and have you hit it?",
+    },
+  ]}
+/>
+
 ## Announcements — 11:55
 
 - **OKTech — June event** — Date, time & venue TBD — details and signup at [oktech.jp](https://oktech.jp/events).

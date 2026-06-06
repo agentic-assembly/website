@@ -2,6 +2,13 @@
 title: "AA04"
 date: 2026-06-06T10:00:00+09:00
 location: "Office Park 703C"
+references:
+  - title: "Claude Code v2.1.160 — dynamic-workflow trigger renamed workflow → ultracode"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.160"
+  - title: "GitHub Copilot moves to usage-based AI Credits (June 1) — developer backlash"
+    url: "https://github.com/orgs/community/discussions/192948"
+  - title: "Simon Willison — Uber caps usage of AI tools like Claude Code"
+    url: "https://simonwillison.net/2026/Jun/3/uber-caps-usage/"
 ---
 
 ## Announcements — 11:55
@@ -9,3 +16,39 @@ location: "Office Park 703C"
 - **OKTech — June event** — Date, time & venue TBD — details and signup at [oktech.jp](https://oktech.jp/events).
 - **RSVP reminder** — Coming along? RSVP on Meetup so we can size the room — [meetup.com/oktech](https://www.meetup.com/oktech/).
 - **Feedback** — Got thoughts, topic ideas, or want to demo something? Drop us a line — [feedback](/feedback).
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-05-30 (aa03). Generated 2026-06-06._
+
+### New Claude Code commands & features
+- **`ultracode` trigger rename** (v2.1.160, 2026-06-02) — the dynamic-workflow keyword we covered last week is no longer `workflow`; type `ultracode` in a prompt (or `/effort ultracode`) to auto-orchestrate a workflow — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.160)
+- **`/plugin list`** (v2.1.163, 2026-06-04) — list installed plugins with `--enabled` / `--disabled` filters — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.163)
+- **`claude agents` fan-out progress** (v2.1.161, 2026-06-02) — shows `done/total` for fanned-out work, and `--json` now reports a `waitingFor` field (v2.1.162) — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.161)
+- **Safer writes** (v2.1.160, 2026-06-02) — prompts before writing to shell startup files / git config; `acceptEdits` now confirms before touching build-tool config — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.160)
+- **Autocomplete no longer auto-runs** (v2.1.162, 2026-06-03) — picking a slash command from autocomplete fills the input instead of firing immediately; Remote Control is now a persistent footer pill — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.162)
+- **`SubagentStop` additionalContext** (v2.1.163, 2026-06-04) — `SubagentStop` hooks can return `hookSpecificOutput.additionalContext` to feed text back to the parent — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.163)
+
+### Codex
+- **`/archive` + `codex archive`** (0.136.0, 2026-06-01) — archive/unarchive sessions from the TUI or CLI; TUI markdown keeps clickable links via OSC 8 — [release](https://github.com/openai/codex/releases)
+- [2026-06-04] Multi-agent v2 preserves runtime choice per thread; web/image tools gain parallel search in code-mode; enterprise builds show monthly credit limits (0.137.0) — [release](https://github.com/openai/codex/releases)
+- [2026-06-01] Windows alpha `codex sandbox setup --elevated` provisioning path; remote execution via `CODEX_API_KEY` for approved hosts — [release](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-06] Cursor adds canvas **Design Mode** + interactive context-usage report, and a Premium seat (5× usage) in a Teams pricing rework — [changelog](https://cursor.com/changelog)
+- [2026-06-03] VS Code 1.123 ships more agent features, larger model-context support, and integrated-browser updates — [release notes](https://code.visualstudio.com/updates)
+- [2026-06-02] Microsoft unveils **MAI-Code-1-Flash** at Build 2026 — its first in-house coding model, not OpenAI-powered — [Simon Willison](https://simonwillison.net/2026/Jun/2/microsofts-new-models/)
+
+### Simon says
+- [2026-06-03] Uber caps employee AI-tool spend at $1,500/mo after burning its 2026 AI budget in four months — [post](https://simonwillison.net/2026/Jun/3/uber-caps-usage/)
+- [2026-06-04] "AI enthusiasts are in a race against time, AI skeptics are in a race against entropy" — [post](https://simonwillison.net/2026/Jun/4/ai-enthusiasts-ai-skeptics/)
+
+### Notable posts
+- [2026-06-01] GitHub Copilot switches every plan to usage-based **AI Credits**; power users post projected 10–50× cost jumps; the community thread tops 400 comments / ~900 downvotes — [discussion](https://github.com/orgs/community/discussions/192948)
+
+### Topics worth a 5-min slot
+1. **The metering era** — Copilot AI Credits, Uber's $1,500/mo cap, and Cursor's reworked Teams pools all landed the same week. Has agentic coding's "all-you-can-eat" phase ended?
+2. **`workflow` → `ultracode`** — last week's dynamic-workflows trigger got renamed in v2.1.160. Worth a live demo now that the keyword is stable.
+3. **In-house coding models** — Microsoft's MAI-Code-1-Flash drops the OpenAI dependency. Does owning the model matter when the harness is the product?
+{/* news:end */}

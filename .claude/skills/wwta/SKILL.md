@@ -82,15 +82,15 @@ Put one blank line above and below the new section, matching the spacing of the 
 
 > Note: this is `.mdx`. Comment blocks use JSX comments `{/* ... */}`, not HTML `<!-- -->`. Don't break MDX — keep the section as plain Markdown headings and paragraphs.
 
-### 5. Commit and push
+### 5. Commit and push — automatically, every single time
 
-Adding to "What we talked about" always goes to the remote, not just a local commit — the live site needs to reflect it during the event.
+After **each** addition, commit and push immediately. This is non-negotiable and unconditional: the live site must reflect every topic the moment it's logged during the event. Never batch multiple topics into one push, never leave a change sitting uncommitted, and never ask whether to push — just do it.
 
 ```
 git add -A && git commit -m "<target-id>: wwta — <topic>" && git push
 ```
 
-Use the assembly's display ID (e.g. `AA04`) or folder slug as the prefix. End the commit body with the standard `Co-Authored-By` trailer.
+Use the assembly's display ID (e.g. `AA04`) or folder slug as the prefix. End the commit body with the standard `Co-Authored-By` trailer. If the push fails (e.g. remote moved on), `git pull --rebase` once and push again, then report the result.
 
 ### 6. Report
 

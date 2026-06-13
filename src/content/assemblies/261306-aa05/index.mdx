@@ -13,4 +13,50 @@ location: "Office Park 703C"
 
 ## What we talked about
 
-_Logged live during the event — check back as the room fills in._
+### Plottr
+
+The visual story-planning tool for novelists — timelines, character arcs, and story-bible templates (hero's journey and friends) laid out as draggable cards rather than a wall of notes. Came up as the writing-side cousin of the structured-thinking tools we keep circling: outline-as-data that a model could plausibly read, extend, or generate against. Open question — does an AI that drafts prose still want a human-built plot scaffold, or does the structure become the next thing the model owns? — [plottr.com](https://plottr.com/)
+
+### Fable 5
+
+Anthropic's newest top-tier model, shipped 2026-06-09 as the first public release of the Mythos-class line — built for long-horizon agentic work, the kind that plans across stages, delegates to sub-agents, and tests its own output for days at a time. It blocks high-risk cyber/bio/chem requests and falls back to Opus 4.8, and it landed amid a noisy week of "too dangerous to ship" headlines and a walked-back capability limit. At $10/$50 per million tokens it's not cheap — where does Fable 5 actually earn its keep over Opus 4.8 for the work we do? — [Claude Fable 5 & Mythos 5 — Anthropic](https://www.anthropic.com/news/claude-fable-5-mythos-5) — [API docs](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5)
+
+### The decline of jQuery
+
+The slow fade of the library that defined a web era — from ~84% of the top 10k sites in 2019 to under 60% by 2025, as `querySelector`, `fetch`, promises and the component frameworks absorbed everything jQuery existed to paper over. jQuery 4.0 still dropped on 2026-01-17, and the thing is still buried deep in CMSes and enterprise internals. The agentic angle — when an LLM can hand you vanilla JS for free, does a compatibility-shim library have any reason left to exist? — [jQuery 4.0.0 — what it means in 2026 (HeroDevs)](https://www.herodevs.com/blog-posts/jquery-4-0-0-is-here-what-it-means-for-your-codebase-in-2026)
+
+### Claude Chrome extension
+
+The room flagged the official Claude extension on the Chrome Web Store as a genuinely useful daily driver — Claude riding along in the browser, with the page as context, instead of a separate tab you paste into. Sits next to the harness talk: this is the lightweight, read-the-page end of agentic, where the work is already on screen. Open question — where does in-browser Claude actually beat firing up Claude Code, and where does it just get in the way? — [Claude on the Chrome Web Store](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn)
+
+### contextbricks
+
+A cross-platform status line for Claude Code that turns the footer into a live dashboard — running session cost in USD, input/output/cached token counts, a context-window fill bar, plus repo:branch and model info. Pure Node, no bash or jq, installs with `npx contextbricks init`. Came up as the cheap fix for the cost-anxiety thread — if you can see the meter ticking, you spend differently. Open question — does a constant cost readout actually change how you prompt, or does it just become wallpaper? — [github.com/thebtf/contextbricks-universal](https://github.com/thebtf/contextbricks-universal)
+
+### The Moonshot project
+
+Japan's government moonshot R&D program — Cabinet Office-run, with a set of deliberately audacious targets aimed at 2050 (cybernetic avatars, disease prediction, AI-robot co-discovery, and more). Came up as the long-horizon framing for the day's AI talk: state-scale bets on where the technology lands a generation out, versus the week-to-week tooling churn we usually trade. Open question — do top-down moonshot targets actually pull research forward, or does the real progress keep coming from the bottom-up scramble? — [Moonshot R&D — Cabinet Office](https://www8.cao.go.jp/cstp/english/moonshot/top.html)
+
+### Avatar café (DAWN)
+
+Ory Lab's DAWN café, where the OriHime-D robots are piloted remotely by people with severe disabilities — the waiter rolling up to your table is teleoperated from home. The natural ground-truth example of the Moonshot avatar thread above: cybernetic avatars not as a 2050 slide but as a working storefront today. Open question — when the "AI" is actually a remote human in the loop, where's the line, and does layering a model on top help or just dilute the point? — [DAWN — Ory Lab](https://dawn2021.orylab.com/en/)
+
+### GLM 5.1
+
+Zhipu/z.ai's latest open-weights model, up on Hugging Face — the China-side challenger in the open frontier-model race, pitched hard at coding and agentic use. Lands right in the day's Fable 5 thread as the open counterweight: weights you can pull and self-host versus a hosted top-tier API. Open question — is an open model now close enough on agentic coding to be the default for cost-sensitive work, or does the frontier gap still decide it? — [GLM-5.1 on Hugging Face](https://huggingface.co/zai-org/GLM-5.1)
+
+### tech-tonic (demo)
+
+A member demo'd tech-tonic — an AI/agent app deployed on Vercel — live to the room. Fits the day's recurring through-line of small, shippable agentic projects you can stand up and put a URL on rather than just talk about. Worth a follow-up on what's under the hood and how it was built. Open question — what made it click as a demo, and which bits would survive contact with real users? — [tech-tonic.vercel.app](https://tech-tonic.vercel.app/)
+
+### Superpowers
+
+Came recommended from the room — obra's Superpowers, a full software-development methodology packaged as composable skills for coding agents (Claude, Copilot, Cursor, Gemini and friends). Instead of letting the agent dive straight into code, it enforces the discipline: brainstorm and design first, plan in 2–5-minute steps, red-green-refactor TDD, automated review, and subagent work on parallel git worktrees. Sits right on the harness thread — opinionated process bolted onto whatever model you bring. Open question — does forcing the full methodology produce better output, or does the ceremony just slow down the jobs where you already know the answer? — [github.com/obra/superpowers](https://github.com/obra/superpowers)
+
+### Worktrees
+
+The git mechanism that kept surfacing — multiple working directories off one repo, so several branches are checked out at once instead of stashing and switching. The agentic pull, and why it tied into the Superpowers thread: give each subagent its own worktree and they can work in parallel without clobbering each other's files, then you merge the good ones. Claude Code leans on this for isolated parallel runs. Open question — at what point does juggling N parallel agent worktrees beat one focused agent, and who reviews the merge? — [Worktrees — Claude Code docs](https://code.claude.com/docs/en/worktrees)
+
+### AI-built Anki decks for codebases
+
+A recommendation from the room — point an LLM at a codebase and have it generate Anki flashcards on the project's modules, key functions, and architecture decisions, then spaced-repetition your way to actually knowing the system. Flips the usual "ask the agent every time" habit into building durable human memory, which matters when you're onboarding to a big unfamiliar repo. Open question — what's worth memorising versus just re-querying on demand, and does drilling architecture cards beat reading the code with an agent at your elbow? — [Anki](https://apps.ankiweb.net/)

@@ -32,3 +32,7 @@ The developer-first cloud — droplets, managed databases, and the App Platform 
 ### Hetzner
 
 Brought up as the new go-to alternative to DigitalOcean — the German host with a reputation for absurd price-to-spec, both cloud VPS and bare-metal dedicated boxes, at a fraction of what the developer-friendly clouds charge for comparable RAM and cores. The catch is the trade-off: cheaper iron, EU-centric regions, and a more hands-on, less hand-holding experience. Picks up the DigitalOcean thread above — same question, lower price. Open question — for our weekend agent projects, is Hetzner's cost edge worth giving up the managed niceties, and does the latency from Japan to EU regions kill it before pricing even matters? — [hetzner.com](https://www.hetzner.com/)
+
+### Cloudflare
+
+A brief detour at the other end of the hosting spectrum from the Hetzner/DigitalOcean box-renting talk — running services on Cloudflare's edge instead of a server you manage: Workers for compute, plus the surrounding kit (R2, KV, D1, Durable Objects) that lets a whole app live on their network with nothing to patch. Open question — for an agent backend, does the serverless edge model genuinely remove the ops burden, or do the runtime limits and lock-in just trade one set of headaches for another? — [workers.cloudflare.com](https://workers.cloudflare.com/) — [cloudflare.com](https://www.cloudflare.com/)

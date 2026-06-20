@@ -1,6 +1,6 @@
 ---
-import QRCode from "qrcode";
 import { getCollection } from "astro:content";
+import QRCode from "qrcode";
 import BrandMark from "../components/BrandMark.astro";
 import Container from "../components/Container.astro";
 import Footer from "../components/Footer.astro";
@@ -18,6 +18,11 @@ const qrSvg = (
   })
 ).replace(/fill="#000"/g, 'fill="currentColor"');
 
+// The partition below (upcoming vs past, which one is "next", "today") is a
+// build-time snapshot — fine for the initial paint, SEO, and no-JS visitors.
+// The inline <script> at the foot of the page re-runs the same datetime check
+// in the browser, so the page stays correct between deploys and even if a tab
+// is left open across the 10:00 start or midnight. Keep the two in sync.
 const now = new Date();
 const all = (await getCollection("assemblies")).sort(
   (a, b) => a.data.date.getTime() - b.data.date.getTime(),
@@ -26,27 +31,17 @@ const all = (await getCollection("assemblies")).sort(
 // Keep an event in "Upcoming" until 4 hours past its start, so it still shows
 // while the meetup is happening (10:00–12:00 + slack).
 const ONGOING_GRACE_MS = 4 * 60 * 60 * 1000;
-const stillUpcoming = (d: Date) =>
-  d.getTime() >= now.getTime() - ONGOING_GRACE_MS;
+const MAX_UPCOMING = 5;
+const stillUpcoming = (d: Date) => d.getTime() >= now.getTime() - ONGOING_GRACE_MS;
 
-const past = all.filter((e) => !stillUpcoming(e.data.date)).reverse();
-const upcoming = all.filter((e) => stillUpcoming(e.data.date)).slice(0, 5);
+// Chronological number is stable regardless of "now": it's just the position in
+// the date-sorted list, so AA ids don't shift as events move past → upcoming.
+const events = all.map((entry, idx) => ({ entry, n: idx + 1 }));
 
-const totalPast = past.length;
 const pastDateFmt = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",
   month: "short",
   year: "2-digit",
-});
-
-const pastRows = past.map((entry, i) => {
-  const n = totalPast - i;
-  return {
-    id: `AA${String(n).padStart(3, "0")}`,
-    date: pastDateFmt.format(entry.data.date),
-    title: entry.data.title,
-    href: `/${n}`,
-  };
 });
 
 const upcomingDateFmt = new Intl.DateTimeFormat("en-GB", {
@@ -74,17 +69,46 @@ const relativeSoon = (d: Date) => {
   return `in ${weeks} weeks`;
 };
 
-const upcomingRows = upcoming.map((entry, i) => {
-  const n = totalPast + 1 + i;
+// Upcoming timeline — rendered ascending. Every event is emitted (carrying its
+// ISO date) so the client can reveal/hide as time passes; the build-time
+// defaults below mirror what the script computes so the first paint is correct.
+let shown = 0;
+const upcomingRows = events.map(({ entry, n }) => {
   const id = `AA${String(n).padStart(3, "0")}`;
+  const up = stillUpcoming(entry.data.date);
+  let hidden = !up;
+  let isNext = false;
+  if (up) {
+    if (shown === 0) isNext = true;
+    shown += 1;
+    if (shown > MAX_UPCOMING) hidden = true;
+  }
   const label = entry.data.summary ?? entry.data.title;
   return {
     id,
+    iso: entry.data.date.toISOString(),
     date: formatUpcomingDate(entry.data.date),
     topic: label === id ? undefined : label,
-    isNext: i === 0,
-    soon: i === 0 ? relativeSoon(entry.data.date) : undefined,
+    isNext,
+    soon: isNext ? relativeSoon(entry.data.date) : undefined,
+    hidden,
     href: `/${n}`,
+  };
+});
+
+// Past archive — rendered descending (most recent first). Same deal: every
+// event is emitted; the client decides visibility from the live datetime.
+let pastVisible = 0;
+const pastRows = [...events].reverse().map(({ entry, n }) => {
+  const hidden = stillUpcoming(entry.data.date);
+  if (!hidden) pastVisible += 1;
+  return {
+    id: `AA${String(n).padStart(3, "0")}`,
+    iso: entry.data.date.toISOString(),
+    date: pastDateFmt.format(entry.data.date),
+    title: entry.data.title,
+    href: `/${n}`,
+    hidden,
   };
 });
 ---
@@ -141,12 +165,16 @@ const upcomingRows = upcoming.map((entry, i) => {
         <ol class="tl-list">
           {
             upcomingRows.map((item) => (
-              <li class={`tl-item${item.isNext ? " tl-item--next" : ""}`}>
+              <li
+                class={`tl-item${item.isNext ? " tl-item--next" : ""}`}
+                data-iso={item.iso}
+                hidden={item.hidden}
+              >
                 <a href={item.href} class="tl-link">
                   <BrandMark class="tl-mark" size="18px" rotate={90} />
                   <div class="tl-id">
                     {item.id}
-                    {item.soon && <span class="tl-soon">— {item.soon}</span>}
+                    <span class="tl-soon">{item.soon ? `— ${item.soon}` : ""}</span>
                   </div>
                   <div class="tl-date">{item.date}</div>
                   {item.topic && <div class="tl-topic">{item.topic}</div>}
@@ -158,31 +186,93 @@ const upcomingRows = upcoming.map((entry, i) => {
       </Container>
     </section>
 
-    {totalPast > 0 && (
-      <section class="section">
-        <Container>
-          <header class="section__head">
-            <h2 class="section__title">Past assemblies</h2>
-            <span class="section__count">
-              {String(totalPast).padStart(3, "0")} / archive
-            </span>
-          </header>
+    <section class="section" id="past-section" hidden={pastVisible === 0}>
+      <Container>
+        <header class="section__head">
+          <h2 class="section__title">Past assemblies</h2>
+          <span class="section__count" id="past-count">
+            {String(pastVisible).padStart(3, "0")} / archive
+          </span>
+        </header>
 
-          <div class="assemblies">
-            {pastRows.map((row) => (
-              <a href={row.href} class="assembly-row">
-                <span class="assembly-row__id">{row.id}</span>
-                <span class="assembly-row__date">{row.date}</span>
-                <span class="assembly-row__title">{row.title}</span>
-                <span class="assembly-row__loc" />
-                <span class="assembly-row__arrow">→</span>
-              </a>
-            ))}
-          </div>
-        </Container>
-      </section>
-    )}
+        <div class="assemblies">
+          {pastRows.map((row) => (
+            <a
+              href={row.href}
+              class="assembly-row"
+              data-iso={row.iso}
+              hidden={row.hidden}
+            >
+              <span class="assembly-row__id">{row.id}</span>
+              <span class="assembly-row__date">{row.date}</span>
+              <span class="assembly-row__title">{row.title}</span>
+              <span class="assembly-row__loc" />
+              <span class="assembly-row__arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </section>
   </main>
+
+  <script>
+    // Re-run the upcoming/past/"today" datetime check in the browser so the page
+    // stays correct between deploys (this is a static build) and updates live if
+    // a tab is left open across the 10:00 start or midnight. Mirrors the
+    // build-time logic in this file's frontmatter — keep the two in sync.
+    const GRACE_MS = 4 * 60 * 60 * 1000;
+    const MAX_UPCOMING = 5;
+
+    const relativeSoon = (target: Date, now: Date) => {
+      const days = Math.round((target.getTime() - now.getTime()) / 86_400_000);
+      if (days <= 0) return "today";
+      if (days === 1) return "tomorrow";
+      if (days < 14) return `in ${days} days`;
+      return `in ${Math.round(days / 7)} weeks`;
+    };
+
+    const sync = () => {
+      const now = new Date();
+      const threshold = now.getTime() - GRACE_MS;
+
+      // Upcoming timeline — DOM is ascending by date.
+      let shown = 0;
+      for (const li of document.querySelectorAll<HTMLLIElement>(".tl-item")) {
+        const date = new Date(li.dataset.iso ?? "");
+        const upcoming = date.getTime() >= threshold;
+        let isNext = false;
+        let visible = false;
+        if (upcoming && shown < MAX_UPCOMING) {
+          visible = true;
+          if (shown === 0) isNext = true;
+          shown += 1;
+        }
+        li.hidden = !visible;
+        li.classList.toggle("tl-item--next", isNext);
+        const soon = li.querySelector<HTMLElement>(".tl-soon");
+        if (soon) soon.textContent = isNext ? `— ${relativeSoon(date, now)}` : "";
+      }
+
+      // Past archive — DOM is descending by date.
+      let pastCount = 0;
+      for (const row of document.querySelectorAll<HTMLElement>(".assembly-row")) {
+        const date = new Date(row.dataset.iso ?? "");
+        const isPast = date.getTime() < threshold;
+        row.hidden = !isPast;
+        if (isPast) pastCount += 1;
+      }
+      const section = document.getElementById("past-section");
+      if (section) section.hidden = pastCount === 0;
+      const count = document.getElementById("past-count");
+      if (count) count.textContent = `${String(pastCount).padStart(3, "0")} / archive`;
+    };
+
+    sync();
+    setInterval(sync, 60_000);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) sync();
+    });
+  </script>
 
   <Footer />
 </Layout>

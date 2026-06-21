@@ -3,3 +3,64 @@ title: "AA06"
 date: 2026-06-20T10:00:00+09:00
 location: "Office Park 703C"
 ---
+
+## Agenda
+
+- 10:00 — Welcome
+- 10:01 — Introductions
+- 10:10 — AI news of the week & discussions
+- 11:50 — Photos & clean up
+
+## What we talked about
+
+### Open-weight vs open source
+
+Untangling two labels that get used interchangeably and shouldn't be — "open-weight" just means the trained parameters are downloadable (Llama, GLM, the lot), while "open source" is the stricter claim: an OSI-grade licence plus the training code and ideally the data, so you can actually study and reproduce the thing, not just run it. Picks up last week's GLM 5.1 thread — most "open" frontier models are weights-only, knowledge you can use but not knowledge you can rebuild. Open question — for the work we do, does the licence and training recipe actually matter, or are downloadable weights all anyone really wants? — [Open Weights — Open Source Initiative](https://opensource.org/ai/open-weights)
+
+### Japanese event sites
+
+Where do you actually find — or list — a meetup like this one in Japan? Three platforms came up, each aimed at a different crowd: connpass is the engineering default (tech study groups and dev meetups, calendar-and-RSVP), Peatix is the general-purpose ticketing site for anything from conferences to club nights, and tunagate is the social end — a 600k-user hobby-circle app for drinking, board games, futsal and cafe meetups. Open question — for an Osaka AI-coding round table, does posting where the engineers already are (connpass) beat casting wider on a general platform, and is being discoverable even worth the inbound? — [connpass.com](https://connpass.com/) — [peatix.com](https://peatix.com/) — [tunagate.com](https://tunagate.com/)
+
+### Fractional DevRel
+
+A member-led collective of senior developer-relations people — advocates, content leads, technical writers, community ops — hired on a fractional basis, no agency middleman or commission. The pitch: launches, doc overhauls, conference presence and courses are real work that deserves an experienced operator but rarely justifies a full-time hire. Sits right with the room of independent engineers and consultants — DevRel as a part-time gig you slot between projects. Open question — now that a model can draft the docs, the demo and the launch post, does fractional DevRel become more valuable as the human judgement layer, or does the AI eat the junior end of the work first? — [fractionaldevrel.com](https://www.fractionaldevrel.com/)
+
+### DigitalOcean
+
+The developer-first cloud — droplets, managed databases, and the App Platform PaaS — that keeps coming up as the no-fuss middle ground between a raw VPS and the big-three hyperscalers. Picks up last week's "small shippable agentic projects" thread (tech-tonic on Vercel): once you've got an agent app, where does it actually live? Open question — for the kind of weekend project we keep demoing, does DigitalOcean's flat pricing and simplicity win, or does a Vercel/serverless deploy get you live faster with less to babysit? — [digitalocean.com](https://www.digitalocean.com/)
+
+### Hetzner
+
+Brought up as the new go-to alternative to DigitalOcean — the German host with a reputation for absurd price-to-spec, both cloud VPS and bare-metal dedicated boxes, at a fraction of what the developer-friendly clouds charge for comparable RAM and cores. The catch is the trade-off: cheaper iron, EU-centric regions, and a more hands-on, less hand-holding experience. Picks up the DigitalOcean thread above — same question, lower price. Open question — for our weekend agent projects, is Hetzner's cost edge worth giving up the managed niceties, and does the latency from Japan to EU regions kill it before pricing even matters? — [hetzner.com](https://www.hetzner.com/)
+
+### Cloudflare
+
+A brief detour at the other end of the hosting spectrum from the Hetzner/DigitalOcean box-renting talk — running services on Cloudflare's edge instead of a server you manage: Workers for compute, plus the surrounding kit (R2, KV, D1, Durable Objects) that lets a whole app live on their network with nothing to patch. Open question — for an agent backend, does the serverless edge model genuinely remove the ops burden, or do the runtime limits and lock-in just trade one set of headaches for another? — [workers.cloudflare.com](https://workers.cloudflare.com/) — [cloudflare.com](https://www.cloudflare.com/)
+
+### Fable 5 shutdown
+
+A wild callback — Fable 5, the model we'd flagged in last week's notes, got pulled mid-session: an emergency US Commerce Department export-control order had Anthropic globally disable both Fable 5 and Mythos 5, and it blinked out while we were sitting in the room. The stated why: a claimed narrow jailbreak that could help the model find software vulnerabilities, tripping national-security wires; because the order barred access by any foreign national and Anthropic can't filter those in real time, the only compliant move was to kill it for everyone. Anthropic pushed back hard — they say they were given only "verbal evidence of a potential narrow, non-universal jailbreak" and that it shouldn't justify recalling a model already serving hundreds of millions. Opus 4.8 and the rest stayed up. Open question — when a single government can yank a frontier model overnight, how much do you dare build on any one hosted model, and does this make open-weight self-hosting look less like a hobby and more like insurance? — [Anthropic disables Fable 5 and Mythos 5 — MarkTechPost](https://www.marktechpost.com/2026/06/13/anthropic-disables-claude-fable-5-and-mythos-5-after-us-government-order/) — [QZ: export-control directive](https://qz.com/anthropic-fable-5-mythos-5-export-control-directive-061226)
+
+### Osaka coworking spots
+
+Where else could a group like this plant itself? Two Osaka options came up at opposite ends of the spectrum: QUINTBRIDGE, NTT West's open-innovation facility, which is free to register and use, versus the Knowledge Salon up in Knowledge Capital at Grand Front Osaka — gorgeous space, but a members-only salon that's notoriously hard to get into, hedged with rules. The contrast is the whole point: open-door and free versus curated and gated. Open question — for a casual Saturday round table, does a free, no-friction space like QUINTBRIDGE always win, or is there real value in the gatekeeping and polish of somewhere like the Knowledge Salon? — [quintbridge.jp](https://www.quintbridge.jp/) — [Knowledge Salon — KC-I](https://kc-i.jp/en/facilities/business/knowledge-salon/)
+
+### Text-to-image generators
+
+A hands-on bake-off across OpenAI, Leonardo AI and ElevenLabs — and the takeaways were practical, not benchmark-y. Leonardo was the fastest of the three to turn a prompt around. The sharper finding was a lock-in trap: character edits don't travel between tools. A specific character — a genie — generated in one tool couldn't be cross-edited in another; to keep iterating on it you had to stay inside the tool that birthed it, since each one's notion of "the same character" lives in its own weights and seeds. Open question — does that editing lock-in quietly pick your image tool for you the moment you commit to a recurring character, and is there any workflow (reference images, LoRAs, ControlNet) that actually makes a character portable across generators? — [openai.com](https://openai.com/) — [leonardo.ai](https://leonardo.ai/) — [elevenlabs.io](https://elevenlabs.io/)
+
+### Beads
+
+Came recommended as a way to break a large, complex app into work an agent can actually hold. Beads (bd) bills itself as "a memory upgrade for your coding agent" — a distributed graph issue tracker (built on Dolt) that swaps the usual flat markdown TODO list for a dependency-aware graph: epics with nested subtasks, "blocks / relates-to / supersedes" links, hash-based IDs that don't collide when several agents work at once, and semantic decay that compacts old closed tasks to spare the context window. It lands on the room's recurring planning thread — the Superpowers "design and plan before you code" discipline, but with the plan stored as a queryable graph instead of prose. Open question — does giving the agent a structured dependency graph actually keep it on the rails through a long build, or is it one more thing to maintain that a good plan-in-markdown already covered? — [github.com/gastownhall/beads](https://github.com/gastownhall/beads)
+
+### NaNoWriMo 2.0
+
+For the writers — a community revival of National Novel Writing Month after the original org folded in April 2025 amid scandals (including an ethically dodgy AI sponsorship). The 2.0 take deliberately has no owner or central admin — "best to leave NaNoWriMo as an idea that no-one owns" — keeps the archived resources, and the still-the-same dare: "30 days, 50,000 words, 1 brand-new novel." The pointed bit for this room: it explicitly discourages generative AI, on the grounds that using it is "counter to the whole idea of NaNo" — the point is the writer building the craft, not the output. Sits right against last week's Plottr / AI-drafting thread as the opposite pole. Open question — when the whole value is the human doing the reps, where does that leave AI for creative work, and is "AI-free" about to become a feature rather than a limitation? — [nanowrimo2.com](https://nanowrimo2.com/)
+
+### Rakuten AI 3.0
+
+Rakuten's "Japan's most powerful" homegrown model — a 700B-parameter, METI/GENIAC-backed release — got caught out within hours of its March 2026 launch: the Hugging Face config literally declared `DeepseekV3ForCausalLM`, i.e. it's built on DeepSeek V3, which the press release never mentioned beyond "the best of the open-source community." The damning detail tied straight to our open-weight-vs-open-source talk earlier: Rakuten had quietly stripped DeepSeek's MIT license file on release, only re-adding it as a "NOTICE" once the community produced receipts. Open question — when "sovereign" national models are quietly Chinese open weights with the license filed off, what does "homegrown AI" even mean, and is the real story here nationalism theatre or just basic open-source license hygiene? — [Rakuten AI 3.0 exposed — CTOL Digital](https://www.ctol.digital/news/rakuten-ai-3-exposed-japans-most-powerful-ai-model-rebranded-chinese-open-source/) — [BigGo Finance](https://finance.biggo.com/news/202603181324_Rakuten_AI_3.0_Exposed_as_DeepSeek_V3_Rebrand)
+
+### SpaceX buys Cursor
+
+The one that stopped the room — SpaceX has agreed to buy Cursor's parent Anysphere for $60B in stock, announced 2026-06-16, just days after SpaceX's own $75B IPO. It's the largest VC-backed startup acquisition ever, landing on a tool half this table actually uses daily (Cursor crossed $1B ARR back in November). The read is that Musk wants an AI-coding seat at the table against Anthropic and OpenAI, folded into the SpaceX/xAI orbit. Open question — does a rocket company owning your editor change whether you'd keep building on it, and is this the start of the agentic-coding tools getting swallowed by the big platforms rather than staying independent? — [SpaceX to acquire Cursor for $60B — TechCrunch](https://techcrunch.com/2026/06/16/spacex-to-acquire-cursor-for-60b-in-stock-days-after-blockbuster-ipo/) — [CNBC](https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html)

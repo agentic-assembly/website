@@ -32,6 +32,7 @@ location: "Office Park 703C"
 - [Run agentic coders in a VM](#run-agentic-coders-in-a-vm)
 - [LSP — if you're building an editor](#lsp--if-youre-building-an-editor)
 - [BDD with Cucumber and Playwright](#bdd-with-cucumber-and-playwright)
+- [Jest](#jest)
 
 ### <Logo brand="spacex" />SpaceX buying T-Mobile
 
@@ -108,6 +109,10 @@ For anyone tempted to build their own code editor or IDE — the Language Server
 ### <Logo brand="cucumber" />BDD with Cucumber and Playwright
 
 Behaviour-driven development came up — write the expected behaviour first in plain-language Given/When/Then scenarios (Cucumber's Gherkin), then bind each step to code that drives the app. The combo discussed: Cucumber for the human-readable specs, Playwright underneath to actually click through the browser and assert. Neat callback to the DSL thread above — Gherkin *is* a little DSL, a constrained vocabulary that reads the same for the product person, the developer and an agent, which is exactly the kind of spec an agent can implement against and verify. Open question — do executable plain-English specs earn their keep as the shared contract on an agentic project, or is the Gherkin layer just ceremony on top of tests the agent could write straight in Playwright? — [cucumber.io](https://cucumber.io/) — [playwright.dev](https://playwright.dev/) — [github.com/vitalets/playwright-bdd](https://github.com/vitalets/playwright-bdd)
+
+### <Logo brand="jest" />Jest
+
+Mentioned alongside the BDD chat as the go-to JavaScript testing framework — the batteries-included option for unit and integration tests: test runner, assertions, mocking and snapshot testing in one package, zero-config for most JS/TS projects. Where Cucumber/Playwright above cover plain-English specs and browser end-to-end, Jest is the layer underneath for the fast, plentiful unit tests. The agentic angle is the recurring one — a quick, comprehensive test suite is exactly the green/red signal an agent needs to know its change actually worked. Open question — for an agent-driven codebase, is a dense Jest suite the cheapest guardrail going, or do snapshot tests just become noise the agent learns to blindly update? — [jestjs.io](https://jestjs.io/)
 
 ## Announcements
 

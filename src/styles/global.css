@@ -830,6 +830,9 @@ a:hover {
   border-top: none;
 }
 .va-prose > h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.005em;
@@ -947,15 +950,17 @@ a:hover {
   margin: 26px 0;
   border: 1px solid var(--line);
 }
-/* monochrome brand glyph at the top of a note section — painted in
-   --ink-dim through a mask so it never leaves the three-colour palette */
+/* monochrome brand glyph sitting left of a note section title — painted
+   in --ink-dim through a mask so it never leaves the three-colour palette.
+   Simple Icons ship on a square 24x24 canvas, so a square box renders
+   every glyph (icon or wordmark) at the right proportions. */
 .va-prose .va-logo {
-  display: block;
-  height: 24px;
-  margin: 2px 0 14px;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
   background-color: var(--ink-dim);
-  -webkit-mask: var(--logo) no-repeat left center / contain;
-  mask: var(--logo) no-repeat left center / contain;
+  -webkit-mask: var(--logo) no-repeat center / contain;
+  mask: var(--logo) no-repeat center / contain;
 }
 
 /* inline card — files & links dropped in a thread */

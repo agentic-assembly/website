@@ -28,6 +28,7 @@ location: "Office Park 703C"
 - [Kansai Robot World](#kansai-robot-world)
 - [EyePop.ai](#eyepopai)
 - [Micro AGI](#micro-agi)
+- [DSLs for agentic projects](#dsls-for-agentic-projects)
 
 ### <Logo brand="spacex" />SpaceX buying T-Mobile
 
@@ -88,6 +89,10 @@ Came up off the robotics chat — EyePop.ai is a self-service computer-vision pl
 ### Micro AGI
 
 Rounds out the robotics-data thread — Micro AGI (a Munich startup) is crowdsourcing the one thing simulators can't fake: footage of real human hands doing real chores in real cluttered homes. Two angles — a free NYC home-cleaning service where vetted cleaners wear head cameras, and a paid program (~$20/hr) where students film themselves doing everyday tasks with a phone on a head strap. Faces and personal items are anonymised out, then the datasets get sold on to AI and robotics firms. It's the embodied-AI counterpart to EyePop above — the bottleneck for household robots isn't the model, it's the data. Open question — is "let cameras watch you mop for $20/hr" the start of a real gig economy for training data, and would anyone here actually opt in? — [microagi.ai](https://www.microagi.ai/) — [Free cleaning for AI training — Crypto Briefing](https://cryptobriefing.com/micro-agi-free-cleaning-nyc-ai-training/)
+
+### DSLs for agentic projects
+
+Introduced for the room — a domain-specific language is a small, deliberately limited language aimed at one slice of a problem (think SQL, regex, CSS) rather than a general-purpose language for anything. The pros that clicked for agentic work: a tight DSL gives the agent a narrow, well-defined vocabulary, so there's far less room to hallucinate than in open-ended code, the surface is easy to validate or even formally check, and the same spec reads cleanly for both the human and the model. It rhymes with the Rust "compiler is the harness" thread — constrain the space and the agent self-corrects — and with last week's Beads graph: give the agent structure and it stays on the rails. Open question — is the real unlock writing a bespoke DSL for your domain and having the agent target *that*, rather than pointing it at a general-purpose language and hoping? — [Domain Specific Language — Martin Fowler](https://martinfowler.com/bliki/DomainSpecificLanguage.html)
 
 ## Announcements
 

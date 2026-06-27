@@ -30,6 +30,7 @@ location: "Office Park 703C"
 - [Micro AGI](#micro-agi)
 - [DSLs for agentic projects](#dsls-for-agentic-projects)
 - [Run agentic coders in a VM](#run-agentic-coders-in-a-vm)
+- [LSP — if you're building an editor](#lsp--if-youre-building-an-editor)
 
 ### <Logo brand="spacex" />SpaceX buying T-Mobile
 
@@ -98,6 +99,10 @@ Introduced for the room — a domain-specific language is a small, deliberately 
 ### Run agentic coders in a VM
 
 A practical tip for the security-minded — instead of fighting an agent for per-action approval on your real machine, run the agentic coder inside a throwaway VM and let it off the leash in full-access mode. You get the speed of no permission prompts without betting your actual filesystem, secrets and SSH keys on the agent never doing anything daft; if it goes sideways you nuke the VM. It's the pragmatic version of the Firecracker thread above — isolation first, then full autonomy inside the box. Open question — is a disposable VM the right default for letting agents run unattended, and where's the line between "isolated enough to YOLO" and just trusting the harness's own permission model? — [firecracker-microvm.github.io](https://firecracker-microvm.github.io/)
+
+### LSP — if you're building an editor
+
+For anyone tempted to build their own code editor or IDE — the Language Server Protocol is the thing you want. It's an open JSON-RPC standard between the editor and a language server that supplies the smarts (autocomplete, go-to-definition, find-references, diagnostics), so you implement against one protocol and inherit language intelligence for every language that ships a server, instead of hand-rolling support per language. Rust's server, rust-analyzer, came up as a standout — exceptionally good, and a nice tie-back to the Rust-for-agents thread: the same rich type signal that helps the compiler self-correct also powers first-class editor tooling. Open question — if you were building an agent-native editor, is leaning entirely on LSP the shortcut, or do agents want a richer interface than a protocol designed for humans clicking around? — [Language Server Protocol — Microsoft](https://microsoft.github.io/language-server-protocol/) — [rust-analyzer.github.io](https://rust-analyzer.github.io/)
 
 ## Announcements
 

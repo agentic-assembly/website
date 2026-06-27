@@ -1,0 +1,12 @@
+---
+// Monochrome brand glyph for a note section. Hotlinks a single-colour
+// Simple Icons SVG and paints it in --ink-dim via a CSS mask, so it
+// stays inside the three-colour palette regardless of the source logo.
+interface Props {
+  brand: string;
+}
+const { brand } = Astro.props;
+const src = `https://cdn.simpleicons.org/${brand}`;
+---
+
+<span class="va-logo" style={`--logo:url(${src})`} aria-hidden="true"></span>

@@ -28,9 +28,13 @@ location: "Office Park 703C"
 
 ### SpaceX buying T-Mobile
 
+<Logo brand="spacex" />
+
 Another week, another Musk acquisition rumour — straight on from last week's "SpaceX buys Cursor" thread. A TD Cowen analyst floated that if SpaceX can't land a wholesale MVNO deal to push Starlink into consumer mobile (the big US carriers have reportedly refused), buying T-Mobile outright becomes the "clear choice" — a deal that could run to ~$320B with debt. T-Mobile already runs the Starlink satellite-to-cell partnership, so it's the obvious target. It's analyst speculation, not a reported deal. Open question — is owning the carrier the only way to break the spectrum chokehold, and how many more of the tools and pipes we depend on end up inside one Musk stack? — [Could SpaceX Buy T-Mobile? — 24/7 Wall St.](https://247wallst.com/investing/2026/06/25/could-spacex-buy-t-mobile-a-td-cowen-analyst-floats-the-idea/) — [Seeking Alpha](https://seekingalpha.com/news/4607456-spacex-could-buy-t-mobile-in-pitch-to-turn-starlink-into-global-connectivity-platform)
 
 ### T-Mobile's mobile offerings — pros and cons
+
+<Logo brand="deutschetelekom" />
 
 Naturally led into weighing what T-Mobile actually sells, with the T-Satellite (Starlink direct-to-cell) feature front and centre. Pros — your normal phone becomes an always-on satellite messenger with no aiming, the low-orbit constellation beats Globalstar/Iridium on reliability, free emergency-911 texting for everyone, and it's bundled on the top plan or $10/mo otherwise. Cons — needs a clear view of the sky (no good indoors, in canyons, or under tree cover), data is throttled and many apps don't work, native voice is still in beta, and your "lifeline" is only as tough as your phone's battery and glass. Open question — is satellite-to-cell a genuine reason to switch carriers yet, or still an emergency-only novelty until voice and indoor coverage land? — [T-Satellite with Starlink — T-Mobile](https://www.t-mobile.com/coverage/satellite-phone-service)
 
@@ -40,29 +44,43 @@ The room asked what a "Master's of AI degree" actually means and what you'd do i
 
 ### What is a transformer — and what GPT stands for
 
+<Logo brand="huggingface" />
+
 A back-to-basics moment for the room — unpacking the architecture under all of this. The transformer is the neural-network design from Google's 2017 "Attention Is All You Need" paper, whose self-attention mechanism lets a model weigh a whole sequence at once instead of word-by-word, which is what made today's giant models trainable. And GPT just spells it out — Generative Pre-trained Transformer: generative (it produces text), pre-trained (on a huge corpus first, then fine-tuned), transformer (that same architecture, decoder half). A 3Blue1Brown video came recommended as the way to actually *see* it — a visual, intuition-first walk through what's happening inside. Open question — how much of the "attention" intuition do you actually need to build well with these tools, versus treating the model as a black box and learning it by prompting? — [3Blue1Brown — visual intro to transformers](https://www.youtube.com/watch?v=wjZofJX0v4M) — [Attention Is All You Need — Wikipedia](https://en.wikipedia.org/wiki/Attention_Is_All_You_Need) — [What is GPT? — IBM](https://www.ibm.com/think/topics/gpt)
 
 ### Garry Tan's gstack
+
+<Logo brand="ycombinator" />
 
 YC's CEO open-sourced his exact Claude Code setup — 23 opinionated tools that play CEO, designer, eng manager, release manager, doc engineer and QA. It rocketed to ~20k stars, then drew as much hate as love. The substance gripe: it's "a bunch of prompts in a text file" that plenty of Claude Code users had already rolled themselves, riding Tan's YC platform rather than novelty. The tone gripe is what the room latched onto — a viral "god mode" tweet (a CTO friend claiming gstack found a critical XSS his team missed) plus SXSW talk of "cyber psychosis" and four hours' sleep read as un-humble hype. The room's read: vanilla Claude Code generally beats a setup buried in skills — Anthropic's own updates tend to outpace whatever you've bolted on, so a big skill pile quietly becomes legacy cruft fighting the latest model. Open question — strip away the swagger and the founder clout, is there anything in gstack worth lifting into your own setup, or is the lesson just that a good CLAUDE.md and a few subagents get you most of the way? — [github.com/garrytan/gstack](https://github.com/garrytan/gstack) — [Why it got so much love and hate — TechCrunch](https://techcrunch.com/2026/03/17/why-garry-tans-claude-code-setup-has-gotten-so-much-love-and-hate/)
 
 ### GPT Pilot
 
+<Logo brand="github" />
+
 A throwback that came up — Pythagora's GPT Pilot, one of the early "first real AI developer" wrappers around GPT, billed as coding a production app step by step with a crew of specialised agents (spec writer, architect, tech lead, developer, code monkey) and a context filter that only fed the LLM the relevant files. Ahead of its time on the multi-agent, plan-then-build idea — but now reads as legacy next to Claude Code and the harnesses that ate its lunch, a neat callback to the gstack "vanilla beats bolted-on" thread above. Open question — did the wrapper era teach us anything the model-makers haven't since absorbed, or was every clever scaffold always destined to be a stopgap until the base tools caught up? — [github.com/Pythagora-io/gpt-pilot](https://github.com/Pythagora-io/gpt-pilot)
 
 ### Claude Code's /goal command
+
+<Logo brand="claude" />
 
 Sits right against the "vanilla beats bolted-on" thread — a native feature rather than a wrapper. `/goal` flips Claude Code out of turn-by-turn mode into a persistent agent that keeps working toward a completion condition you state, with a small fast model checking the transcript after each turn and kicking off another turn until the condition holds. The whole trick is a *verifiable* end state — "npm test exits 0", "git status is clean", a file count — plus constraints on what mustn't change along the way; manage it with `/goal stop|pause|resume|clear` (needs v2.1.139+ and a trusted workspace). Open question — when you can hand Claude a finish line and walk away, where's the line between a goal worth automating and one you still want to babystep turn by turn? — [Keep Claude working toward a goal — Claude Code Docs](https://code.claude.com/docs/en/goal)
 
 ### Prisma drops Rust for TypeScript
 
+<Logo brand="prisma" />
+
 The against-the-grain one — everyone else rewrites in Rust for speed, and Prisma 7 went the other way, ripping out its Rust query engine for a pure TypeScript + WASM one. The twist is they got *faster* doing it: ~3x quicker queries and 90% smaller bundles, because the old per-OS native binaries were the real drag — hard to contribute to, painful to deploy, and incompatible with serverless and edge runtimes. Now it runs anywhere JS/WASM does (Cloudflare Workers, Bun, Deno) — a neat callback to last week's edge-hosting thread. Open question — is "rewrite it in Rust" sometimes the wrong instinct, where the native-binary tax outweighs the raw-speed win, or is Prisma a special case because the bottleneck was deployment, not the language? — [From Rust to TypeScript — Prisma blog](https://www.prisma.io/blog/from-rust-to-typescript-a-new-chapter-for-prisma-orm)
 
 ### Rust for agentic coding
 
+<Logo brand="rust" />
+
 The counterpoint right after the Prisma chat — why Rust is a *great* fit when an AI is the one writing the code. The pitch: the compiler is the harness. Strong types, ownership and trait signatures turn a whole class of "fails halfway through the task" runtime bugs into compile-time errors the agent must fix before moving on, so the loop self-corrects instead of shipping plausible-but-broken code. It also constrains the shape of a correct answer, which is partly why one-shot AI Rust often just works where Python or TS needs babysitting. Practical tips from the room — pin the agent to a recent Rust edition rather than letting it default to the older (~2021) version it leans on, since the newer language and crate idioms matter; Rust by hand is a brutal learning curve but agents clear it fast, so it's far more approachable than it used to be; and start small to get a feel before pointing an agent at anything big. Open question — so Rust is harder for humans but easier for agents — does that flip the old "use the easy language" calculus once the model writes most of the code, and is the compiler the cheapest verifier we've got? — [The Compiler Is the Harness — Medium](https://medium.com/@ashbenen/the-compiler-is-the-harness-why-agentic-coding-works-so-well-in-rust-730bca7faf8e)
 
 ### NixOS
+
+<Logo brand="nixos" />
 
 The reproducible-by-design Linux distro — you describe the whole system state in a declarative config file and Nix builds exactly that, with package isolation, atomic upgrades and instant rollback to any previous generation. For newcomers the one-liner that landed: Nix is a package manager and build system where you *declare* the environment you want instead of running install commands, and it hands you that exact environment every time. A neat workflow that came up — instead of full-copying a project to spin up a dev or experiment branch, you mirror it and track the diff, so each variant is a delta off a shared base rather than a heavyweight duplicate. The pull for this room is environment determinism: "works on my machine" stops being a thing, and an agent handed a flake gets the identical toolchain every run instead of drifting. It also does dev containers — Nix can hand you a reproducible per-project dev shell (and even build the container image declaratively), so the environment is pinned by the same config rather than a hand-maintained Dockerfile. And for anyone who wants to go deeper, OKTech's next meetup is a whole event on Nix — worth turning up for. Open question — is a fully declarative, rollback-able OS the right substrate for agent work, or is the famous Nix learning curve exactly the kind of friction an agent should be clearing for you now? — [nixos.org](https://nixos.org/) — [OKTech — next event on Nix](https://www.meetup.com/oktech/events/314843644/?eventOrigin=home_page_upcoming_events%24all)
 
@@ -71,5 +89,7 @@ The reproducible-by-design Linux distro — you describe the whole system state 
 Paired naturally with the NixOS chat — AWS's open-source microVM that boots a hardware-isolated VM in ~125ms with under 5 MiB overhead, packing up to 150 microVMs per second per host. It's what powers Lambda and Fargate: container-like speed and density, real VM isolation underneath. And another callback to the Rust thread — it's written in Rust. The obvious fit is sandboxing untrusted agent code — give each agent run a disposable, genuinely isolated box rather than trusting a container boundary. Open question — for running agent-generated code we don't fully trust, is a Firecracker microVM the sweet spot between "too slow" full VMs and "not isolated enough" containers? — [github.com/firecracker-microvm/firecracker](https://github.com/firecracker-microvm/firecracker) — [firecracker-microvm.github.io](https://firecracker-microvm.github.io/)
 
 ### nix-darwin
+
+<Logo brand="apple" />
 
 The macOS on-ramp to the Nix thread above — nix-darwin brings the same declarative, reproducible config model to a Mac, pitched as an alternative to Homebrew. Instead of a pile of imperative `brew install` commands and whatever state they leave behind, you declare your packages and system settings in one config and rebuild to that exact state, with the rollback and reproducibility Nix is known for. The draw for this room — your whole dev machine becomes version-controlled and repeatable, the same determinism we want for agent environments but for your daily driver. Open question — is declaring your Mac worth giving up Homebrew's huge formula catalogue and zero learning curve, or is nix-darwin only worth it once you're already bought into Nix? — [github.com/nix-darwin/nix-darwin](https://github.com/nix-darwin/nix-darwin)

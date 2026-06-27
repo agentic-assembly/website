@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import Logo from "../components/Logo.astro";
 import Mark from "../components/Mark.astro";
 import AssemblyLayout from "../layouts/AssemblyLayout.astro";
 import { loadAssemblyAssets } from "../lib/assets";
@@ -43,10 +44,7 @@ const { entry, aaId, nextAssembly } = Astro.props as {
   aaId: string;
   nextAssembly: NextAssembly | null;
 };
-const [{ Content }, assets] = await Promise.all([
-  render(entry),
-  loadAssemblyAssets(entry.id),
-]);
+const [{ Content }, assets] = await Promise.all([render(entry), loadAssemblyAssets(entry.id)]);
 const assetByName = new Map(assets.map((a) => [a.name, a]));
 
 const highlights: Highlight[] = (entry.data.highlights ?? []).map((h) => {
@@ -80,5 +78,5 @@ Astro.locals.highlights = new Map(highlights.map((h) => [h.id, h]));
   aaId={aaId}
   nextAssembly={nextAssembly}
 >
-  <Content components={{ Mark }} />
+  <Content components={{ Mark, Logo }} />
 </AssemblyLayout>

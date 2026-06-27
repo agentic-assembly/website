@@ -345,12 +345,7 @@ a:hover {
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  mask-image: linear-gradient(
-    to right,
-    black 0%,
-    black calc(100% - 80px),
-    transparent 100%
-  );
+  mask-image: linear-gradient(to right, black 0%, black calc(100% - 80px), transparent 100%);
   -webkit-mask-image: linear-gradient(
     to right,
     black 0%,
@@ -369,12 +364,7 @@ a:hover {
   left: 28px;
   right: 0;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    var(--line) 0%,
-    var(--line) 70%,
-    transparent 100%
-  );
+  background: linear-gradient(to right, var(--line) 0%, var(--line) 70%, transparent 100%);
 }
 
 .tl-item {
@@ -890,8 +880,12 @@ a:hover {
   line-height: 1.5;
   color: var(--ink);
 }
-.va-prose blockquote > :first-child { margin-top: 0; }
-.va-prose blockquote > :last-child { margin-bottom: 0; }
+.va-prose blockquote > :first-child {
+  margin-top: 0;
+}
+.va-prose blockquote > :last-child {
+  margin-bottom: 0;
+}
 .va-prose code {
   font-family: var(--mono);
   font-size: 13px;
@@ -928,7 +922,10 @@ a:hover {
   padding: 3px 8px;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 120ms ease, color 120ms ease, border-color 120ms ease;
+  transition:
+    opacity 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
 }
 .va-prose pre:hover .va-copy,
 .va-prose pre .va-copy:focus-visible {
@@ -949,6 +946,16 @@ a:hover {
   height: auto;
   margin: 26px 0;
   border: 1px solid var(--line);
+}
+/* monochrome brand glyph at the top of a note section — painted in
+   --ink-dim through a mask so it never leaves the three-colour palette */
+.va-prose .va-logo {
+  display: block;
+  height: 24px;
+  margin: 2px 0 14px;
+  background-color: var(--ink-dim);
+  -webkit-mask: var(--logo) no-repeat left center / contain;
+  mask: var(--logo) no-repeat left center / contain;
 }
 
 /* inline card — files & links dropped in a thread */

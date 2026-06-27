@@ -33,6 +33,7 @@ location: "Office Park 703C"
 - [LSP — if you're building an editor](#lsp--if-youre-building-an-editor)
 - [BDD with Cucumber and Playwright](#bdd-with-cucumber-and-playwright)
 - [Jest](#jest)
+- [WordPress MCP server](#wordpress-mcp-server)
 
 ### <Logo brand="spacex" />SpaceX buying T-Mobile
 
@@ -113,6 +114,10 @@ Behaviour-driven development came up — write the expected behaviour first in p
 ### <Logo brand="jest" />Jest
 
 Mentioned alongside the BDD chat as the go-to JavaScript testing framework — the batteries-included option for unit and integration tests: test runner, assertions, mocking and snapshot testing in one package, zero-config for most JS/TS projects. Where Cucumber/Playwright above cover plain-English specs and browser end-to-end, Jest is the layer underneath for the fast, plentiful unit tests. The agentic angle is the recurring one — a quick, comprehensive test suite is exactly the green/red signal an agent needs to know its change actually worked. Open question — for an agent-driven codebase, is a dense Jest suite the cheapest guardrail going, or do snapshot tests just become noise the agent learns to blindly update? — [jestjs.io](https://jestjs.io/)
+
+### <Logo brand="wordpress" />WordPress MCP server
+
+For the WordPress devs in the room — there's now an official MCP story. The WordPress MCP Adapter bridges the new Abilities API to the Model Context Protocol, so an agent (Claude Code, Cursor, VS Code) can discover and invoke a site's plugin/theme/core abilities as MCP tools and read site data as MCP resources. WordPress.com ships a built-in server on paid plans, and WordPress.org runs one aimed at preparing and submitting plugins to the directory. Given how much of the web still runs on WordPress, this quietly opens a huge surface to agent automation. Open question — does an MCP server turn WordPress into a serious agent-driven CMS for building and maintaining sites, or is letting an agent invoke live site "abilities" a security headache waiting to happen? — [WordPress MCP Adapter — Developer Blog](https://developer.wordpress.org/news/2026/02/from-abilities-to-ai-agents-introducing-the-wordpress-mcp-adapter/) — [github.com/WordPress/mcp-adapter](https://github.com/WordPress/mcp-adapter)
 
 ## Announcements
 

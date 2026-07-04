@@ -66,6 +66,10 @@ ByteDance's second appearance of the morning — after Seedance the room looked 
 
 Nous Research's open-source agent that lives on your own box rather than in an IDE — MIT-licensed, self-hosted (a $5 VPS will do), reachable from Telegram, Discord, Slack, WhatsApp, Signal or the CLI through one gateway. The hook is that it's built to *accumulate*: persistent cross-session memory, and when it cracks a hard problem it writes itself a reusable skill document, so the agent a month in genuinely isn't the agent you installed. 64k+ GitHub stars since its February launch and a reported migration wave off OpenClaw. It's the "agent as a resident" model versus the per-session harnesses this room mostly runs. Open question — do self-written skills compound into real capability, or does the skill pile rot the same way the gstack thread said bolted-on setups always do? — [hermes-agent.nousresearch.com](https://hermes-agent.nousresearch.com/) — [github.com/NousResearch/hermes-agent](https://github.com/nousresearch/hermes-agent)
 
+### Local pipeline for triaging emails with Hermes
+
+The concrete build off the Hermes chat — point it at a dedicated inbox over plain IMAP/SMTP (Python stdlib, no extra services), have it poll for unseen mail, classify each message into buckets (bug, billing, lead, spam), apply labels, and ping you a summary on Telegram via its natural-language cron. Fully local end to end if you swap the cloud LLM for Ollama, so nothing sensitive leaves the network. The sharp edges the room noted — use a throwaway account (the agent gets full inbox access), allowlist senders, and keep triage read-only at first: an email is untrusted input, and a hidden instruction in a "lead" can hijack the agent. Open question — is auto-drafted triage the first agent chore you'd actually trust unattended, and where's your line between labelling, drafting, and letting it hit send? — [Email gateway — Hermes docs](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/email)
+
 {/* news:start */}
 ## News since last assembly
 

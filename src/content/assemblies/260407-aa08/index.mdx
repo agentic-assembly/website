@@ -62,6 +62,10 @@ The token-bill thread — Headroom is an open-source compression layer that sits
 
 ByteDance's second appearance of the morning — after Seedance the room looked at Coze, their no-code/low-code agent-building platform: drag-and-drop workflows with LLM, code and condition nodes, plugin and knowledge-base management, RAG built in. The interesting move is that the core got open-sourced as Coze Studio (plus Coze Loop for debugging, evals and monitoring) under Apache 2.0 — Go backend, React front, runs on 2 cores and 4GB, so a self-hosted agent factory is genuinely on the table. It's the visual counterpoint to this room's CLI-first habits. Open question — do drag-and-drop agent builders make sense for anything a developer would ship, or are they how the *rest* of the org finally gets to build the agents we've been talking about all year? — [coze.com](https://www.coze.com/) — [github.com/coze-dev/coze-studio](https://github.com/coze-dev/coze-studio)
 
+### Hermes Agent
+
+Nous Research's open-source agent that lives on your own box rather than in an IDE — MIT-licensed, self-hosted (a $5 VPS will do), reachable from Telegram, Discord, Slack, WhatsApp, Signal or the CLI through one gateway. The hook is that it's built to *accumulate*: persistent cross-session memory, and when it cracks a hard problem it writes itself a reusable skill document, so the agent a month in genuinely isn't the agent you installed. 64k+ GitHub stars since its February launch and a reported migration wave off OpenClaw. It's the "agent as a resident" model versus the per-session harnesses this room mostly runs. Open question — do self-written skills compound into real capability, or does the skill pile rot the same way the gstack thread said bolted-on setups always do? — [hermes-agent.nousresearch.com](https://hermes-agent.nousresearch.com/) — [github.com/NousResearch/hermes-agent](https://github.com/nousresearch/hermes-agent)
+
 {/* news:start */}
 ## News since last assembly
 

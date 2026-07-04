@@ -94,6 +94,10 @@ ByteDance's third appearance of the day, after Seedance and Coze — Feishu is t
 
 The plumbing under half the tools discussed today — OpenRouter is a unified, OpenAI-compatible API over hundreds of models from every major lab: one key, one endpoint, automatic fallbacks when a provider degrades, and pass-through pricing with a live public leaderboard of what the ecosystem is actually running. That leaderboard has become the de-facto scoreboard for model adoption — Hermes Agent shows up there as an app — and for BYO-model harnesses like Cline it's the easiest way to swap brains without touching code. It also cuts straight into the day's silent-nerf thread: when you route through a middleman, you're trusting *their* provider choices too. Open question — is one aggregator key the sane default for agent projects, or does putting a router between you and the model just add another place for quality to quietly change? — [openrouter.ai](https://openrouter.ai/)
 
+### x402 proxy
+
+The money rail under all the agent talk — x402 revives the dormant HTTP 402 "Payment Required" status into a real handshake: hit a paid endpoint, get a 402 with an amount and a wallet address, your wallet signs a gasless USDC transfer, you retry with an `X-PAYMENT` header, and you're through in under two seconds for fractions of a cent. The *proxy* is the ergonomic bit — an MCP server (or middleware) that catches the 402, signs from the agent's wallet and retries transparently, so the agent pays per call with no API key, no signup, no human. Coinbase open-sourced it and donated it to a Linux Foundation body co-run with Cloudflare; ~69k active agents already. It reframes today's threads hard — the ghealthorg funnel paying agents in USDC, or an agent renting Seedance by the shot, stop being hypothetical. Open question — do we actually want agents holding wallets and spending autonomously per request, and what's the blast radius the first time a prompt-injected agent goes on a shopping spree? — [x402.org](https://x402.org/) — [github.com/coinbase/x402](https://github.com/coinbase/x402)
+
 {/* news:start */}
 ## News since last assembly
 

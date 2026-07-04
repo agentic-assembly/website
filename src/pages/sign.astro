@@ -53,22 +53,15 @@ const title = "Agentic Assembly — Sign";
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 14mm;
-      }
-
-      .arrow {
-        width: 55mm;
-        height: auto;
-        flex-shrink: 0;
       }
 
       .info {
-        text-align: left;
+        text-align: center;
       }
 
       .info__time {
         font-family: var(--mono);
-        font-size: 16mm;
+        font-size: 22mm;
         font-weight: 700;
         line-height: 1;
         letter-spacing: 0.01em;
@@ -80,6 +73,7 @@ const title = "Agentic Assembly — Sign";
         font-size: 10mm;
         font-weight: 400;
         margin-top: 6mm;
+        white-space: nowrap;
         color: var(--ink);
         letter-spacing: 0.01em;
       }
@@ -90,11 +84,12 @@ const title = "Agentic Assembly — Sign";
 
       .footline {
         font-family: var(--sans);
-        font-size: 7mm;
+        font-size: 6.5mm;
         font-weight: 500;
         letter-spacing: 0.04em;
         color: var(--ink);
         text-align: center;
+        white-space: nowrap;
       }
 
       .footline em {
@@ -124,27 +119,16 @@ const title = "Agentic Assembly — Sign";
       <Brand size="28mm" />
 
       <div class="middle">
-        <svg
-          class="arrow"
-          viewBox="0 0 320 140"
-          aria-hidden="true"
-        >
-          <g fill="none" stroke="#0e0d0c" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter">
-            <line x1="310" y1="70" x2="50" y2="70" />
-            <polyline points="110,15 30,70 110,125" />
-          </g>
-        </svg>
-
         <div class="info">
           <div class="info__time">10:00 — 12:00</div>
           <div class="info__where">
-            Meeting Room inside <strong>The DECK</strong>
+            Join us inside <strong>The DECK</strong> every Saturday
           </div>
         </div>
       </div>
 
       <div class="footline">
-        Every Saturday — RSVP Required — find us on <em>meetup.com</em>
+        RSVP Requested — find us on <em>meetup.com</em> — <em>a13y.org</em>
       </div>
     </div>
   </body>

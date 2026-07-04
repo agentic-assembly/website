@@ -2,10 +2,77 @@
 title: "AA08"
 date: 2026-07-04T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Sonnet 5 becomes Claude Code's default model (1M context)"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.197"
+  - title: "Claude Code runs subagents in the background by default"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.198"
+  - title: "Cursor ships a native iOS app — launch cloud agents from your phone"
+    url: "https://cursor.com/blog/ios-mobile-app"
 ---
+
+import Haiku from "../../../components/Haiku.astro";
+
+<Haiku
+  date="2026-07-04"
+  model="claude-opus-4-8"
+  lines={[
+    {
+      text: "They work while you sleep",
+      why: "Claude Code v2.1.198 (2026-07-01) flipped subagents to run in the background by default — the main conversation keeps rolling and gets pinged via the Notification hook (`agent_completed`) when they finish, and agents launched from `claude agents` now commit, push, and open a draft PR on their own. Boris Cherny previewed it; the room's already split on whether it's a productivity unlock or a token-burn footgun.",
+    },
+    {
+      text: "Now Cursor lives in your phone",
+      why: "Cursor shipped a native iOS app in public beta (2026-06-29) on all paid plans — pick a repo, launch an always-on cloud agent in an isolated VM, steer it by voice or slash command, and review diffs and screenshots from anywhere. 75% off Composer 2.5 runs in the app through July 5.",
+    },
+    {
+      text: "Who's minding the store?",
+      why: "Between background subagents and agents in your pocket, more of the work now runs while nobody's watching — MIT's Phillip Isola warned the same week that easy \"vibe coding\" makes it tempting to ship unverified code. The open question for the table: when the agents auto-commit and auto-push, who's actually reviewing?",
+    },
+  ]}
+/>
 
 ## What we talked about
 
 ### <Logo brand="claude" />tell a fable
 
 Anthropic's Claude Fable 5 sits at the top of Cursor's CursorBench — 72.9%, eight points clear of the field — but the leaderboard isn't the whole story. Fable 5 was pulled once already and then restored, and BridgeMind now claims the brought-back July-1st build came back quietly nerfed: on their own BridgeBench, debugging cratered 86.2 → 25.9, refactoring 73.6 → 38.4, and hallucination got worse, 75.9 → 61.7. Their theory — new guardrails are tripping on ordinary tasks and silently falling back to Opus 4.8, so "this is not the model that got banned," and Anthropic "owes everyone an explanation." Open question — when the model behind an API can be swapped, guard-railed or throttled under you with no version bump, what is a headline benchmark score actually worth, and how would you even catch a silent nerf on your own workload? — [CursorBench evals](https://cursor.com/evals) — [BridgeMind — Fable 5 came back nerfed](https://x.com/bridgemindai/status/2072662214704533888)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-06-27 (aa07). Generated 2026-07-04._
+
+### New Claude Code commands & features
+- **Claude Sonnet 5 is the default model** (v2.1.197, 2026-06-30) — native 1M-token context; promotional pricing $2/$10 per Mtok through Aug 31 — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.197)
+- **Subagents run in the background by default** (v2.1.198, 2026-07-01) — Claude keeps working and is notified when they finish (`Notification` hook: `agent_needs_input` / `agent_completed`); background agents from `claude agents` now auto-commit, push, and open a draft PR; set `run_in_background: false` to force foreground — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.198)
+- **`/dataviz` skill** (v2.1.198, 2026-07-01) — chart and dashboard design guidance with a runnable colour-palette validator — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.198)
+- **Explore agent inherits your model** (v2.1.198, 2026-07-01) — the built-in Explore agent now uses the session model (capped at opus) instead of always running on haiku; the `/agents` wizard was removed in favour of editing `.claude/agents/` directly — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.198)
+- **Stacked slash-skill invocations** (v2.1.199, 2026-07-02) — `/skill-a /skill-b do XYZ` now loads all leading skills (up to 5), not just the first — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.199)
+- **Default permission mode → Manual** (v2.1.200, 2026-07-03) — new default across CLI, VS Code and JetBrains; `AskUserQuestion` no longer auto-continues; screen-reader output substantially improved — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.200)
+- **Org default models** (v2.1.196, 2026-06-29) — admins set an org-wide default model (shows as "Org default" / "Role default" in `/model`); MCP servers in untrusted workspaces now require explicit approval — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.196)
+
+### Codex
+- [2026-07-01] Quiet stretch — only `0.143.0-alpha` builds and a logging bug-fix (`0.142.5`); no new commands or features landed since the floor — [releases](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-06-29] **Cursor for iOS** ships in public beta on all paid plans — launch always-on cloud agents in isolated VMs, Remote-Control local agents, steer by voice and slash command, review diffs/screenshots from your phone; 75% off Composer 2.5 runs through July 5 — [Cursor blog](https://cursor.com/blog/ios-mobile-app)
+- [2026-07] Cursor **Team Marketplaces** expand to Team MCPs — admins configure MCP servers once and distribute them across cloud agents, the IDE and the CLI — [Cursor updates](https://releasebot.io/updates/cursor)
+- [2026-07] **Claude in Chrome** reaches general availability — [changelog](https://code.claude.com/docs/en/changelog)
+
+### Simon says
+- [2026-07-03] "Fable's judgement" — let the model decide *when* to write tests rather than dictating it; push trivial edits to haiku subagents and keep judgment-heavy work in the main model to save tokens before prices rise — [post](https://simonwillison.net/2026/Jul/3/judgement/)
+- [2026-07-02] Releases **llm-coding-agent 0.1a0**, a Claude-Code-style coding agent built on his LLM library — [post](https://simonwillison.net/2026/Jul/2/llm-coding-agent/)
+- [2026-06-28] "Hack Your Summer" — a free coding cohort; the second cohort starts July 13 (student applications due July 8) — [post](https://simonwillison.net/2026/Jun/28/hack-your-summer/)
+
+### Research & papers
+- [2026-06-30] MIT Q&A on agentic AI — coding agents are the clearest success story, but easy "vibe coding" tempts people to ship unverified code, risking bugs and leaked data — [MIT News](https://news.mit.edu/2026/agentic-ai-and-what-do-we-want-it-be-0630)
+
+### Notable posts
+- [2026-07] The **MCP 2026-07-28** release candidate enters its validation window — the largest revision yet: a stateless protocol core over plain HTTP, an Extensions framework, long-running Tasks, server-rendered MCP Apps, and hardened OAuth/OIDC authorization; final spec ships July 28 — [Model Context Protocol](https://modelcontextprotocol.io)
+
+### Topics worth a 5-min slot
+1. **Agents you don't watch** — subagents now run in the background and auto-open draft PRs, and Cursor puts cloud agents on your phone. Where's the line between "unlock" and unsupervised token-burn, and who reviews the auto-pushed work?
+2. **Sonnet 5 as the new default** — a 1M-context model at promo pricing became Claude Code's default overnight. Does it change how you delegate, and does the promo end-date change your token math?
+3. **MCP goes stateless** — the July 28 spec drops the stateful core for plain HTTP plus Extensions, Tasks and MCP Apps. What breaks, and what does a stateless MCP unlock for the servers this room runs?
+{/* news:end */}

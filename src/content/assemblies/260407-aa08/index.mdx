@@ -58,6 +58,10 @@ The deterministic end of the video thread — where Higgsfield and Seedance abov
 
 The token-bill thread — Headroom is an open-source compression layer that sits between your agent and the model, stripping the redundant bulk agents drag through the context window: duplicate file re-reads, full API responses when you needed one field, verbose log dumps. Under the hood it routes content through purpose-built compressors (AST-aware for code, SmartCrusher for JSON) rather than lossy summarisation, and the claimed numbers are eye-watering — 92% fewer tokens on SRE debugging, 73% on issue triage — with 43k+ GitHub stars behind it. The write-up bills it as "the Netflix tool," though the repo itself sits under an individual account. Open question — with subagents now burning tokens in the background by default, is a compression proxy the missing layer of the agent stack, or does silently rewriting the model's context risk deleting the one detail it needed? — [Headroom — Medium](https://medium.com/design-bootcamp/headroom-the-netflix-tool-that-makes-ai-agents-10x-cheaper-fdd94b5252cf) — [github.com/chopratejas/headroom](https://github.com/chopratejas/headroom)
 
+### Coze
+
+ByteDance's second appearance of the morning — after Seedance the room looked at Coze, their no-code/low-code agent-building platform: drag-and-drop workflows with LLM, code and condition nodes, plugin and knowledge-base management, RAG built in. The interesting move is that the core got open-sourced as Coze Studio (plus Coze Loop for debugging, evals and monitoring) under Apache 2.0 — Go backend, React front, runs on 2 cores and 4GB, so a self-hosted agent factory is genuinely on the table. It's the visual counterpoint to this room's CLI-first habits. Open question — do drag-and-drop agent builders make sense for anything a developer would ship, or are they how the *rest* of the org finally gets to build the agents we've been talking about all year? — [coze.com](https://www.coze.com/) — [github.com/coze-dev/coze-studio](https://github.com/coze-dev/coze-studio)
+
 {/* news:start */}
 ## News since last assembly
 

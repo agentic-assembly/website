@@ -2,6 +2,13 @@
 title: "AA09"
 date: 2026-07-11T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Code /doctor becomes a full setup checkup; auto-mode gains an rm -rf guard"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.205"
+  - title: "Codex 0.143.0 — remote-control pair, remote plugins on by default, MCP tool search"
+    url: "https://github.com/openai/codex/releases"
+  - title: "Cursor Automations — auto-start agents from code changes, Slack, or timers"
+    url: "https://cursor.com/changelog"
 ---
 
 ## On the table
@@ -11,6 +18,7 @@ A shortlist for the room this week — not the final running order, bring your o
 - **Using LLMs to secure source code** — Anthropic's write-up on pointing models at vulnerability discovery and code hardening. Does an LLM security pass earn a place in the loop, or just add noise a human still has to triage? — [Anthropic blog](https://claude.com/blog/using-llms-to-secure-source-code)
 - **Evaluating harnesses** — how do you actually measure one agent harness against another — same model, different scaffold — beyond vibes and a leaderboard screenshot? What would a fair bench even look like?
 - **The local-models landscape** — what's genuinely worth running on your own box right now, and where's the gap to the frontier that still bites for agentic work?
+- **"Local" — self-hosted vs home** — the word hides two very different setups: a model you self-host on a rented GPU or cloud box you control, versus one running on the rig under your desk. Different cost curve, different privacy story, different ceiling on model size. Which "local" does this room actually mean when it says local — and which one earns its keep?
 
 ## Demo — local coding CLIs, head to head
 
@@ -22,3 +30,36 @@ Same box, same task — six agentic CLIs side by side:
 - **gemini-local** — Google Gemini CLI
 - **claude-local** — Claude Code
 - **pi-local** — pi (earendil-works)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-07-04 (aa08). Generated 2026-07-09._
+
+### New Claude Code commands & features
+- **`/doctor` is now a full setup checkup** (v2.1.205, 2026-07-08) — diagnoses and fixes install/config issues rather than just reporting them; `/checkup` is its alias, and startup warnings moved here and into `/status` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.205)
+- **Auto mode gained safety rails** (v2.1.205, 2026-07-08) — now asks before running `rm -rf` on unresolved variables, and blocks agents from tampering with session transcript files — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.205)
+- **`claude agents` links the PRs it touches** (v2.1.205, 2026-07-08) — sessions that edit, merge, comment on or push to a PR now surface it in the agents view; rows show a coloured state word and a classifier-written headline instead of raw tool text — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.205)
+- **MCP roots follow your workspace** (v2.1.203, 2026-07-07) — additional working directories are added to MCP `roots/list` with a `roots/list_changed` notification; subagents now run in the correct worktree and are less likely to re-delegate the whole task — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.203)
+
+### Codex
+- **`codex remote-control pair`** (0.143.0, 2026-07-08) — generate manual pairing codes from a running daemon; remote plugins are now on by default with an npm marketplace and visible remote/local versions — [releases](https://github.com/openai/codex/releases)
+- **MCP tools use tool search by default** (0.143.0, 2026-07-08) — plus system-proxy support (PAC/WPAD) on macOS and Windows, and Amazon Bedrock models with reasoning-effort control — [releases](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-07] **Cursor Automations** — auto-start agents from codebase changes, Slack messages or timers, with an `/automate` skill and an auto-review run mode that routes tool calls through a classifier subagent; the direct counterpart to Claude Code's Routines from AA08 — [Cursor changelog](https://cursor.com/changelog)
+
+### Simon says
+- [2026-07-07] **sqlite-utils 4.0** — first major bump since 2020: schema migrations, nested transactions (`db.atomic()`), and compound foreign keys — [post](https://simonwillison.net/2026/Jul/7/sqlite-utils/)
+- [2026-07-05] **sqlite-utils 4.0rc2, mostly written by Claude Fable — for ~$149.25** — a candid cost-and-verification write-up, done just before the July 7 "Fablepocalypse" pulled Fable off Max plans — [post](https://simonwillison.net/2026/jul/5/sqlite-utils-fable/)
+- [2026-07-06] **Tencent Hy3** — Apache-2.0 295B-param MoE (21B active), 256K context — another open-weight near-frontier drop — [post](https://simonwillison.net/2026/jul/6/hy3/)
+
+### Notable posts
+- [2026-07] **Ask HN — has anyone replaced Claude/GPT with a local model for daily coding?** — 500+ comments; Qwen 3.6 (27B dense / 35B-A3B MoE) dominates the mentions, and on the harness side Pi (49%) and OpenCode (45%) lead — direct fuel for this week's local-CLI demo — [HN](https://news.ycombinator.com/item?id=48542100)
+- [2026-07] **Using LLMs to secure source code** — Anthropic's six-step vuln-discovery loop; their own OSS scanning disclosed 1,596 vulnerabilities with only 97 patched, so the bottleneck has moved from discovery to verification and patching — [Claude blog](https://claude.com/blog/using-llms-to-secure-source-code)
+
+### Topics worth a 5-min slot
+1. **Automations vs Routines** — Cursor now auto-starts agents from code changes, Slack and timers the same week Claude Code hardened auto-mode with an `rm -rf` guard. Who's watching the triggered agents, and what's the blast radius?
+2. **Local models as daily drivers** — the HN thread says Qwen 3.6 on Pi or OpenCode is genuinely usable but needy. Where's the line where a local harness beats paying frontier API rates? (ties straight into today's demo)
+3. **Discovery is cheap, patching isn't** — Anthropic's security guide found vulnerabilities far faster than anyone patched them (1,596 vs 97). Is an LLM security pass worth adding to the loop if verification is the real bottleneck?
+{/* news:end */}

@@ -1,5 +1,5 @@
 ---
-title: "AA08"
+title: "Payment Required"
 date: 2026-07-04T10:00:00+09:00
 location: "The DECK"
 references:
@@ -18,16 +18,16 @@ import Haiku from "../../../components/Haiku.astro";
   model="claude-opus-4-8"
   lines={[
     {
-      text: "They work while you sleep",
-      why: "Claude Code v2.1.198 (2026-07-01) flipped subagents to run in the background by default — the main conversation keeps rolling and gets pinged via the Notification hook (`agent_completed`) when they finish, and agents launched from `claude agents` now commit, push, and open a draft PR on their own. Boris Cherny previewed it; the room's already split on whether it's a productivity unlock or a token-burn footgun.",
+      text: "A model swapped out",
+      why: "The morning opened on the \"tell a fable\" thread — Fable 5 pulled and restored, with BridgeMind claiming the brought-back build came back quietly nerfed and silently falling back to Opus 4.8. It rhymed all day: MoE routing you never see, OpenRouter picking providers for you. When the model behind the API can change under you with no version bump, a headline benchmark is worth what, exactly?",
     },
     {
-      text: "Now Cursor lives in your phone",
-      why: "Cursor shipped a native iOS app in public beta (2026-06-29) on all paid plans — pick a repo, launch an always-on cloud agent in an isolated VM, steer it by voice or slash command, and review diffs and screenshots from anywhere. 75% off Composer 2.5 runs in the app through July 5.",
+      text: "agents paying by the call",
+      why: "The day's agent-economy arc — x402 reviving HTTP 402 so an agent signs a gasless USDC transfer and pays per request with no key and no human, Alipay's Token Pay doing the walled-garden version, AP2 wrapping it in signed mandates. Software holds the wallet now and spends on its own.",
     },
     {
-      text: "Who's minding the store?",
-      why: "Between background subagents and agents in your pocket, more of the work now runs while nobody's watching — MIT's Phillip Isola warned the same week that easy \"vibe coding\" makes it tempting to ship unverified code. The open question for the table: when the agents auto-commit and auto-push, who's actually reviewing?",
+      text: "who pays when it breaks?",
+      why: "Where the payment rails landed — AP2's own open question of who eats the loss when a prompt-injected agent produces a perfectly valid mandate, running straight into Worldcoin gating the humans out and the UBI / Idiocracy coda about who catches the people the curve leaves behind. Payment required, and the bill isn't only in USDC.",
     },
   ]}
 />

@@ -1,6 +1,6 @@
 ---
 name: news
-description: Compile news in the agentic-coding space (Claude Code, OpenAI Codex, Cursor, Cline, Aider, and adjacent tools / research / notable posts) that broke AFTER the most recent past Agentic Assembly — i.e. this week's new material that hasn't been discussed yet. Use whenever the user runs `/news` or asks for "what's new since the last assembly", "what should we cover this week", or "news roundup for the upcoming meetup". Writes the digest into the next upcoming assembly's `index.md` so it's ready for Saturday.
+description: Compile news in the agentic-coding space (Claude Code, OpenAI Codex, Cursor, Cline, Aider, and adjacent tools / research / notable posts) that broke AFTER the most recent past Agentic Assembly — i.e. new material since the last event that hasn't been discussed yet. Use whenever the user runs `/news` or asks for "what's new since the last assembly", "what should we cover next", or "news roundup for the upcoming meetup". Writes the digest into the next upcoming assembly's `index.md` so it's ready for Saturday.
 ---
 
 # /news — fresh news for the next assembly
@@ -22,7 +22,7 @@ Read every `src/content/assemblies/*/index.md`. Compute:
 - **Floor date** — the `date` of the most recent entry with `date < now`. This is the cutoff: any news item dated on or before the floor is OUT.
 - **Target file** — the `index.md` of the entry with the smallest `date >= now`. This is where the digest gets written.
 
-If there is no past entry, set the floor to `now - 7 days`. If there is no upcoming entry, stop and tell the user to run `/schedule` first.
+If there is no past entry, set the floor to `now - 14 days` (bi-weekly cadence). If there is no upcoming entry, stop and tell the user to run `/schedule` first.
 
 ### 2. Cast a wide net first
 

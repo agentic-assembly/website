@@ -1,6 +1,6 @@
 ---
 name: prepare
-description: Prepare next week's Agentic Assembly entry. Mirrors the most recent past entry's format into a new folder, runs the /news skill to refresh the digest, and asks the user what to drop into Show and Tell. Use whenever the user runs `/prepare` or asks to "draft this week's meetup notes", "prep next Saturday", "set up the next assembly", etc.
+description: Prepare the next Agentic Assembly entry. Mirrors the most recent past entry's format into a new folder, runs the /news skill to refresh the digest, and asks the user what to drop into Show and Tell. Use whenever the user runs `/prepare` or asks to "draft the next meetup notes", "prep the next Saturday", "set up the next assembly", etc.
 ---
 
 # /prepare — draft the next assembly entry
@@ -25,7 +25,7 @@ If there is no past entry, stop and tell the user to scaffold one manually first
 
 ### 2. Compute the target
 
-- **Date** — explicit if the freetext provides one; otherwise the next Saturday after today. Time-of-day = template's time-of-day (default `10:00:00+09:00`). Serialize as ISO 8601 with `+09:00`.
+- **Date** — explicit if the freetext provides one; otherwise two weeks (14 days) after the template's date — the cadence is bi-weekly Saturdays. If that lands in the past, keep adding 14 days until it's the next upcoming one. Time-of-day = template's time-of-day (default `10:00:00+09:00`). Serialize as ISO 8601 with `+09:00`.
 - **Folder** — `src/content/assemblies/<YYDDMM>-<slug>/`. `YYDDMM` is the project's year-day-month convention (verify against existing folders). Slug: copy the template's slugging style — if the template ends in a number (e.g. `261605-1`), use `<N+1>`; otherwise default to lowercase `aa<NN>` where `NN` is total entries + 1.
 - If the folder already exists, append `-2`, `-3`, … until unique.
 
@@ -104,7 +104,7 @@ Wait for explicit confirmation (`y`, `yes`, `go`, `lgtm`, `ship it`, …). On an
 ## Do not
 
 - Do not encode any section names, headings, intro style, or block markers in this skill file (other than the haiku-bucket structure in step 5, which the user has chosen as a recurring shape). Read everything else from the template.
-- Do not invent prose for the human-voice sections beyond the haiku draft (intros, weekly opener lines, suggested topic prose, etc.). Flag them in the "needs manual pass" list and let the human write them.
+- Do not invent prose for the human-voice sections beyond the haiku draft (intros, opener lines, suggested topic prose, etc.). Flag them in the "needs manual pass" list and let the human write them.
 - Do not draft a haiku if the template has no `<Haiku />` component — that's an explicit removal signal.
 - Do not skip running `/news`.
 - Do not skip the Show-and-Tell question.

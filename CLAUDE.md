@@ -1,6 +1,6 @@
 # Agentic Assembly — website
 
-Astro 6 + Tailwind 4 + MDX. Dark-mode marketing site for a weekly Osaka meetup. Content lives in `src/content/assemblies/*.mdx`.
+Astro 6 + Tailwind 4 + MDX. Dark-mode marketing site for a bi-weekly Osaka meetup. Content lives in `src/content/assemblies/*.mdx`.
 
 ## Design language — em-dashes
 

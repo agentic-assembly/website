@@ -1,6 +1,6 @@
 # aa-website
 
-The site for [Agentic Assembly](https://a13y.org) — a weekly Osaka meetup for engineers building with agentic coding tools. Astro 6 + MDX, Tailwind 4, Biome. Deploys to GitHub Pages on push to `master` (CNAME → `a13y.org`).
+The site for [Agentic Assembly](https://a13y.org) — a bi-weekly Osaka meetup for engineers building with agentic coding tools. Astro 6 + MDX, Tailwind 4, Biome. Deploys to GitHub Pages on push to `master` (CNAME → `a13y.org`).
 
 ## Layout
 

@@ -30,6 +30,10 @@ Every visible element draws from exactly three colours: **base**, **dim**, **acc
 
 `--line` is the only derived value: `color-mix(in oklch, var(--ink-dim), var(--bg) 75%)` — i.e. dim blended toward the background so hairlines stay quiet. It's not a fourth palette colour. Do not introduce additional greys, "muted" variants, "accent-dim", or warning colours; if a new shade feels needed, push back on the design instead.
 
+## Luma sync
+
+`.github/workflows/luma-sync.yml` mirrors upcoming assemblies to Luma — one-way, the MDX frontmatter is the source of truth. `scripts/luma-sync.mjs` creates/updates the Luma event and writes `lumaId` and `lumaUrl` back into the entry's frontmatter; pages render an "RSVP — luma ↗" link wherever `lumaUrl` is present and the event is still upcoming. Needs the `LUMA_API_KEY` repo secret (a calendar API key from Settings → Developer — requires Luma Plus); without the secret the workflow no-ops. Never hand-edit `lumaId`.
+
 ## Print pages
 
 `/sign` is an A4-landscape print page — light mode, self-contained styles (does not import `global.css`). Print via the browser: File → Print → A4 → Landscape, margins off.

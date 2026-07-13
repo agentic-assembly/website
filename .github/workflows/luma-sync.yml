@@ -1,0 +1,57 @@
+name: Sync events to Luma
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "src/content/assemblies/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: luma-sync
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Sync upcoming assemblies to Luma
+        env:
+          LUMA_API_KEY: ${{ secrets.LUMA_API_KEY }}
+        run: |
+          if [ -z "$LUMA_API_KEY" ]; then
+            echo "LUMA_API_KEY secret not set — skipping sync"
+            exit 0
+          fi
+          node scripts/luma-sync.mjs
+
+      # Write lumaId/lumaUrl back into the frontmatter. Pushes made with
+      # GITHUB_TOKEN don't retrigger push workflows, so kick the deploy
+      # explicitly to get the RSVP links onto the live site.
+      - name: Commit Luma links back
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/assemblies
+          git commit -m "luma-sync — record Luma event links"
+          git pull --rebase origin master
+          git push
+          gh workflow run deploy.yml --ref master

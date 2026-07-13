@@ -11,7 +11,8 @@
     "lint": "biome check .",
     "fmt": "biome format --write .",
     "fix": "biome check --write .",
-    "screenshots": "node scripts/screenshots.mjs"
+    "screenshots": "node scripts/screenshots.mjs",
+    "luma-sync": "node scripts/luma-sync.mjs"
   },
   "repository": {
     "type": "git",

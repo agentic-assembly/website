@@ -93,6 +93,7 @@ const upcomingRows = events.map(({ entry, n }) => {
     soon: isNext ? relativeSoon(entry.data.date) : undefined,
     hidden,
     href: `/${n}`,
+    lumaUrl: entry.data.lumaUrl,
   };
 });
 
@@ -179,6 +180,16 @@ const pastRows = [...events].reverse().map(({ entry, n }) => {
                   <div class="tl-date">{item.date}</div>
                   {item.topic && <div class="tl-topic">{item.topic}</div>}
                 </a>
+                {item.lumaUrl && (
+                  <a
+                    class="tl-rsvp"
+                    href={item.lumaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    RSVP — luma ↗
+                  </a>
+                )}
               </li>
             ))
           }

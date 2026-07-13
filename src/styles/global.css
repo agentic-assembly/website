@@ -453,6 +453,16 @@ a:hover {
   color: var(--ink);
 }
 
+.tl-rsvp {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -752,6 +762,9 @@ a:hover {
 }
 .va-eyebrow .acc {
   color: var(--accent);
+}
+.va-eyebrow a {
+  color: inherit;
 }
 
 .va-title {

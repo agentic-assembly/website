@@ -23,6 +23,7 @@ interface Props {
   title: string;
   date: Date;
   location?: string;
+  lumaUrl?: string;
   summary?: string;
   references?: Reference[];
   assets?: Asset[];
@@ -34,6 +35,7 @@ const {
   title,
   date,
   location,
+  lumaUrl,
   summary,
   references = [],
   assets = [],
@@ -68,6 +70,11 @@ const hostFromUrl = (url: string) => {
   }
 };
 
+// Build-time snapshot, same as the homepage partition — the RSVP link only
+// makes sense while the event is still ahead (plus the usual ongoing grace).
+const ONGOING_GRACE_MS = 4 * 60 * 60 * 1000;
+const showRsvp = Boolean(lumaUrl) && date.getTime() >= Date.now() - ONGOING_GRACE_MS;
+
 const refRows = references.map((r) => ({
   title: r.title,
   url: r.url,
@@ -84,6 +91,15 @@ const refRows = references.map((r) => ({
         <span class="acc">{aaId}</span>
         <span>{formatEyebrowDate(date)}</span>
         {location && <span>{location}</span>}
+        {
+          showRsvp && (
+            <span>
+              <a href={lumaUrl} target="_blank" rel="noopener noreferrer">
+                RSVP — luma ↗
+              </a>
+            </span>
+          )
+        }
       </div>
 
       <h1 class="va-title">{title}</h1>

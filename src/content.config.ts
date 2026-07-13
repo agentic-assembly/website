@@ -13,6 +13,9 @@ const assemblies = defineCollection({
       title: z.string(),
       date: z.coerce.date(),
       location: z.string().optional(),
+      // Written back by scripts/luma-sync.mjs — do not hand-edit lumaId.
+      lumaId: z.string().optional(),
+      lumaUrl: z.url().optional(),
       summary: z.string().optional(),
       references: z
         .array(

@@ -2,4 +2,63 @@
 title: "AA10"
 date: 2026-07-18T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Kimi K3 — Moonshot's 2.8T open MoE trails only Fable 5 and Sol"
+    url: "https://simonwillison.net/2026/Jul/16/kimi-k3/"
+  - title: "Claude Code /fork spawns background sessions; runaway caps land"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.212"
+  - title: "OpenAI — GPT-5.6 deleting $HOME an 'honest mistake'; patch issued"
+    url: "https://www.theregister.com/ai-and-ml/2026/07/16/openai-admits-gpt-56-occasionally-deletes-files-but-its-an-honest-mistake/5274008"
 ---
+
+## On the table
+
+A shortlist for the room this week — not the final running order, bring your own on the day.
+
+- **Using LLMs to secure source code** — Anthropic's write-up on pointing models at vulnerability discovery and code hardening. Does an LLM security pass earn a place in the loop, or just add noise a human still has to triage? — [Anthropic blog](https://claude.com/blog/using-llms-to-secure-source-code)
+- **Evaluating harnesses** — how do you actually measure one agent harness against another — same model, different scaffold — beyond vibes and a leaderboard screenshot? What would a fair bench even look like?
+- **The local-models landscape** — what's genuinely worth running on your own box right now, and where's the gap to the frontier that still bites for agentic work?
+- **"Local" — self-hosted vs home** — the word hides two very different setups: a model you self-host on a rented GPU or cloud box you control, versus one running on the rig under your desk. Different cost curve, different privacy story, different ceiling on model size. Which "local" does this room actually mean when it says local — and which one earns its keep?
+- **Tip — ration Fable by skipping dynamic workflows** — now that Fable is back to full API rates after the July 7 "Fablepocalypse", the quickest way to torch your allowance is a dynamic workflow that fans out across hundreds of parallel subagents on the pricey model. Keep Fable for the single-threaded judgement calls and let cheaper models carry the fan-out. Real saving, or does the parallelism pay for itself?
+
+## Demo — local coding CLIs, head to head
+
+Same box, same task — six agentic CLIs side by side:
+
+- **opencode-local** — opencode
+- **crush-local** — charm/crush
+- **codex-local** — OpenAI Codex
+- **gemini-local** — Google Gemini CLI
+- **claude-local** — Claude Code
+- **pi-local** — pi (earendil-works)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-07-11 (aa09). Generated 2026-07-17._
+
+### New Claude Code commands & features
+- **`/fork` and `/subtask`** (v2.1.212, 2026-07-17) — `/fork` now copies the conversation into a new background session with its own row in `claude agents`; the old in-session subagent behaviour moved to `/subtask`, and `/resume` opens a picker that resumes past sessions in the background — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.212)
+- **Session-wide runaway caps** (v2.1.212, 2026-07-17) — WebSearch calls and subagent spawns both capped at 200 per session (env-overridable), and MCP tool calls running past two minutes auto-move to the background — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.212)
+- **`--forward-subagent-text`** (v2.1.211, 2026-07-15) — include subagent text/thinking in stream-json output; "always allow" permission rules now save at the repository root so they persist across worktrees — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.211)
+- **Screen reader mode** (v2.1.208, 2026-07-14) — `claude --ax-screen-reader`, plus a `vimInsertModeRemaps` setting for two-key vim sequences like `jj` → Escape — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.208)
+
+### Codex
+- [2026-07-16] **OpenAI explains GPT-5.6 Sol deleting `$HOME`** — in full-access, sandbox-off runs the model overrides `$HOME` to make a temp dir, then "makes an honest mistake" and deletes the real one; a patch shipped and the full-access warning copy is being rewritten — [The Register](https://www.theregister.com/ai-and-ml/2026/07/16/openai-admits-gpt-56-occasionally-deletes-files-but-its-an-honest-mistake/5274008)
+- [2026-07-16] **0.144.5 hardens dangerous-command detection** — more `rm` variations caught, with clearer rejection reasons when a command is denied — [releases](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-07-15] **xAI open-sources Grok Build** — Apache-2.0 release after backlash over the CLI uploading entire working directories (SSH keys, password databases) to xAI cloud buckets; the upload feature is disabled — [Simon's post](https://simonwillison.net/2026/Jul/15/grok-build/)
+
+### Simon says
+- [2026-07-16] **Kimi K3 and the pelican benchmark** — notes on K3's single "max" reasoning effort (13,241 reasoning tokens for a 3,417-token answer — a 25-cent pelican) and a suspected 85-token hidden system prompt the model won't leak — [post](https://simonwillison.net/2026/Jul/16/kimi-k3/)
+- [2026-07-13] **Coding agents show up in Datasette's code-frequency chart** — the end-of-graph activity spike lines up with Opus 4.8, GPT-5.5, Fable 5 and GPT-5.6 Sol landing — [post](https://simonwillison.net/2026/Jul/13/)
+
+### Notable posts
+- [2026-07-16] **Moonshot releases Kimi K3 — the first "open 3T-class" model** — 2.8T-param sparse MoE (16 of 896 experts active) with Kimi Delta Attention, native vision and a 1M context; self-reported benchmarks put it above Opus 4.8 and GPT-5.5 but below Fable 5 and GPT-5.6 Sol; weights promised 2026-07-27, priced $3/$15 per Mtok — the most expensive Chinese-lab model yet, and HN is already asking whether the gap closed by distilling Claude — [MarkTechPost](https://www.marktechpost.com/2026/07/16/moonshot-ai-releases-kimi-k3-a-2-8-trillion-parameter-open-moe-model-with-kimi-delta-attention-and-1m-context/)
+
+### Topics worth a 5-min slot
+1. **Kimi K3 — the frontier gap is one model wide** — an open-weights-soon 3T-class model beats Opus 4.8 and trails only Fable 5 and Sol, with weights landing July 27. Does last week's "local models" thread now stretch to near-frontier — and does the distillation question change how the room feels about it?
+2. **The week agents deleted `$HOME`** — GPT-5.6 Sol wiped home directories in full-access mode, Codex 0.144.5 hardened `rm` detection, and Claude Code capped web searches and subagent spawns per session. Vendor guardrails are converging — on the right shape?
+3. **Everything moves to the background** — `/fork`, `/resume` and slow MCP calls all now land in background sessions in Claude Code. Is the foreground terminal becoming a viewport onto a fleet?
+{/* news:end */}

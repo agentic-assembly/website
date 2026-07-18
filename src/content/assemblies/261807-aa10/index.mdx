@@ -74,6 +74,10 @@ A very Osaka take on agent orchestration — structure a dynamic workflow as a k
 
 Documentation without writing documentation — record yourself clicking through the app once, split the video into frames with ffmpeg (a couple of fps is plenty), and let Claude turn the screenshot sequence into a step-by-step manual. It catches what you actually did — exact text typed, modals, validation messages — rather than what you remember doing, and the whole thing packages up as a reusable slash command. Ties back to the Chrome skill: soon the agent can click through the flow itself and write the manual of what it saw. Who still writes onboarding docs by hand after this? — [testmanagement.com write-up](https://www.testmanagement.com/blog/2025/10/ai-experiment-1-recording-videos-and-converting-them-to-test-cases/)
 
+### DaVinci Resolve MCP
+
+The video-editing thread gets its MCP moment — servers that drive DaVinci Resolve through its scripting API, so an agent can cut timelines, organise the media pool, set up renders and even grade from a prompt. The catch: external scripting needs the $295 Studio edition, though one fork sneaks a bridge script in through the Scripts menu and gets 155 of its 162 tools working on the free version. Same question as the WordPress adapter, pointed at an NLE — would you let an agent make the cut, or only log the markers? — [github.com/samuelgursky/davinci-resolve-mcp](https://github.com/samuelgursky/davinci-resolve-mcp) — [free-version fork](https://github.com/hiteshK03/davinci-resolve-mcp)
+
 {/* news:start */}
 ## News since last assembly
 

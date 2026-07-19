@@ -70,6 +70,10 @@ Ask Claude to review your own auth endpoints for vulnerabilities and it declines
 
 Where that gating bites: unrestricted models mean automated vulnerability-hunting agents pointed at everything with a digital presence — a dragnet, not a targeted attack. It's already commercial: XBOW's autonomous pentester was the first non-human to top HackerOne's US leaderboard. The flip side is the same tooling sold as defence — agentic pentest sweeps cheap enough for every company that owns a domain. When the low-hanging fruit is farmed by bots on both sides, does "we ran the agent" become the new compliance checkbox? — [xbow.com](https://xbow.com)
 
+### Headless WordPress
+
+The room's practical answer to the coming dragnet: stop serving anything hackable. Keep WordPress as the CMS the writers already know — but on a gated subdomain the public never touches — and let publish trigger a static build pushed to Cloudflare Pages, free CDN included. No live database, no public wp-admin, no PHP executing for strangers; the whole attack surface is raw HTML. Astro documents the headless-WordPress wiring directly. For the small sites everyone here maintains — what's actually lost by going static? — [docs.astro.build — headless WordPress](https://docs.astro.build/en/guides/cms/wordpress/) — [pages.cloudflare.com](https://pages.cloudflare.com)
+
 {/* news:start */}
 ## News since last assembly
 

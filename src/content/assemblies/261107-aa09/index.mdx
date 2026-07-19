@@ -42,6 +42,10 @@ Higgsfield got its entry at AA08 — this week the same prompts went to the rest
 
 The tip for image models that almost get it: stop iterating on one output — fire ten generations of the same prompt in parallel, select the best, iterate from there. More tokens, zero extra wall-clock, and "ten times the success rate" beats three hours of it-moved-the-thing-but-ruined-something-else. The research backs the intuition: coverage scales log-linearly with sample count. Once generation is cheap, selection is the bottleneck — so who picks the winner, you or another model? — [arxiv.org/abs/2407.21787](https://arxiv.org/abs/2407.21787)
 
+### Underdrawings — SVG-first prompting
+
+The room went hunting for the source of this technique and found it: Sam Collins' "underdrawings". Image models can't draw a precise spiral of fifty numbered stones — so don't ask. Generate the geometry as an SVG in code, where it's deterministic, render it, then hand that skeleton to the image model with a style prompt to paint over — exact text, numbers and layout survive the styling pass. Boxy SVG got a nod for composing the skeleton by hand when code is overkill. What else becomes drawable once you split the what from the how-it-looks? — [samcollins.blog/underdrawings](https://samcollins.blog/underdrawings) — [boxy-svg.com](https://boxy-svg.com)
+
 {/* news:start */}
 ## News since last assembly
 

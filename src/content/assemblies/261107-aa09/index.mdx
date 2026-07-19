@@ -38,6 +38,10 @@ Same box, same task — six agentic CLIs side by side:
 
 Higgsfield got its entry at AA08 — this week the same prompts went to the rest of the field. Runway came back as the next-best pick: solid free tier, strong text and video generation, just not Higgsfield-level for animation — while PixVerse gave "the blandest, least interesting output" of the lot. The workflow lesson from the book-trailer project: don't prompt the whole video in one go — pick a style reference, build character sheets and background plates as images first (far cheaper to iterate), and only then convert to video. Who's actually built a repeatable pipeline rather than a lucky one-shot? — [runwayml.com](https://runwayml.com) — [pixverse.ai](https://pixverse.ai)
 
+### Darwinistic generation
+
+The tip for image models that almost get it: stop iterating on one output — fire ten generations of the same prompt in parallel, select the best, iterate from there. More tokens, zero extra wall-clock, and "ten times the success rate" beats three hours of it-moved-the-thing-but-ruined-something-else. The research backs the intuition: coverage scales log-linearly with sample count. Once generation is cheap, selection is the bottleneck — so who picks the winner, you or another model? — [arxiv.org/abs/2407.21787](https://arxiv.org/abs/2407.21787)
+
 {/* news:start */}
 ## News since last assembly
 

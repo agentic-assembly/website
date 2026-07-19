@@ -74,6 +74,10 @@ Where that gating bites: unrestricted models mean automated vulnerability-huntin
 
 The room's practical answer to the coming dragnet: stop serving anything hackable. Keep WordPress as the CMS the writers already know — but on a gated subdomain the public never touches — and let publish trigger a static build pushed to Cloudflare Pages, free CDN included. No live database, no public wp-admin, no PHP executing for strangers; the whole attack surface is raw HTML. Astro documents the headless-WordPress wiring directly. For the small sites everyone here maintains — what's actually lost by going static? — [docs.astro.build — headless WordPress](https://docs.astro.build/en/guides/cms/wordpress/) — [pages.cloudflare.com](https://pages.cloudflare.com)
 
+### Claude Code as the CMS
+
+One step past headless: skip the CMS entirely. One attendee hands non-technical clients a chat web interface proxied through to Claude Code sitting on their Astro site's markdown, dev server hot-reloading so the edit appears as they type — phone in hand, watching the page change. The clients never learn what a repo is; they describe the change. The objection from the table — it all runs through your subscription and your plumbing — met with: if you're out of the loop, why do you care? Is a chat box the CMS interface normal people wanted all along?
+
 {/* news:start */}
 ## News since last assembly
 

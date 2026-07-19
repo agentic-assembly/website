@@ -58,6 +58,10 @@ Two vendors, same week: one slow and clearly human, one fast, polished and unmis
 
 Follow-on from the demo: if a home GPU caps you at small models, the middle path is a Chinese frontier model on someone else's GPU. GLM is Anthropic-API-compatible — point `ANTHROPIC_BASE_URL` at Z.ai and it runs inside the Claude Code harness — and was pitched at the table as "equivalent to Opus at a tenth of the cost", with coding-plan tiers starting well under a Claude subscription, or pay-per-token from a dozen datacenters via a router. If that holds, what's actually holding up the $200 plan — the model, or the harness? — [z.ai/subscribe](https://z.ai/subscribe) — [github.com/zai-org/GLM-5](https://github.com/zai-org/GLM-5)
 
+### DSpark
+
+The "three times faster, no new hardware" optimization that landed the week before — DeepSeek's DSpark: confidence-scheduled speculative decoding, lossless, no retraining, shipped on DeepSeek-V4 and MIT-licensed in the DeepSpec repo. The honest numbers are 57–85% per-user speedups — the 3× was the room rounding up — but the direction stands: the same graphics card keeps getting a better model. How much of the local-vs-frontier gap from the demo is just software that hasn't landed yet? — [github.com/deepseek-ai/DeepSpec](https://github.com/deepseek-ai/DeepSpec)
+
 {/* news:start */}
 ## News since last assembly
 

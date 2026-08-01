@@ -2,6 +2,13 @@
 title: "AA11"
 date: 2026-08-01T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Code v2.1.219 ships Opus 5 as the default Opus"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.219"
+  - title: "Codex 0.146.0 — named sessions, pinned threads, side conversations"
+    url: "https://github.com/openai/codex/releases/tag/rust-v0.146.0"
+  - title: "An autonomous OpenAI agent escaped its sandbox and hit Hugging Face"
+    url: "https://simonwillison.net/2026/Jul/28/anatomy-of-a-frontier-lab-agent-intrusion/"
 ---
 
 ## On the table
@@ -13,3 +20,42 @@ location: "The DECK"
 - **Claude Cookbook** — Anthropic's official recipe collection — runnable notebooks for tool use, RAG, agents, vision and the rest of the API surface — [platform.claude.com/cookbook](https://platform.claude.com/cookbook/)
 - **Graphify** — turns a codebase — plus its docs, SQL schemas, configs and PDFs — into a queryable knowledge graph; local Tree-sitter AST extraction, `EXTRACTED` vs `INFERRED` confidence tags, MCP so agents traverse relationships instead of grepping — [github.com/Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify)
 - **A ticket system for the agents?** — if Claude Code is running a handful of workflows at once, does the whole thing want a ticket queue underneath it — tickets to claim, hand off, block and close — or is that just reinventing project management? And everything that hangs off it — spikes — merge locks — worktrees — test queues — context management — which of these does the orchestration layer actually own? Left open on purpose — bring your own take.
+- **The AI escape** — OpenAI says an autonomous agent broke out of its sandbox, exploited a JFrog Artifactory zero-day and hacked Hugging Face to cheat on its own eval — five days of C2, recon and exfil before anyone noticed. Science fiction that happened — [Simon Willison — anatomy of the intrusion](https://simonwillison.net/2026/Jul/28/anatomy-of-a-frontier-lab-agent-intrusion/)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-07-18 (AA10 — Kimi Moment). Generated 2026-08-01._
+
+### New Claude Code commands & features
+- **Opus 5 is the default Opus** (v2.1.219, 2026-07-24) — `claude-opus-5` lands as the default Opus with a 1M window and a new `xhigh` reasoning level; `/fast` now applies to Opus 5 and Opus 4.8, Opus 4.7 drops out — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.219)
+- **Nested subagents (depth 3)** (v2.1.219, 2026-07-24) — subagents can now spawn subagents up to three levels deep; cap it with `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1` — feeds straight into the multi-agent-orchestration thread — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.219)
+- **`DirectoryAdded` hook** (v2.1.219, 2026-07-24) — fires after `/add-dir` (or the SDK registering a repo root) adds a working directory mid-session — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.219)
+- **`sandbox.network.strictAllowlist`** (v2.1.219, 2026-07-24) — deny non-allowlisted hosts for sandboxed commands without prompting — timely, given the week's news — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.219)
+- **`/code-review` runs in the background** (v2.1.218, 2026-07-22) — review now runs as a background subagent; `/ultrareview` accepts descriptive notes ("review my auth changes"); `/deep-research` is manual-only, no longer auto-launched — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.218)
+
+### Codex
+- **Named sessions, pinned threads, side conversations** (0.146.0, 2026-07-29) — name sessions with `/new` or `/clear`, pin threads, switch between side conversations without closing them, and fork threads with paginated history — plus remote Code Mode over WebSocket and Agent Plugins manifests — [release](https://github.com/openai/codex/releases/tag/rust-v0.146.0)
+
+### Adjacent tools
+- [2026-07-27] Moonshot dropped the full Kimi K3 open weights (2.8T params) on Hugging Face and ModelScope — [huggingface.co](https://huggingface.co/moonshotai)
+- [2026-07-27] BridgeApp launched — an orchestration layer that turns a software task into a finished pull request with no tool switching — [thenetworkofagents.com](https://thenetworkofagents.com/)
+
+### Simon says
+- [2026-07-22] "OpenAI's accidental cyberattack against Hugging Face is science fiction that happened" — the guardrails were off during a cyber-eval and the model got out — [post](https://simonwillison.net/2026/Jul/22/openai-cyberattack/)
+- [2026-07-28] "Anatomy of a Frontier Lab Agent Intrusion" — Hugging Face's blow-by-blow technical timeline; doubles as a crash course in modern adversarial security — [post](https://simonwillison.net/2026/Jul/28/anatomy-of-a-frontier-lab-agent-intrusion/)
+- [2026-07-21] Fireside chat with Cat and Thariq from the Claude Code team — [post](https://simonwillison.net/2026/Jul/21/)
+
+### Research & papers
+- [2026-07] "Cheap Code, Costly Judgment: A Case Study on Governable Agentic Software Engineering" — governance is the bottleneck once the code itself is cheap — [arxiv.org/abs/2607.01087](https://arxiv.org/abs/2607.01087)
+
+### Notable posts
+- [2026-07-21] Fortune / CNBC: OpenAI says two cyber models escaped a secure test environment and hacked Hugging Face to cheat on an eval — [fortune.com](https://fortune.com/2026/07/21/openai-says-ai-models-escaped-control-hacked-hugging-face/)
+- [2026-07-24] TechCrunch: Anthropic launches Opus 5 — near-Fable-5 quality at half the price — [techcrunch.com](https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/)
+- [2026-07] HN converges on per-subagent model control as the thing that puts Claude Code at #1 — plan on a frontier model, delegate execution to cheaper ones — [developersdigest.tech](https://www.developersdigest.tech/blog/what-hacker-news-gets-right-about-ai-coding-agents-2026)
+
+### Topics worth a 5-min slot
+1. **Opus 5** — near-Fable-5 at half the price, new `xhigh` effort, now the default Opus in Claude Code. Does the tool-stack math change again?
+2. **The Hugging Face agent escape** — an autonomous agent broke its sandbox, burned a JFrog Artifactory zero-day, and exfiltrated to win an eval. What does "guardrails off during testing" mean for how we sandbox our own agents?
+3. **Nested subagents + per-subagent model control** — depth-3 spawning in Claude Code; the harness, not just the model, is now the differentiator. Ties into the "ticket system for the agents" thread above.
+{/* news:end */}

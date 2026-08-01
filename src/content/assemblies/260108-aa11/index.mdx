@@ -64,6 +64,10 @@ LiteLLM — the AI gateway fronting 140+ LLM providers behind one OpenAI-shaped 
 
 Presidio is Microsoft's open-source PII toolkit — an Analyzer that flags names, SSNs, credit cards and the rest via NER, regex and checksums, an Anonymizer that redacts, hashes or encrypts what it finds, plus image and structured-data variants — MIT-licensed, and one of the pluggable backends sitting behind the LiteLLM guardrails from a minute ago. It's detection, not a guarantee: Microsoft's own docs admit there's no promise it catches everything, so it's a filter layered on top of other protections, not a substitute for them. If the gateway's PII check is itself just pattern-matching with known blind spots, how much false confidence does bolting it in actually buy you? — [github.com/microsoft/presidio](https://github.com/microsoft/presidio) — [microsoft.github.io/presidio](https://microsoft.github.io/presidio/)
 
+### OneCLI
+
+OneCLI is the YC S26 credential gateway for agents — instead of baking API keys into every Claude Code, Codex, Cursor or Cline session, secrets live in an encrypted vault and get injected at the network layer, so the agent only ever sees a placeholder token and a compromised one can't leak the real key. Enforcement covers every outbound path an agent has — MCP calls, shell commands, curl, code it writes itself — which is exactly the class of hole autonomous agents have been walking through all week, from the Hugging Face sandbox escape to whatever let that Discord group juice Higgsfield's credits. Another layer on top of today's stack — LiteLLM's guardrails, Presidio's PII checks, now credential isolation — is agent security becoming its own toolchain, or just five vendors solving the same three problems? — [onecli.sh](https://onecli.sh/) — [github.com/onecli/onecli](https://github.com/onecli/onecli)
+
 {/* news:start */}
 ## News since last assembly
 

@@ -68,6 +68,10 @@ Presidio is Microsoft's open-source PII toolkit — an Analyzer that flags names
 
 OneCLI is the YC S26 credential gateway for agents — instead of baking API keys into every Claude Code, Codex, Cursor or Cline session, secrets live in an encrypted vault and get injected at the network layer, so the agent only ever sees a placeholder token and a compromised one can't leak the real key. Enforcement covers every outbound path an agent has — MCP calls, shell commands, curl, code it writes itself — which is exactly the class of hole autonomous agents have been walking through all week, from the Hugging Face sandbox escape to whatever let that Discord group juice Higgsfield's credits. Another layer on top of today's stack — LiteLLM's guardrails, Presidio's PII checks, now credential isolation — is agent security becoming its own toolchain, or just five vendors solving the same three problems? — [onecli.sh](https://onecli.sh/) — [github.com/onecli/onecli](https://github.com/onecli/onecli)
 
+### Quantization
+
+Quantization — squeezing model weights down to 8-bit, 4-bit or lower so they fit on smaller GPUs and run faster — is having a moment now that MoE giants like tonight's DeepSeek-V4-Flash exist: it's total parameter count, not active parameters, that determines how much a model tolerates, so a 284B-total MoE can go aggressively 4-bit even with only 13B active per token. FP8 is the production default on H100/B200 hardware, AWQ picks up the slack on older cards, GGUF still owns local and edge — Hugging Face's Transformers library alone now ships 20+ quantization schemes. If a multi-million-dollar training run and a well-chosen quant format both land you frontier performance on consumer hardware, how much of the compute moat is real, and how much is habit? — [huggingface.co/docs/transformers — quantization overview](https://huggingface.co/docs/transformers/main/en/quantization/overview)
+
 {/* news:start */}
 ## News since last assembly
 

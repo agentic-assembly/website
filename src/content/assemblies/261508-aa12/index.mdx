@@ -28,6 +28,10 @@ references:
   Cycle permission modes — Manual, acceptEdits, plan, then bypassPermissions or auto where available
 - ⭐ `Ctrl+L` ×2<br />
   `/clear` and a fresh conversation, within two seconds — fullscreen rendering only; a single press just redraws
+- ⭐ `Ctrl+U`<br />
+  Kill from the cursor to line start — repeat to clear across lines in multiline input
+- ⭐ `Ctrl+Y`<br />
+  Paste the last kill back — `Alt+Y` then cycles the paste history
 - `Ctrl+S`<br />
   Stash the prompt — press again on an empty prompt to get it back whole, cursor position and pasted images included
 - `Esc` `Esc`<br />
@@ -42,10 +46,8 @@ references:
   Stop every background subagent in the session, within three seconds
 - `Ctrl+B`<br />
   Background a running task — tmux users press twice
-- `Ctrl+K` — `Ctrl+U` — `Ctrl+W`<br />
-  Kill to end of line — to line start — previous word
-- `Ctrl+Y`<br />
-  Paste the last kill — `Alt+Y` then cycles the paste history
+- `Ctrl+K` — `Ctrl+W`<br />
+  Kill to end of line — previous word
 - `Alt+T`<br />
   Toggle extended thinking — no effect on Fable 5, which always thinks
 - `Alt+O`<br />
@@ -60,8 +62,10 @@ references:
   On an empty input, print the shortcut panel for your terminal
 - `!`<br />
   Shell mode — run a command and drop its output into the session
-- `\` + `Enter` — `Ctrl+J`<br />
-  Newline in any terminal — `Shift+Enter` works natively in iTerm2, Ghostty, Kitty, WezTerm, Warp and Windows Terminal
+- `Ctrl+J`<br />
+  Insert a newline — the control sequence works in any terminal with no configuration at all
+- `\` + `Enter`<br />
+  The other universal newline escape — `Shift+Enter` is native in iTerm2, Ghostty, Kitty, WezTerm, Warp, Apple Terminal and Windows Terminal, and `Option+Enter` works on macOS once Option is set as Meta
 
 {/* news:start */}
 ## News since last assembly

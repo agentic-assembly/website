@@ -18,7 +18,7 @@ references:
 - **beads** — the ticket system for the agents we left open at AA11, except someone already built it — a dependency-aware issue graph in a Dolt-backed SQL database, where `bd ready` returns only the claimable frontier (open beads with no open blockers) so an agent never picks up step three before step one lands. Hash IDs like `bd-a1b2` so parallel agents and branches don't collide on merge, `discovered-from` edges so work found mid-task gets recorded instead of dropped, and semantic compaction that summarises old closed beads to save context. Wires into Claude Code as a SessionStart hook running `bd prime` rather than MCP — the docs claim ~1-2k tokens against MCP's 10-50k. Is the dependency graph the thing markdown plans were always missing, or a project-management layer we'll resent maintaining? — [beads.gascity.com — how it works](https://beads.gascity.com/core-concepts/) — [github.com/gastownhall/beads](https://github.com/gastownhall/beads)
 - **`/powerup`** — Claude Code's built-in interactive tutorial, shipped back in v2.1.90 and quietly sitting there ever since — ten animated lessons on what power users actually do: @-mentions, plan mode, `/rewind`, background tasks, MCP, CLAUDE.md, skills and hooks, subagents, `/remote-control`, `/model` and `/effort`. Five minutes a lesson, progress saved as you go. Show of hands — who's run it, and what's in there that the rest of us are still doing the hard way? — [docs — commands](https://code.claude.com/docs/en/commands) — [v2.1.90 release](https://github.com/anthropics/claude-code/releases/tag/v2.1.90)
 
-## Claudelite Micro
+## Claude 1337 micro
 
 | Keys | What it does |
 | --- | --- |

@@ -2,6 +2,13 @@
 title: "AA12"
 date: 2026-08-15T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Code retires Todo/Task tools on Opus 4.8 and newer"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.233"
+  - title: "Subagent forking on by default — children inherit conversation and prompt cache"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.232"
+  - title: "Why does Opus 5 feel worse to work with?"
+    url: "https://mun-logadan.github.io/why-does-opus-5-feel-worse/"
 ---
 
 ## On the table
@@ -10,3 +17,43 @@ location: "The DECK"
 - **Herdr** — background runtime that keeps coding agents alive when your machine closes or disconnects — persistent terminals across workspaces, working/blocked/idle status tracking, drops into 19+ agent CLIs with no modification — [herdr.dev](https://herdr.dev/)
 - **beads** — the ticket system for the agents we left open at AA11, except someone already built it — a dependency-aware issue graph in a Dolt-backed SQL database, where `bd ready` returns only the claimable frontier (open beads with no open blockers) so an agent never picks up step three before step one lands. Hash IDs like `bd-a1b2` so parallel agents and branches don't collide on merge, `discovered-from` edges so work found mid-task gets recorded instead of dropped, and semantic compaction that summarises old closed beads to save context. Wires into Claude Code as a SessionStart hook running `bd prime` rather than MCP — the docs claim ~1-2k tokens against MCP's 10-50k. Is the dependency graph the thing markdown plans were always missing, or a project-management layer we'll resent maintaining? — [beads.gascity.com — how it works](https://beads.gascity.com/core-concepts/) — [github.com/gastownhall/beads](https://github.com/gastownhall/beads)
 - **`/powerup`** — Claude Code's built-in interactive tutorial, shipped back in v2.1.90 and quietly sitting there ever since — ten animated lessons on what power users actually do: @-mentions, plan mode, `/rewind`, background tasks, MCP, CLAUDE.md, skills and hooks, subagents, `/remote-control`, `/model` and `/effort`. Five minutes a lesson, progress saved as you go. Show of hands — who's run it, and what's in there that the rest of us are still doing the hard way? — [docs — commands](https://code.claude.com/docs/en/commands) — [v2.1.90 release](https://github.com/anthropics/claude-code/releases/tag/v2.1.90)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-08-01 (AA11 — Guardrails Off). Generated 2026-08-14._
+
+### New Claude Code commands & features
+- **Todo/task tools retired on the newest models** (v2.1.233, 2026-08-14) — TaskCreate/Get/Update/List and TodoWrite are no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5 and newer; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` brings them back — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.233)
+- **Subagent forking on by default** (v2.1.232, 2026-08-13) — a `subagent_type: "fork"` subagent inherits the full conversation and prompt cache; non-teammate spawns in interactive sessions now run in the background — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.232)
+- **Cross-session `@` mentions** (v2.1.232, 2026-08-13) — type `@` to mention another Claude session by name, and `SendMessage` delivers straight to an exact live-session match — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.232)
+- **`claude self-hosted-runner`** (v2.1.224, 2026-08-07) — turns your own machines or containers into somewhere web, mobile and desktop sessions can run — Team and Enterprise — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.224)
+- **200-subagent cap removed** (v2.1.224, 2026-08-07) — long sessions no longer refuse new subagents; concurrency and depth limits still apply — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.224)
+- **`/review` aliases `/code-review`, with PRs** (v2.1.224, 2026-08-07) — `/code-review <level> <pr#>`, and the effort level persists between runs — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.224)
+- **`archive` plugin source** (v2.1.224, 2026-08-07) — install plugins from an HTTPS zip with optional SHA-256 pinning — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.224)
+
+### Codex
+- [2026-08-07] 0.147.0 — portable Agent Plugins searchable across local, personal, workspace and remote catalogues, `--approve-for-me` for auto-reviewed approvals, MCP 2026-07-28 with paginated discovery — and `codex exec --full-auto` is gone, use `--sandbox workspace-write` — [release](https://github.com/openai/codex/releases/tag/rust-v0.147.0)
+
+### Adjacent tools
+- [2026-08-14] SpaceX closed its $60B all-stock acquisition of Anysphere — Cursor folds into a new SpaceXAI division alongside Grok — [cursor.com/blog](https://cursor.com/blog/joining-spacex) — [CNBC](https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html)
+- [2026-08-13] Cursor cloud agents start ~3x faster — prebuilt "builds" keep an environment warm instead of booting and cloning per session — [cursor.com/changelog](https://cursor.com/changelog)
+- [2026-08-12] DeepSeek publicised a "Harness Team" — a verified WeChat account and Beijing job listings for an agentic coding product aimed at Claude Code, with V4 Pro updated for better agentic work the same day — [Bloomberg](https://www.bloomberg.com/news/articles/2026-08-12/deepseek-publicizes-efforts-to-challenge-anthropic-s-claude-code)
+
+### Simon says
+- [2026-08-07] "Now we have a timeline of the OpenAI accidental attack against Hugging Face" — OpenAI's late-added Black Hat talk, video now up — [post](https://simonwillison.net/2026/Aug/7/openai-timeline/)
+- [2026-08-04] LLM 0.32 — reasoning traces to stderr, server-side provider tools, content-addressable SQLite logs, GPT-5.6 Luna as the new default — [post](https://simonwillison.net/2026/Aug/4/new-release-of-llm/)
+
+### Research & papers
+- [2026-08-04] "Self-Evolving Coding Agents" — a taxonomy of what evolves, when it evolves, and which software-specific evidence drives it — [arxiv.org/abs/2608.03392](https://arxiv.org/abs/2608.03392)
+
+### Notable posts
+- [2026-08-14] "Why does Opus 5 feel worse to work with?" — 704 points and climbing: the argument is that benchmark pressure selects for models that make bold assumptions instead of stopping to ask. The thread's fix is prose-level — "only report to me in ASD-STE100 Simplified Technical English" — and, simpler still, just typing `tldr` — [post](https://mun-logadan.github.io/why-does-opus-5-feel-worse/) — [HN](https://news.ycombinator.com/item?id=49296740)
+- [2026-08-05] Black Hat USA — one GitHub issue from an account with no repo privileges reached the CI runners behind Anthropic's and Google's own agent repos, in the configurations both ship by default — CVE-2026-54316 and Gemini CLI's CVE-2026-12537 at CVSS 10.0, both patched — [The Hacker News](https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html)
+- [2026-08-08] CSA research note on the same work — the failure sat in the harness, not the model: one layer marks a value safe and a later layer runs it anyway — [CSA](https://labs.cloudsecurityalliance.org/research/csa-research-note-ai-coding-agent-cicd-secrets-20260808-csa/)
+
+### Topics worth a 5-min slot
+1. **Task tools retired on the newest models** — Claude Code just took away its own todo list on Opus 4.8+. Does the plan live in the model's head now, or in something like beads?
+2. **Fork-by-default subagents** — children inherit the conversation and the prompt cache, and the 200-spawn cap is gone. What does that change about how we fan out?
+3. **Opus 5's prose** — the loudest thread on HN this fortnight, and the community's answer is a 1980s aerospace writing standard. What's actually in your CLAUDE.md that works?
+{/* news:end */}

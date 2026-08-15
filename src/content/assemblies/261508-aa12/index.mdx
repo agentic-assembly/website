@@ -63,6 +63,12 @@ references:
 - `\` + `Enter`<br />
   The other universal newline escape — `Shift+Enter` is native in iTerm2, Ghostty, Kitty, WezTerm, Warp, Apple Terminal and Windows Terminal, and `Option+Enter` works on macOS once Option is set as Meta
 
+## What we talked about
+
+### Pydantic
+
+The type-hints-as-schema library that quietly became the substrate under half the agent stack — validation core in Rust, models that emit JSON Schema, and from there Pydantic AI for agents and Logfire for watching what they cost. Ties straight back into the structured-output thread: if the schema is the contract you hand a model, Pydantic is where most Python people already write it. Worth a lap around the table on whether typed validation is the right place to catch a model's bad output, or just where the error surfaces loudest. — [pydantic.dev/docs](https://pydantic.dev/docs/) — [github.com/pydantic/pydantic](https://github.com/pydantic/pydantic)
+
 {/* news:start */}
 ## News since last assembly
 

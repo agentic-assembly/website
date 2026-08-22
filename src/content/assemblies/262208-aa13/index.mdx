@@ -102,6 +102,10 @@ The fourth shape of the morning, after graph, vector and relational — time ser
 
 The other answer to the telemetry question — columnar OLAP, Apache 2.0, built for firing analytical queries at absurd volumes of append-only rows. The detail that made it land in this conversation rather than a data-engineering one: ClickHouse bought Langfuse in January, so the open-source LLM-observability tool most people reach for is now owned by the database underneath it. Langfuse's own framing is that tracing and evaluating agents "is fundamentally a data problem" — trace trees, graph views of how an agent moved through its turns and tool calls, cost and latency per call. Which reframes what we were arguing about: is agent observability a new discipline, or is it just OLAP with a nicer front end? — [clickhouse.com](https://clickhouse.com/) — [ClickHouse acquires Langfuse](https://clickhouse.com/blog/clickhouse-acquires-langfuse-open-source-llm-observability)
 
+### Fortran
+
+Sixty-odd years of working numerical code that nobody wants to touch, which makes it the honest test of agentic migration. The best example going is a five-phase pipeline that translated a 19,000-line Fortran land-surface model into JAX — static dependency analysis to order the modules, compile-and-repair loops running unattended, and, the part that matters, a Fortran reference oracle enforcing numerical parity module by module before anything integrates. Result was a differentiable model and a 24× speedup. The counterpoint landed this month: a transpiler paper arguing that probabilistic translation undermines reproducibility precisely where you need it, and a compiler pass doesn't. Note what made the agentic version work — not a better model, but an oracle to check against. Do you have one of those for the migration you're putting off? — [Systematic LLM translation of legacy scientific code](https://arxiv.org/abs/2606.07681) — [A Fortran general-purpose transpiler](https://arxiv.org/abs/2608.00130)
+
 {/* news:start */}
 ## News since last assembly
 

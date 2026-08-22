@@ -3,3 +3,60 @@ title: "AA13"
 date: 2026-08-22T10:00:00+09:00
 location: "The DECK"
 ---
+
+## On the table
+
+- **A2A moves under the AAIF** — Google handed Agent2Agent to the Agentic AI Foundation, so the protocol for agents discovering each other and delegating work now sits in the same Linux Foundation house as MCP, goose and AGENTS.md — 150-odd organisations behind it, IBM's ACP already merged in, and version 1.0 carrying signed agent cards for cryptographic identity. The tidy story is one vendor-neutral stack: MCP for tools, A2A for agents talking to agents. The less tidy one is Seekr's "AI game of telephone" — each agent treating the last one's output as trusted fact rather than a claim to check. Is anyone here actually running agent-to-agent messaging, or is a harness spawning its own subagents still the whole of it? — [Techstrong AI](https://techstrong.ai/articles/google-moves-a2a-under-agentic-ai-foundation/) — [aaif.io](https://aaif.io/)
+- **VibeVoice** — Microsoft's open-source voice stack, and a case study in what happens when a lab ships something too good — the original TTS model did 90 minutes of expressive multi-speaker conversation from a 1.5B base, then Microsoft pulled the code a fortnight later after finding "instances where the tool was used in ways inconsistent with the stated intent". A community fork had already backed it up. The official repo came back as ASR — 60-minute audio in one pass with speakers and timestamps, 50+ languages, now an ICLR 2026 oral and a BitNet build that runs on three CPU threads. MIT licence on the way out the door, so the takedown bought exactly nothing. When the weights are already mirrored, is pulling the repo governance or theatre? — [github.com/microsoft/VibeVoice](https://github.com/microsoft/VibeVoice) — [community fork](https://github.com/vibevoice-community/VibeVoice)
+- **Voxtype** — the other end of the same thread — push-to-talk dictation that runs entirely on your machine, MIT, Linux and Apple Silicon, no cloud and no telemetry. Seven engines to pick from including Moonshine from AA11, 1600+ languages with CJK properly handled, Wayland-first typing so it lands in a terminal or an editor rather than just a browser box. Which makes it a plausible front end for talking to a harness instead of typing at it. Given how much of our day is now prose aimed at a model — is dictation the input we've been ignoring, or does thinking-by-typing do work that talking doesn't? — [voxtype.io](https://voxtype.io/)
+- **Anthropic watermarks Claude's output** — every model launched on or after 2 August carries an invisible mark: SynthID-style statistical watermarking in generated text, C2PA provenance metadata on generated files, across the API, Claude, Claude Code, Cowork and Tag — and rolled out worldwide rather than only where the EU AI Act's Article 50 demands it. Detection tooling is promised, but a hit means "Claude touched this", not "Claude wrote this" — proofread or translate your own paragraph and it comes back marked. Anthropic concedes a re-save or a screenshot strips the file metadata; the paying-customer reaction has been loud and mostly negative. Two for the table: does the code your harness writes carry a mark you can't see, and would you want it to? — [anthropic.com — how it works](https://www.anthropic.com/news/claude-text-watermark) — [support — how Claude marks content](https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content)
+- **Conspiracy corner — are the comments the watermark?** — no evidence, entirely a theory of the table, but the mechanism is at least the right shape. Statistical text watermarking works by nudging token choice inside a keyed pattern, and it needs entropy to hide in — a line of code that could only have been written one way carries no signal. Comments and prose do. Hence the theory: the comment spam nobody asked for is carrier payload, the quality hit is the cost of paying it, and the riddling, over-hedged prose we complained about at AA12 is the same tax on the chat side. Testable, roughly — comment density on a fixed task, watermarked model versus an older one. Does anyone want to actually run it before Saturday, or shall we just enjoy the theory? — [SynthID](https://deepmind.google/science/synthid/) — [AA12's Opus 5 thread](https://news.ycombinator.com/item?id=49296740)
+- **Output styles** — the official answer to the same complaint, and worth a look before we blame the watermark. Styles rewrite the system prompt itself rather than appending to it like `CLAUDE.md` does, and there's now a **Concise** built-in — lead with the result, skip the preamble and the narration, same engineering underneath — which reads as Anthropic shipping a fix for exactly the prose everyone's been moaning about, alongside **Proactive**, **Explanatory** and **Learning**. Custom ones are a markdown file in `.claude/output-styles/`, and note the sharp edge: they *drop* Claude Code's built-in engineering instructions unless you set `keep-coding-instructions: true`. `/output-style` is gone — it's `/config` now, and it needs a `/clear` to take. So: is a system-prompt toggle the honest fix for a model that won't shut up, or are we configuring around behaviour that shouldn't be there? — [docs — output styles](https://code.claude.com/docs/en/output-styles)
+
+## Demo — Claude in Chrome
+
+Live, on the projector — the extension that puts Claude in a side panel next to the page and then lets it drive: clicking, typing, filling forms, working across tabs, all inside the browser session you're already logged into. Out of the 1,000-user Max waitlist it launched on, now in beta on every paid plan — and the same machinery Cowork reaches for when a job needs the web.
+
+Worth watching for on the day:
+
+- **Per-site permissions** — you approve each site before Claude can act there, and consequential actions ask again. Does that friction survive contact with real use, or does everyone click through it?
+- **Prompt injection** — the standing objection, and researchers have kept landing real injection chains against it all year. A page it reads is a page that can talk to it
+- **Logged-in surface** — it reads the live DOM, not a cached crawl, so everything behind your auth is in scope. That's the whole value and the whole problem
+- **The extension bet** — OpenAI retired the standalone Atlas browser on 9 August and moved the agentic bits into a Chrome extension. Two labs, same conclusion: don't ask people to change browsers
+
+— [claude.com — Claude in Chrome](https://claude.com/chrome) — [Zenity Labs — threat analysis](https://labs.zenity.io/post/claude-in-chrome-a-threat-analysis)
+
+## Deep dive — DeepSeek Harness
+
+`dsh` landed on 13 August, MIT, developer preview, and took roughly 95,000 GitHub stars in two days. We flagged the Bloomberg piece about DeepSeek's "Harness Team" at AA12 the day before it shipped — this is the thing itself.
+
+**The claim** — `Agent = Model + Harness`. Models are already swappable behind standard interfaces; the harness — loop, context, tools, permissions, state, UI — isn't. So make every one of those a plugin, with no privileged core to patch. You extend by mounting alongside, never by forking.
+
+**The kernel** — built on Cordis, a general-purpose plugin meta-framework rather than something invented for this. Its pitch is "spatiotemporal composability", which is two concrete problems — *temporal*, unwinding a plugin's side effects cleanly when it unloads, and *spatial*, letting dependents react correctly when a dependency reloads. That's what makes hot-swapping the agent loop sane rather than a restart.
+
+**The extension points** — everything hangs off a context object:
+
+- Add a model provider — register an adapter on `ctx.llm`
+- Add a model-facing capability — register on `ctx.tools`
+- Confine spawned processes — a `ctx.sandbox` backend
+- Intercept any request or tool call — listen to the agent or tools event waterfalls
+
+Plugin categories run models — tools — skills — sessions — sandboxes — storage — loops — scheduling — UI. Even session-title generation is a registerable provider, which reads as either purist or unhinged depending on taste.
+
+**What falls out of it**
+
+- **Config, not code** — swapping the loop or the storage layer is a config edit, not a patch
+- **One event stream** — an append-only session log records everything the model saw: system prompts, reasoning, tool calls and results, subagent scheduling, context injections. `resume`, `fork`, `search` and `replay` are all just reads over that log, rather than four separate features
+- **Presets are just plugin sets** — `standard` is the full coding agent; `minimal` is bash and `str_replace_editor` only, for clean benchmark numbers; `code` generates a TypeScript SDK and lets the model write a *program* against it, collapsing multi-round tool sequences into one call; `creator` is for building your own
+- **Sandboxing** — Landlock on Linux, Seatbelt on macOS, ACLs on Windows, over about 300 lines of C11
+- **Scale** — a TypeScript monorepo, ~57 package groups and ~500K lines, still `0.1.0-rc.5` with the README shouting about compatibility-breaking changes
+
+The sharpest review going around argues it isn't DeepSeek's Claude Code at all — it's a bet on owning the agent-runtime layer, and it's not the tool for anyone who just wants to write code today. Claude Code's plugins bolt onto a fixed core — skills, hooks, subagents, MCP. `dsh` says the core *is* plugins. Is that where we all end up in two years, or a config-file religion that makes the simple case worse? — [deepseek.com/harness](https://deepseek.com/harness/en/) — [github.com/deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) — [The New Stack](https://thenewstack.io/deepseek-harness-open-source-plugins/) — [in-depth review](https://justin3go.com/en/posts/2026/08/15-deepseek-harness-review)
+
+### Cordis — "Linux for AI agents"?
+
+The kernel `dsh` is built on isn't DeepSeek's. Cordis is an independent MIT project by Shigma — Yifan Shi — and it's been the plugin loader under Koishi, a cross-platform chatbot framework, since 2019. It was never designed for agents. The problem it was built for was a plugin ecosystem rotting as thousands of community plugins got installed, updated and removed, and its defining idea followed from that: unloading a plugin must completely undo everything it did. Every registration hands back a disposer, via `ctx.effect()` or a helper, and dependents re-wire themselves when a dependency reloads. Do that properly and reconfiguring a running system stops being a restart.
+
+DeepSeek vendored it, then published an 80-page preprint with Peking University formalising it — *A Programming Paradigm for Spatiotemporal Composability* — and the framing that's stuck since is **agent microkernel**: provable contracts for the planner, the memory, the tool caller, so any part of the loop swaps out without breaking the rest. Fireship put it more bluntly — "Linux for AI agents" — which is the pitch in five words, and also the bit to argue with, since microkernels have a long history of being architecturally right and losing anyway.
+
+The detail worth sitting with — the agent-runtime layer every lab is now racing to own turned out to be a seven-year-old chatbot plugin loader with 6.7k stars and a README warning the API is unstable, holding up a project that took 95k stars in two days. Is "the OS for agents" a real layer someone's going to own, or the analogy we reach for whenever we can't name what we're building? — [Fireship — DeepSeek is back](https://www.youtube.com/watch?v=xBByvFrqmWU) — [github.com/cordiverse/cordis](https://github.com/cordiverse/cordis) — [Cordis primer](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md) — [tutorial](https://deepseek-harness.github.io/deepseek-harness/en/develop/cordis-tutorial/)

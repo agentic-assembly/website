@@ -110,6 +110,10 @@ Sixty-odd years of working numerical code that nobody wants to touch, which make
 
 Desk hardware as an agent problem — how much screen do you actually need to run a fleet? The room's habit is a pane per agent, which means the constraint stops being the model and starts being pixels: ultrawide versus two panels versus one vertical for logs, and how many tiles you can hold before you lose track of which one is blocked on you. Straight back to the AA09 thread about typing a prompt into the wrong session and watching the wrong app get translated. The real question underneath it — at what point does watching agents stop being a thing you do with your eyes and start needing a dashboard?
 
+### Selenium
+
+Straight out of the Claude in Chrome demo — the twenty-year-old way to drive a browser, and whether agents make it obsolete or more necessary. WebDriver BiDi has quietly closed most of the old gap, adding a WebSocket so the browser can push console logs, network events and DOM mutations instead of being polled, on a W3C standard rather than a Chrome-only protocol. Playwright still has the official MCP server and the better ergonomics for greenfield agent work; Selenium has a community one and tens of thousands of enterprise pipelines that aren't going anywhere. Jason Huggins, who started Selenium, is now building Vibium — plain-English tests on BiDi — which tells you where he thinks this goes. The caution worth repeating: a Selenium script fails on a broken locator, an agent fails because it picked the wrong action, so you're testing the harness as well as the app. Deterministic script or agent — which one do you actually want guarding your deploy? — [selenium.dev](https://www.selenium.dev/) — [github.com/SeleniumHQ/selenium](https://github.com/SeleniumHQ/selenium)
+
 {/* news:start */}
 ## News since last assembly
 

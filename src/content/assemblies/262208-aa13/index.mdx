@@ -94,6 +94,10 @@ What "RAG done properly" actually looks like, since the previous thread left it 
 
 The boring answer that kept winning the argument — vector similarity as a Postgres extension rather than a second database. Exact and approximate nearest neighbour, L2, inner product and cosine, HNSW and IVFFlat indexes, and the vectors sit in a normal table, which means joins against your actual data, real transactions, and the backup and point-in-time recovery you already run. That's the whole pitch: no sync job, no second thing to permission, no separate outage. It also quietly answers the hybrid-search thread, since Postgres brings its own full-text search — both halves of the fusion in one query. Anyone here outgrown it, or is "just use Postgres" still the correct default until something proves otherwise? — [github.com/pgvector/pgvector](https://github.com/pgvector/pgvector)
 
+### InfluxDB
+
+The fourth shape of the morning, after graph, vector and relational — time series. InfluxDB 3 is a full rewrite in Rust on the Apache stack: Arrow in memory, DataFusion for queries, Parquet on object storage, SQL and InfluxQL over the top, with Core under MIT/Apache 2. Which matters here because agent telemetry *is* time series — token spend, tool-call latency, session events — and it's the same shape as `dsh`'s append-only session log from the deep dive, just with a query engine attached. Practical note for anyone pinning images: on 15 September the Docker `latest` tag flips to InfluxDB 3. Is watching a fleet of agents a monitoring problem we already have the tools for, or does it want something purpose-built? — [influxdata.com](https://www.influxdata.com/) — [github.com/influxdata/influxdb](https://github.com/influxdata/influxdb)
+
 {/* news:start */}
 ## News since last assembly
 

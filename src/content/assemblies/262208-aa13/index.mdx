@@ -98,6 +98,10 @@ The boring answer that kept winning the argument — vector similarity as a Post
 
 The fourth shape of the morning, after graph, vector and relational — time series. InfluxDB 3 is a full rewrite in Rust on the Apache stack: Arrow in memory, DataFusion for queries, Parquet on object storage, SQL and InfluxQL over the top, with Core under MIT/Apache 2. Which matters here because agent telemetry *is* time series — token spend, tool-call latency, session events — and it's the same shape as `dsh`'s append-only session log from the deep dive, just with a query engine attached. Practical note for anyone pinning images: on 15 September the Docker `latest` tag flips to InfluxDB 3. Is watching a fleet of agents a monitoring problem we already have the tools for, or does it want something purpose-built? — [influxdata.com](https://www.influxdata.com/) — [github.com/influxdata/influxdb](https://github.com/influxdata/influxdb)
 
+### ClickHouse
+
+The other answer to the telemetry question — columnar OLAP, Apache 2.0, built for firing analytical queries at absurd volumes of append-only rows. The detail that made it land in this conversation rather than a data-engineering one: ClickHouse bought Langfuse in January, so the open-source LLM-observability tool most people reach for is now owned by the database underneath it. Langfuse's own framing is that tracing and evaluating agents "is fundamentally a data problem" — trace trees, graph views of how an agent moved through its turns and tool calls, cost and latency per call. Which reframes what we were arguing about: is agent observability a new discipline, or is it just OLAP with a nicer front end? — [clickhouse.com](https://clickhouse.com/) — [ClickHouse acquires Langfuse](https://clickhouse.com/blog/clickhouse-acquires-langfuse-open-source-llm-observability)
+
 {/* news:start */}
 ## News since last assembly
 

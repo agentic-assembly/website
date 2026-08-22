@@ -2,6 +2,13 @@
 title: "AA13"
 date: 2026-08-22T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Code ships a built-in Concise output style"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.237"
+  - title: "Cursor cloud agents go always-on — wake on events, hold a goal"
+    url: "https://cursor.com/changelog"
+  - title: "Codex 0.149.0 — interactive agents dashboard, codex queue, /cd"
+    url: "https://github.com/openai/codex/releases/tag/rust-v0.149.0"
 ---
 
 ## On the table
@@ -66,3 +73,46 @@ The detail worth sitting with — the agent-runtime layer every lab is now racin
 ### Qwen3-ASR-1.7B
 
 The third speech thing on the table this morning — Alibaba's small transcription model off Qwen3-Omni, Apache 2.0, 52 languages and dialects with 22 of them Chinese, offline and streaming from one set of weights, and it handles singing and speech over background music rather than falling over. 1.63 WER on LibriSpeech clean puts it level with or past GPT-4o and Gemini 2.5 on the English and Chinese sets, and a separate 0.6B forced aligner bolts on word-level timestamps. Sits right next to VibeVoice's ASR pivot and Voxtype's engine list — if 1.7B under Apache 2.0 gets you this close on transcription, what's left that justifies sending audio to an API? — [huggingface.co/Qwen/Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-08-15 (AA12). Generated 2026-08-22._
+
+### New Claude Code commands & features
+- **"Concise" output style** (v2.1.237, 2026-08-20) — built-in style that leads with the result and skips preamble and narration, while doing the engineering as thoroughly as Default; error reports, security warnings and destructive-action confirmations stay complete — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.237)
+- **`ANTHROPIC_DEFAULT_MODEL`** (v2.1.236, 2026-08-19) — set the default model for new sessions from the environment — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.236)
+- **`notify_when_idle` on `SendMessage`** (v2.1.236, 2026-08-19) — ask another session to tell you when it goes idle; opt-in, one-shot, macOS and Linux — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.236)
+- **Auto-continue at usage limit** (v2.1.234, 2026-08-17) — sessions pick themselves back up when a claude.ai limit resets, configurable in `/config` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.234)
+- **`/goal` check-ins** (v2.1.234, 2026-08-17) — long-running background work reports in every 30 minutes; `CLAUDE_CODE_GOAL_CHECKIN_MINUTES=0` opts out — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.234)
+- **`keybindingFlavor: "readline"`** (v2.1.238, 2026-08-20) — Bash-style word deletion, so `Ctrl+W` kills back to the previous whitespace — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.238)
+- **`spellcheck` setting** (v2.1.235, 2026-08-18) — underlines misspelled words in the prompt via `aspell`, `hunspell` or `ispell` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.235)
+- **`/claude-api upgrade`** (v2.1.239, 2026-08-21) — migrates Python projects from `anthropic` 0.x to 1.x — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.239)
+
+### Claude Code — other notes
+- [2026-08-17] GitLab merge requests get a footer and statusline badge — `!N` with draft, pending and green states, via an authenticated `glab` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.234)
+- [2026-08-19] macOS sandbox wildcard read-denies now win inside allowed read regions, so `**/.env` actually holds — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.236)
+- [2026-08-20] Cross-session messaging lands on Windows; plugins synced from claude.ai appear as `name@synced` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.238)
+
+### Codex
+- [2026-08-20] 0.149.0 — an interactive `codex agents` dashboard, `codex queue` to message a running session, `/cd` `/pwd` `/cwd`, wider `codex doctor` network diagnostics, and SDK reasoning effort up to `max` and `ultra` — [release](https://github.com/openai/codex/releases/tag/rust-v0.149.0)
+- [2026-08-21] 0.150.0 alphas landing daily — six in two days — [releases](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-08-17] Cursor Origin — Cursor now hosts your code: repos, pull requests, browsing and GitHub sync, on paid plans. Read past the "GitHub alternative" framing — pushes still go to GitHub, which stays the source of truth — [cursor.com/changelog](https://cursor.com/changelog/origin-code-hosting)
+- [2026-08-19] Cursor cloud agents go always-on — subscribe to an event source, wake on a PR or a Slack thread, and hold a goal until it's met, plus custom modes and subagents on their own machines — [cursor.com/changelog](https://cursor.com/changelog)
+
+### Simon says
+- [2026-08-16] "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things" — [archive](https://simonwillison.net/2026/Aug/16/)
+- [2026-08-19] "Conceptual integrity and counting lines of code" — [archive](https://simonwillison.net/2026/Aug/19/)
+- [2026-08-20] ChatGPT search is now using the `site:` operator at scale, per Promptwatch — [archive](https://simonwillison.net/2026/Aug/20/)
+
+### Notable posts
+- [2026-08-18] Google moved A2A under the Agentic AI Foundation — the agent-to-agent protocol now sits in the same Linux Foundation house as MCP, goose and AGENTS.md — [Techstrong AI](https://techstrong.ai/articles/google-moves-a2a-under-agentic-ai-foundation/)
+- [2026-08-20] The Concise announcement crossed 500K views in hours — and Boris Cherny called it "a band aid", which is the more interesting half of the story — [daily.dev](https://daily.dev/posts/claude-code-adds-a-concise-output-style-ni41vrkfn)
+
+### Topics worth a 5-min slot
+1. **Concise output style** — Anthropic shipped a fix for exactly the over-narration everyone's been complaining about, and one of its own called it a band aid. Toggle, or symptom?
+2. **Cursor Origin plus always-on agents** — Cursor now hosts the repo *and* runs agents that wake on events. Does the harness swallow the forge?
+3. **Sessions that manage themselves** — `notify_when_idle`, auto-continue at usage limit, `/goal` check-ins. Fleet management is arriving one small flag at a time.
+{/* news:end */}

@@ -106,6 +106,10 @@ The other answer to the telemetry question — columnar OLAP, Apache 2.0, built 
 
 Sixty-odd years of working numerical code that nobody wants to touch, which makes it the honest test of agentic migration. The best example going is a five-phase pipeline that translated a 19,000-line Fortran land-surface model into JAX — static dependency analysis to order the modules, compile-and-repair loops running unattended, and, the part that matters, a Fortran reference oracle enforcing numerical parity module by module before anything integrates. Result was a differentiable model and a 24× speedup. The counterpoint landed this month: a transpiler paper arguing that probabilistic translation undermines reproducibility precisely where you need it, and a compiler pass doesn't. Note what made the agentic version work — not a better model, but an oracle to check against. Do you have one of those for the migration you're putting off? — [Systematic LLM translation of legacy scientific code](https://arxiv.org/abs/2606.07681) — [A Fortran general-purpose transpiler](https://arxiv.org/abs/2608.00130)
 
+### Monitor
+
+Desk hardware as an agent problem — how much screen do you actually need to run a fleet? The room's habit is a pane per agent, which means the constraint stops being the model and starts being pixels: ultrawide versus two panels versus one vertical for logs, and how many tiles you can hold before you lose track of which one is blocked on you. Straight back to the AA09 thread about typing a prompt into the wrong session and watching the wrong app get translated. The real question underneath it — at what point does watching agents stop being a thing you do with your eyes and start needing a dashboard?
+
 {/* news:start */}
 ## News since last assembly
 

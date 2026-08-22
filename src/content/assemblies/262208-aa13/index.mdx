@@ -114,6 +114,10 @@ Desk hardware as an agent problem — how much screen do you actually need to ru
 
 Straight out of the Claude in Chrome demo — the twenty-year-old way to drive a browser, and whether agents make it obsolete or more necessary. WebDriver BiDi has quietly closed most of the old gap, adding a WebSocket so the browser can push console logs, network events and DOM mutations instead of being polled, on a W3C standard rather than a Chrome-only protocol. Playwright still has the official MCP server and the better ergonomics for greenfield agent work; Selenium has a community one and tens of thousands of enterprise pipelines that aren't going anywhere. Jason Huggins, who started Selenium, is now building Vibium — plain-English tests on BiDi — which tells you where he thinks this goes. The caution worth repeating: a Selenium script fails on a broken locator, an agent fails because it picked the wrong action, so you're testing the harness as well as the app. Deterministic script or agent — which one do you actually want guarding your deploy? — [selenium.dev](https://www.selenium.dev/) — [github.com/SeleniumHQ/selenium](https://github.com/SeleniumHQ/selenium)
 
+### grill-me
+
+Matt Pocock's skill for the failure mode everyone recognises — you describe a feature, the model happily fills in the gaps you left, and the code you get back answers a question you never asked. `grill-me` inverts it: before any code, it interviews you one question at a time and walks down each branch of the design tree, resolving the upstream decisions before the downstream ones, with a recommended answer attached to every question so you're editing a draft instead of filling in a form. It reads the codebase first so it doesn't ask what it could look up. Same instinct as the Opus 5 complaints from AA12 — the fix is prose, not a model. Install with `npx -y skills add mattpocock/skills --skill grill-me --agent claude-code`. Is being interrogated for ten minutes cheaper than the rewrite it saves you? — [github.com/mattpocock/skills](https://github.com/mattpocock/skills)
+
 {/* news:start */}
 ## News since last assembly
 

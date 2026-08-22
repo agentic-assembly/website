@@ -78,6 +78,10 @@ The third speech thing on the table this morning — Alibaba's small transcripti
 
 Where the room went after transcription — if an agent needs memory that survives the session, is a graph the right shape for it? Entities and relationships written as you go, episodic nodes timestamped against users and topics, semantic facts accumulating into something you can actually traverse, and `MERGE` keeping it from duplicating itself. Neo4j has an agent-memory library and an MCP server for exactly this, and there are community ones doing knowledge-graph memory over the same stack. It's the same instinct as Graphify from AA11 and beads' dependency graph from AA12 — structure the context instead of re-grepping for it. Counter-argument worth hearing: reach for a graph only when deep traversal is genuinely the product, otherwise it's Postgres with extra operations. Which is it for the agents you're running? — [Neo4j — context graphs for agents](https://neo4j.com/blog/developer/meet-lennys-memory-building-context-graphs-for-ai-agents/) — [mcp-neo4j-agent-memory](https://github.com/knowall-ai/mcp-neo4j-agent-memory)
 
+### Graph and vector hybrid databases
+
+The follow-on question — if you want both the relationships and the semantic search, is that one engine or two? Two is the common shape: a graph for traversal next to a vector store for similarity, which is what Kùzu's own hybrid-RAG workshop demonstrates by pairing it with LanceDB. One engine is the tidier pitch — FalkorDB does graph plus vector aimed squarely at GraphRAG, Neo4j has vector indexes, and Postgres people just bolt Apache AGE onto pgvector and keep one database. The cautionary tale in the room: Kùzu, the embedded favourite for prototypes, got archived after Apple picked up the team, and GitLab's knowledge-graph project has been shopping for a replacement ever since. So — one engine that does both, or two you can swap when one of them disappears? — [falkordb.com](https://www.falkordb.com/) — [Kùzu — hybrid RAG workshop](https://github.com/kuzudb/graph-rag-workshop)
+
 {/* news:start */}
 ## News since last assembly
 

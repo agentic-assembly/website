@@ -90,6 +90,10 @@ Where the database thread landed — the argument that you might not need any of
 
 What "RAG done properly" actually looks like, since the previous thread left it at chunk-and-pray being the thing that died. Keyword search nails exact rare tokens — an identifier, a SKU, an error code — and embeddings nail paraphrase, and neither wins across all query types. You can't just average the two, because BM25 scores are unbounded and cosine similarity lives in −1 to 1, so the standard move is reciprocal rank fusion — fuse on *rank*, not score, with a smoothing constant around 60 — then hand the top ~150 to a cross-encoder reranker and keep 20. Roughly a 7% NDCG lift over either method alone, which is real but not magic. The question that fell out of it, given where the grep argument ended up: for a codebase, is the BM25 half of this just `rg` with a scoring function bolted on? — [Hybrid search — BM25, vector and reranking reference](https://www.digitalapplied.com/blog/hybrid-search-bm25-vector-reranking-reference-2026) — [Together AI — contextual RAG, Anthropic's recipe](https://docs.together.ai/docs/how-to-implement-contextual-rag-from-anthropic)
 
+### pgvector
+
+The boring answer that kept winning the argument — vector similarity as a Postgres extension rather than a second database. Exact and approximate nearest neighbour, L2, inner product and cosine, HNSW and IVFFlat indexes, and the vectors sit in a normal table, which means joins against your actual data, real transactions, and the backup and point-in-time recovery you already run. That's the whole pitch: no sync job, no second thing to permission, no separate outage. It also quietly answers the hybrid-search thread, since Postgres brings its own full-text search — both halves of the fusion in one query. Anyone here outgrown it, or is "just use Postgres" still the correct default until something proves otherwise? — [github.com/pgvector/pgvector](https://github.com/pgvector/pgvector)
+
 {/* news:start */}
 ## News since last assembly
 

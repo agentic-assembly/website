@@ -74,6 +74,10 @@ The detail worth sitting with — the agent-runtime layer every lab is now racin
 
 The third speech thing on the table this morning — Alibaba's small transcription model off Qwen3-Omni, Apache 2.0, 52 languages and dialects with 22 of them Chinese, offline and streaming from one set of weights, and it handles singing and speech over background music rather than falling over. 1.63 WER on LibriSpeech clean puts it level with or past GPT-4o and Gemini 2.5 on the English and Chinese sets, and a separate 0.6B forced aligner bolts on word-level timestamps. Sits right next to VibeVoice's ASR pivot and Voxtype's engine list — if 1.7B under Apache 2.0 gets you this close on transcription, what's left that justifies sending audio to an API? — [huggingface.co/Qwen/Qwen3-ASR-1.7B](https://huggingface.co/Qwen/Qwen3-ASR-1.7B)
 
+### Graph databases
+
+Where the room went after transcription — if an agent needs memory that survives the session, is a graph the right shape for it? Entities and relationships written as you go, episodic nodes timestamped against users and topics, semantic facts accumulating into something you can actually traverse, and `MERGE` keeping it from duplicating itself. Neo4j has an agent-memory library and an MCP server for exactly this, and there are community ones doing knowledge-graph memory over the same stack. It's the same instinct as Graphify from AA11 and beads' dependency graph from AA12 — structure the context instead of re-grepping for it. Counter-argument worth hearing: reach for a graph only when deep traversal is genuinely the product, otherwise it's Postgres with extra operations. Which is it for the agents you're running? — [Neo4j — context graphs for agents](https://neo4j.com/blog/developer/meet-lennys-memory-building-context-graphs-for-ai-agents/) — [mcp-neo4j-agent-memory](https://github.com/knowall-ai/mcp-neo4j-agent-memory)
+
 {/* news:start */}
 ## News since last assembly
 

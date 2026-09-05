@@ -69,6 +69,10 @@ The two engines you actually serve open weights with, now that Hugging Face has 
 
 The local-stack thread's third leg — UC Berkeley's Apache-2.0 edge inference engine for MoE models, which treats your laptop as one elastic platform instead of a small GPU: active experts live in VRAM, the rest in system RAM, with computation split CPU/GPU by live bandwidth profiling. The claims: 39 tok/s from a 35B Qwen on an 8GB GPU, a 284B DeepSeek at 22 tok/s on 32GB, first-token latency in seconds where llama.cpp takes minutes — though one independent tester notes llama.cpp already does ~35 tok/s on similar hardware, so mind the benchmark lag. OpenAI- and Anthropic-compatible APIs, so Claude Code can point at it directly. Sparse-activation models like Flash-Next above are exactly what this is for — is anyone ready to run their coding agent off the machine it's coding on? — [paper](https://arxiv.org/html/2608.16157v1) — [Hugging Face](https://huggingface.co/papers/2608.16157)
 
+### ponytail
+
+The On the table item got its table time — the seven-rung decision ladder (does it need to exist → stdlib → platform → dependency → one line → minimum that works) that makes the model justify writing code before writing it, with reading always in-budget and validation, security and a11y off the chopping block. The room's angle was the honest re-benchmark: 54% mean LOC once the maintainer measured against a headless agent baseline instead of padded prose. Less a dependency than a CLAUDE.md with 124k stars — who's actually installing it versus stealing the ladder for their own instructions? — [github.com/DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — [benchmark writeup](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-06-18-agentic.md)
+
 {/* news:start */}
 ## News since last assembly
 

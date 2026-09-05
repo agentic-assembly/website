@@ -49,6 +49,10 @@ Staying in the classroom — if LLMs make every take-home exam gameable, the exa
 
 The dashboards company has quietly become an agent company. This year's stack: a hosted Grafana Cloud MCP server and `gcx` CLI so coding agents can pull live metrics, logs, traces and SLOs while they work; Assistant agents for investigations and automations; Agent Observability for watching *your* agents (tokens, cost, per-exchange forensics, hallucination evaluators) — built because they needed to observe their own Assistant; and o11y-bench, an open benchmark grading agents on real observability tasks. Continuous assessment for software, in other words — the same move as the classroom thread. Is anyone wiring their agent's Bash loop into live telemetry yet, or are we still eyeballing dashboards ourselves? — [grafana.com](https://grafana.com/) — [AI Week GA](https://grafana.com/press/2026/07/27/grafana-labs-ships-six-tools-that-power-agentic-operations-from-planning-to-production/)
 
+### DSpark
+
+DeepSeek again — DSpark is their MIT-licensed speculative-decoding framework, the one behind the "up to 85% faster inference" headlines. A small draft module guesses tokens for the big model to verify in one pass; the actual trick is confidence scheduling — deciding which guesses are worth checking at all, trimming low-confidence tails under load so batch capacity goes to other users. No retraining, no new GPUs, no quality loss, and it ships trained draft checkpoints for Qwen3 and Gemma 4 too — Liquid AI already gets 3x on-device from it. For agent loops, latency *is* the product: every turn is another round trip. Not to be confused with NVIDIA's DGX Spark, which is a box. Would we notice an 80%-faster agent, or is our bottleneck the human in the loop anyway? — [paper](https://arxiv.org/abs/2607.05147) — [The Batch](https://www.deeplearning.ai/the-batch/deepseeks-dspark-gains-velocity)
+
 {/* news:start */}
 ## News since last assembly
 

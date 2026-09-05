@@ -1,7 +1,7 @@
 ---
 /**
  * One cell of a <Transcript>. `at` is "h:mm" into the recording and is
- * rendered human-readable ("18 min", "1 h 14 min"). The title becomes an
+ * rendered as total minutes ("18 min", "74 min"). The title becomes an
  * <h3> with the same id GitHub/Astro would give a `### title` heading, so
  * existing #anchor links keep working. `sub` is a couple of sentences on what
  * the topic is; `takes` is a few sentences on what the room made of it; the
@@ -27,7 +27,7 @@ function human(at?: string): string | undefined {
   if (!at) return undefined;
   const [h, m] = at.split(":").map(Number);
   if (Number.isNaN(h) || Number.isNaN(m)) return at;
-  return h > 0 ? `${h} h ${String(m).padStart(2, "0")} min` : `${m} min`;
+  return `${h * 60 + m} min`;
 }
 
 const slug = id ?? slugify(title);

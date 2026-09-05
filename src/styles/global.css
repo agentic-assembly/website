@@ -1424,23 +1424,11 @@ a:hover {
 .va-prose .tx-cell__body p {
   font-size: 14px;
   line-height: 1.65;
-  margin: 0;
+  margin: 12px 0 0;
+  color: var(--ink);
 }
 .va-prose .tx-cell__sub {
   margin-top: 6px;
-  color: var(--ink-dim);
-}
-.va-prose .tx-cell__takes {
-  margin-top: 12px;
-  padding-left: 14px;
-  border-left: 2px solid var(--accent);
-  color: var(--ink);
-}
-.tx-cell__body {
-  margin-top: 12px;
-}
-.va-prose .tx-cell__body p + p {
-  margin-top: 12px;
 }
 .tx-cell--brief .tx-cell__main {
   padding-top: 14px;

@@ -65,6 +65,10 @@ A returning guest — last discussed at AA04 as the BYO-model VS Code agent, and
 
 The two engines you actually serve open weights with, now that Hugging Face has put TGI in maintenance mode and points everyone at these instead. The 2026 folk wisdom: vLLM for breadth — widest model and hardware support, no compile step, the default on every cloud; SGLang for agent-shaped work — multi-turn, prefix-heavy, structured outputs, where it overlaps grammar-mask generation with inference while vLLM's guided decoding throughput sags past batch 8. Both took `SGLANG_USE_MODELSCOPE`-style flags for the Qwen drop above, and DSpark plugs into this layer too — the whole local stack is converging. For the self-hosters in the room: which one is under your Ollama-replacement, and did you benchmark or vibe it? — [github.com/vllm-project/vllm](https://github.com/vllm-project/vllm) — [github.com/sgl-project/sglang](https://github.com/sgl-project/sglang)
 
+### FreeToken
+
+The local-stack thread's third leg — UC Berkeley's Apache-2.0 edge inference engine for MoE models, which treats your laptop as one elastic platform instead of a small GPU: active experts live in VRAM, the rest in system RAM, with computation split CPU/GPU by live bandwidth profiling. The claims: 39 tok/s from a 35B Qwen on an 8GB GPU, a 284B DeepSeek at 22 tok/s on 32GB, first-token latency in seconds where llama.cpp takes minutes — though one independent tester notes llama.cpp already does ~35 tok/s on similar hardware, so mind the benchmark lag. OpenAI- and Anthropic-compatible APIs, so Claude Code can point at it directly. Sparse-activation models like Flash-Next above are exactly what this is for — is anyone ready to run their coding agent off the machine it's coding on? — [paper](https://arxiv.org/html/2608.16157v1) — [Hugging Face](https://huggingface.co/papers/2608.16157)
+
 {/* news:start */}
 ## News since last assembly
 

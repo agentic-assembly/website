@@ -14,11 +14,20 @@ export async function getStaticPaths() {
     const n = i + 1;
     const aaId = `AA${String(n).padStart(3, "0")}`;
     const next = entries[i + 1] ?? null;
+    const prev = i > 0 ? entries[i - 1] : null;
     return {
       params: { n: String(n) },
       props: {
         entry,
         aaId,
+        prevAssembly: prev
+          ? {
+              id: `AA${String(n - 1).padStart(3, "0")}`,
+              title: prev.data.title,
+              date: prev.data.date,
+              href: `/${n - 1}`,
+            }
+          : null,
         nextAssembly: next
           ? {
               id: `AA${String(n + 1).padStart(3, "0")}`,
@@ -39,9 +48,10 @@ interface NextAssembly {
   href: string;
 }
 
-const { entry, aaId, nextAssembly } = Astro.props as {
+const { entry, aaId, prevAssembly, nextAssembly } = Astro.props as {
   entry: CollectionEntry<"assemblies">;
   aaId: string;
+  prevAssembly: NextAssembly | null;
   nextAssembly: NextAssembly | null;
 };
 const [{ Content }, assets] = await Promise.all([render(entry), loadAssemblyAssets(entry.id)]);
@@ -76,6 +86,7 @@ Astro.locals.highlights = new Map(highlights.map((h) => [h.id, h]));
   references={entry.data.references}
   assets={assets}
   aaId={aaId}
+  prevAssembly={prevAssembly}
   nextAssembly={nextAssembly}
 >
   <Content components={{ Mark, Logo }} />

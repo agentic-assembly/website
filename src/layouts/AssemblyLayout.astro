@@ -27,6 +27,7 @@ interface Props {
   references?: Reference[];
   assets?: Asset[];
   aaId: string;
+  prevAssembly?: NextAssembly | null;
   nextAssembly?: NextAssembly | null;
 }
 
@@ -38,6 +39,7 @@ const {
   references = [],
   assets = [],
   aaId,
+  prevAssembly,
   nextAssembly,
 } = Astro.props;
 
@@ -117,16 +119,31 @@ const formatTeaserDate = (d: Date) => teaserDateFmt.format(d).toUpperCase().repl
 
 
       {
-        nextAssembly && (
-          <div class="va-teaser">
-            <div class="va-teaser-label">Next assembly</div>
-            <a href={nextAssembly.href} class="va-teaser-link">
-              <span class="id">
-                {nextAssembly.id} — {formatTeaserDate(nextAssembly.date)}
-              </span>
-              {nextAssembly.title} →
-            </a>
-          </div>
+        (prevAssembly || nextAssembly) && (
+          <nav class="va-teasers" aria-label="Adjacent assemblies">
+            {prevAssembly && (
+              <div class="va-teaser va-teaser--prev">
+                <div class="va-teaser-label">Previous assembly</div>
+                <a href={prevAssembly.href} class="va-teaser-link">
+                  <span>← {prevAssembly.title}</span>
+                  <span class="id">
+                    {prevAssembly.id} — {formatTeaserDate(prevAssembly.date)}
+                  </span>
+                </a>
+              </div>
+            )}
+            {nextAssembly && (
+              <div class="va-teaser va-teaser--next">
+                <div class="va-teaser-label">Next assembly</div>
+                <a href={nextAssembly.href} class="va-teaser-link">
+                  <span>{nextAssembly.title} →</span>
+                  <span class="id">
+                    {nextAssembly.id} — {formatTeaserDate(nextAssembly.date)}
+                  </span>
+                </a>
+              </div>
+            )}
+          </nav>
         )
       }
     </Container>

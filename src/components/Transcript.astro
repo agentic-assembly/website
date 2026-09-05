@@ -1,21 +1,61 @@
 ---
 /**
  * Transcript — a card of subdivided cells, one per topic the room covered.
- * Wrap a run of <TranscriptCell> in it. Styles live in global.css (.tx*).
+ * Wrap a run of <TranscriptCell> in it. The header carries a two-column
+ * table of contents built from the rendered cells. Styles live in
+ * global.css (.tx*).
  */
 interface Props {
   label?: string;
-  note?: string;
 }
-const { label = "What we talked about", note } = Astro.props;
+const { label = "What we talked about" } = Astro.props;
+
+const html = await Astro.slots.render("default");
+
+interface TocEntry {
+  id: string;
+  title: string;
+  when?: string;
+}
+const toc: TocEntry[] = [];
+const cellRe =
+  /<div class="tx-cell[^"]*" id="([^"]+)">[\s\S]*?<div class="tx-cell__time">([\s\S]*?)<\/div>[\s\S]*?<h3 class="tx-cell__title">([\s\S]*?)<\/h3>/g;
+const strip = (frag: string) =>
+  frag
+    .replace(/<[^>]+>/g, "")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+    .trim();
+for (const m of html.matchAll(cellRe)) {
+  const time = strip(m[2]);
+  toc.push({
+    id: m[1],
+    title: strip(m[3]),
+    when: /\d/.test(time) ? time : undefined,
+  });
+}
 ---
 
 <section class="tx">
   <header class="tx__head">
     <span class="tx__label">{label}</span>
-    {note && <span class="tx__note">{note}</span>}
+    {
+      toc.length > 0 && (
+        <ol class="tx__toc">
+          {toc.map((t) => (
+            <li>
+              <a href={`#${t.id}`}>
+                <span class="tx__toc-time">{t.when ?? "—"}</span>
+                <span class="tx__toc-title">{t.title}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )
+    }
   </header>
-  <div class="tx__cells">
-    <slot />
-  </div>
+  <div class="tx__cells" set:html={html} />
 </section>

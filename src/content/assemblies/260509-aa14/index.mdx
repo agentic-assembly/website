@@ -57,6 +57,10 @@ DeepSeek again — DSpark is their MIT-licensed speculative-decoding framework, 
 
 Alibaba's August 26 open-weight preview of the Qwen4 architecture — a 125B MoE that activates just 6B parameters per token, trained for roughly a ninth the cost of Qwen3.7-Plus. The interesting bits are structural: a Gated DeltaNet + Qwen Sparse Attention hybrid where sparse attention selects micro-blocks rather than tokens (aimed squarely at long-context agent latency), gated residual streams, n-gram embeddings, and the Muon optimizer. 262k context native, stretching to 1M, and it's on Hugging Face today — same playbook as Qwen3-Next before Qwen3.5: ship the skeleton early so the ecosystem is ready. When the frontier labs won't even publish parameter counts, how much is an open architecture preview actually worth to us? — [github.com/QwenLM/Qwen3.8-Flash-Next](https://github.com/QwenLM/Qwen3.8-Flash-Next) — [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)
 
+### Cline
+
+A returning guest — last discussed at AA04 as the BYO-model VS Code agent, and it's grown up since: CLI 2.0 in February with parallel agents and headless CI/CD, an Apache-licensed SDK peeled out in May that turned the product into infrastructure (the same move as Copilot SDK and the Claude Agent SDK), and ClinePass bundling open-weight models from $9.99/mo. Now in JetBrains, Zed, Neovim and a Kanban board that orchestrates Cline, Claude Code and Codex side by side — 8M installs, still model-agnostic across 30+ providers plus local Ollama. The fork family tree (Roo Code, Kilo Code) all traces back here. Is the open SDK the part that outlives the product? — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
+
 {/* news:start */}
 ## News since last assembly
 

@@ -1,5 +1,5 @@
 ---
-title: "AA14"
+title: "MeatProxy"
 date: 2026-09-05T10:00:00+09:00
 location: "The DECK"
 references:
@@ -11,159 +11,208 @@ references:
     url: "https://openai.com/index/gpt-6-astra/"
 ---
 
-## Summary
+import Transcript from "../../../components/Transcript.astro";
+import TranscriptCell from "../../../components/TranscriptCell.astro";
 
-_Generated from the room's recording — timestamps are approximate, names are not._
+<Transcript note="Timestamps are minutes into the recording and approximate — names withheld.">
 
-- **0:04** — Kickoff. Recording disclosed up front: transcribed and summarised on a local LLM, nothing leaves the building. OK Tech umbrella, Command Line meetup next Saturday.
-- **0:07** — Round of intros: security, freelancers, a visitor from Taichung moving commercial apps — dictation, translation — onto local models. — [Typeless](#typeless)
-- **0:17** — Local meeting transcription: a WebVTT file shipped to a home-server GPU for diarisation, so a meeting can generate its own task list. — [Local meeting transcription](#local-meeting-transcription)
-- **0:18** — New York's under-18 chatbot ban. Vaccine or poison, the bilingual-acquisition analogy, and homework scores hitting the ceiling while exam scores fall. — [New York's AI ban for minors](#new-yorks-ai-ban-for-minors) — [Meat proxy](#meat-proxy)
-- **0:27** — Letters-to-internet and calculator analogies: know the basics as a minimum, and treat tool mastery as a skill in its own right.
-- **0:31** — The parents' side: it's a product optimised for addiction, so school- or state-level rules beat leaving it to each family.
-- **0:33** — Policies in practice: an Osaka experimental middle school on Gemini via Workspace, a university with its own Japanese LLM. Ban the implementations, not the technology. — [LLM policies in schools](#llm-policies-in-schools)
-- **0:36** — Why school exists: collaboration is the thing AI hasn't figured out. Researchers sending LLM-written letters, and a test that measures student, teacher and curriculum at once.
-- **0:40** — Continuous assessment versus tests, spaced repetition, and digital doubles as the high end of surveillance capitalism — unless a university runs it. — [Continuous assessment](#continuous-assessment) — [Digital doubles](#digital-doubles)
-- **0:43** — Agents in the team Slack: banned from social channels, an observability agent for "why is production slow", a new hire mistaken for a bot. — [Agents in the team Slack](#agents-in-the-team-slack)
-- **0:47** — Does AI isolate or connect? Learning a subject through an LLM is like learning chemistry through English: fluent in the tool, mute without it. Which basics survive — nobody learns the abacus.
-- **0:50** — The bleak turn: what today's ten-year-olds will actually face is climate and an ageing society, and technology should be built for that.
-- **0:52** — Show and tell: CMP 170HX, A100 silicon sold to miners and now unlockable from the OS. Datacentre bandwidth at 250 W, dusty and unsupported. — [CMP 170HX](#cmp-170hx)
-- **1:05** — The Chinese market flooded with cheap cards, million-token context on one of them, and speculative decoding as the way to cope with slow local models. — [DSpark](#dspark)
-- **1:11** — Qwen3.8-Flash-Next: lookup-style memory living in system RAM beside prediction, and 120–150B MoE as the long-term sweet spot over dense. — [Qwen3.8-Flash-Next](#qwen38-flash-next)
-- **1:14** — Attacking the speculator: poison the draft so the wrong token wins, from typo-squatted package installs upward. — [Attacking the speculator](#attacking-the-speculator)
-- **1:17** — Local models in the editor: Continue and Cline in VS Code, moving off Ollama, Vulkan over ROCm on AMD, and "local" meaning a VPN to the box at home. — [Local models in the editor](#local-models-in-the-editor) — [Cline](#cline)
-- **1:23** — ponytail buys a few percent and was benchmarked against Haiku. Token-cutting skills get absorbed into the next model, the way code-review and simplify did. — [ponytail](#ponytail) — [Superpowers](#superpowers)
-- **1:26** — Comment bloat: files where comments outweigh code, fifty-line PR essays for two-line changes. Comments should say why, not what. — [Comment bloat](#comment-bloat)
-- **1:30** — Who gets to send a PR: a whitelist-only project, a project shipping ten thousand lines per minor, and Debian's voluntary disclosure. Do you disclose spellcheck? — [Who gets to send a PR](#who-gets-to-send-a-pr) — [Debian's LLM policy](#debians-llm-policy)
-- **1:34** — Fable 5.1 in practice: orchestrate in Fable, delegate to Opus 5, effort levels, the ultracode keyword, and a five-hour window gone in minutes. — [Fable 5.1 in practice](#fable-51-in-practice)
-- **1:39** — Models prefer their own output, so review cross-vendor. A Codex agent that pushed fixes upstream on a one-line prompt. — [codex-review](#codex-review)
-- **1:42** — OpenRouter and Venice: pin the provider for privacy, no-log uncensored claims that smell like a honeypot, sandbox the agent in Firecracker. — [OpenRouter — Venice](#openrouter--venice)
-- **1:46** — Cerebras: fifteen-times-faster tokens turn a twenty-minute wait into one, keeping the task in your head instead of the agent's. — [Cerebras](#cerebras)
-- **1:48** — Clarifying questions: ask the agent to interrogate a vague prompt, learn from what it asks, and the one that silently chose compression over parallelism. — [Clarifying questions](#clarifying-questions)
-- **1:51** — Claude Artifacts in the wild: a study plan from a course's video list, a workflow visualiser, shareable and wired to data. — [Claude Artifacts](#claude-artifacts)
-- **1:56** — Closing: the bleak turn retracted, "building a tower when you need a bridge", ready-to-hand versus present-at-hand on Discord. Next assembly September 19.
+<TranscriptCell at="0:04" title="Kickoff" sub="Recording disclosed up front: transcribed and summarised on a local LLM, nothing leaves the building. OK Tech umbrella, Command Line meetup next Saturday." />
 
-## What we talked about
+<TranscriptCell at="0:07" title="Round of intros" sub="Security, freelancers, a visitor from Taichung moving commercial apps — dictation, translation — onto local models." />
 
-### HCI — human-computer interaction
+<TranscriptCell title="HCI — human-computer interaction" sub="Logged from the Discord thread before the room got going.">
 
 The field is quietly re-forming around agents: HCI's own framing this year is a shift from interaction design to *intention design* — you state the goal, the system decides the steps, and the interface's job becomes control, transparency and trust rather than usability. The coding-agent numbers make it concrete: roughly half of benchmark-passing agent patches wouldn't be accepted by human maintainers, so the bottleneck is the handoff, not the model. CHI 2026 is full of it — including a provocation that chat interfaces over-anthropomorphise and that's a design bug, not a feature. If the interaction layer keeps thinning out, what's actually left for us to design — the prompt, the permission dialog, or just the off switch? — [Design Principles for Human-Agent Interaction](https://arxiv.org/html/2606.20630) — [HAI 2026](https://hai-conference.net/hai2026/)
 
-### Typeless
+</TranscriptCell>
+
+<TranscriptCell at="0:16" title="Typeless" sub="The dictation app named in the intros as the kind of thing worth running locally.">
 
 Straight out of the HCI thread — if the keyboard is the bottleneck between you and the agent, drop the keyboard. Typeless is AI voice dictation that cleans up as you go: strips the ums, keeps your mid-sentence corrections' final version, auto-formats spoken lists, and adapts tone to the app you're speaking into — 220 words a minute, 100+ languages, Mac/Windows/iOS/Android. Prompting an agent is exactly the loose, intent-shaped text voice is good at. Who here would actually dictate their prompts across the desk from five other people doing the same? — [typeless.com](https://www.typeless.com/)
 
-### New York's AI ban for minors
+</TranscriptCell>
 
-The other side of the anthropomorphism thread — New York passed S 9051 in June, banning "companion" chatbots for anyone under 18, right through high school: no simulated emotional relationships, no engagement-optimising off personal data, no misleading kids about talking to a machine. Age assurance is required but explicitly can't demand government ID, fines run to $25,000 per violation, and Hochul has until December 31 to sign. It sits on top of a five-year moratorium on AI-enabled toys and the Character.AI settlements. If chat interfaces really do over-anthropomorphise by design, is banning them for kids the fix — or an admission the design was the problem all along? — [S 9051](https://www.nysenate.gov/newsroom/press-releases/2026/kristen-gonzalez/ai-chatbot-ban-minors-passes-internet-technology) — [passage](https://www.transparencycoalition.ai/news/new-york-lawmakers-pass-kids-ai-chatbot-safety-bill-and-two-transparency-acts)
-
-### Meat proxy
-
-The season's pejorative, coined by Niklas Gruhn in August and boosted by Simon Willison: a human who forwards questions to an AI and forwards the answers back, adding nothing but latency. The canonical failure is the code review where the developer pastes reviewer comments into the agent and never reads either side — the reviewers end up doing the implementation through a person-shaped pipe. The etiquette line: relaying verbatim is fine when the artefact is the point; it's the unread paraphrase-free forward that earns the label. Sits neatly beside the unread Hermes megadiff and models marking their own homework. Honest hands up — when did you last ship agent output you hadn't actually read? — [meatproxy.me](https://meatproxy.me/) — [anti-pattern](https://agentpatterns.ai/patterns/anti-patterns/meat-proxy/)
-
-### LLM policies in schools
-
-While New York is banning companion bots for minors, Google went the other way: Gemini in Classroom rolled out to K-12 students of *all ages* on August 10 — on by default where admins allow it, with a restricted under-18 mode, stricter filters, AI-literacy onboarding, and an automatic Search double-check the first time a young student asks a factual question. Image generation stays 18+, training on student data is off, and under-13s need verifiable parental consent. So the two live policies are "not until 18" and "from kindergarten, with guardrails". Round the table, most of us will have kids in one of these regimes — when *should* kids get LLMs? — [Gemini in Classroom for all ages](https://workspaceupdates.googleblog.com/2026/08/gemini-in-google-classroom-is-expanding-to-users-of-all-ages-with-contextualized-Gemini-starter-prompts-for-students.html) — [age-based access](https://knowledge.workspace.google.com/admin/getting-started/editions/control-access-to-google-services-by-age)
-
-### Continuous assessment
-
-Staying in the classroom — if LLMs make every take-home exam gameable, the exam stops being the unit of measurement. The move is from point-in-time tests to continuous assessment: AI aggregating evidence of learning over time, measuring the trajectory instead of the snapshot. The counter-trend is real too — Princeton now proctors all in-person exams after a long honor-code tradition, and a 95,513-student study in *Science* argues for discipline-specific reform over blanket bans, with traffic-light schemes (green: needs AI — yellow: AI optional — red: no AI possible) in between. Sound familiar? It's the same crisis as our benchmarks — a saturated point-in-time score versus watching the work happen. Would any of us want our own performance reviewed the continuous way? — [universities return to in-person exams](https://www.timeshighereducation.com/depth/are-universities-returning-person-exams-combat-ai-cheating) — [AI-resilient assessment](https://arxiv.org/pdf/2606.30655)
-
-### Grafana
-
-The dashboards company has quietly become an agent company. This year's stack: a hosted Grafana Cloud MCP server and `gcx` CLI so coding agents can pull live metrics, logs, traces and SLOs while they work; Assistant agents for investigations and automations; Agent Observability for watching *your* agents (tokens, cost, per-exchange forensics, hallucination evaluators) — built because they needed to observe their own Assistant; and o11y-bench, an open benchmark grading agents on real observability tasks. Continuous assessment for software, in other words — the same move as the classroom thread. Is anyone wiring their agent's Bash loop into live telemetry yet, or are we still eyeballing dashboards ourselves? — [grafana.com](https://grafana.com/) — [AI Week GA](https://grafana.com/press/2026/07/27/grafana-labs-ships-six-tools-that-power-agentic-operations-from-planning-to-production/)
-
-### DSpark
-
-DeepSeek again — DSpark is their MIT-licensed speculative-decoding framework, the one behind the "up to 85% faster inference" headlines. A small draft module guesses tokens for the big model to verify in one pass; the actual trick is confidence scheduling — deciding which guesses are worth checking at all, trimming low-confidence tails under load so batch capacity goes to other users. No retraining, no new GPUs, no quality loss, and it ships trained draft checkpoints for Qwen3 and Gemma 4 too — Liquid AI already gets 3x on-device from it. For agent loops, latency *is* the product: every turn is another round trip. Not to be confused with NVIDIA's DGX Spark, which is a box. Would we notice an 80%-faster agent, or is our bottleneck the human in the loop anyway? — [paper](https://arxiv.org/abs/2607.05147) — [The Batch](https://www.deeplearning.ai/the-batch/deepseeks-dspark-gains-velocity)
-
-### Qwen3.8-Flash-Next
-
-Alibaba's August 26 open-weight preview of the Qwen4 architecture — a 125B MoE that activates just 6B parameters per token, trained for roughly a ninth the cost of Qwen3.7-Plus. The interesting bits are structural: a Gated DeltaNet + Qwen Sparse Attention hybrid where sparse attention selects micro-blocks rather than tokens (aimed squarely at long-context agent latency), gated residual streams, n-gram embeddings, and the Muon optimizer. 262k context native, stretching to 1M, and it's on Hugging Face today — same playbook as Qwen3-Next before Qwen3.5: ship the skeleton early so the ecosystem is ready. When the frontier labs won't even publish parameter counts, how much is an open architecture preview actually worth to us? — [github.com/QwenLM/Qwen3.8-Flash-Next](https://github.com/QwenLM/Qwen3.8-Flash-Next) — [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)
-
-### Cline
-
-A returning guest — last discussed at AA04 as the BYO-model VS Code agent, and it's grown up since: CLI 2.0 in February with parallel agents and headless CI/CD, an Apache-licensed SDK peeled out in May that turned the product into infrastructure (the same move as Copilot SDK and the Claude Agent SDK), and ClinePass bundling open-weight models from $9.99/mo. Now in JetBrains, Zed, Neovim and a Kanban board that orchestrates Cline, Claude Code and Codex side by side — 8M installs, still model-agnostic across 30+ providers plus local Ollama. The fork family tree (Roo Code, Kilo Code) all traces back here. Is the open SDK the part that outlives the product? — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
-
-### vLLM — SGLang
-
-The two engines you actually serve open weights with, now that Hugging Face has put TGI in maintenance mode and points everyone at these instead. The 2026 folk wisdom: vLLM for breadth — widest model and hardware support, no compile step, the default on every cloud; SGLang for agent-shaped work — multi-turn, prefix-heavy, structured outputs, where it overlaps grammar-mask generation with inference while vLLM's guided decoding throughput sags past batch 8. Both took `SGLANG_USE_MODELSCOPE`-style flags for the Qwen drop above, and DSpark plugs into this layer too — the whole local stack is converging. For the self-hosters in the room: which one is under your Ollama-replacement, and did you benchmark or vibe it? — [github.com/vllm-project/vllm](https://github.com/vllm-project/vllm) — [github.com/sgl-project/sglang](https://github.com/sgl-project/sglang)
-
-### FreeToken
-
-The local-stack thread's third leg — UC Berkeley's Apache-2.0 edge inference engine for MoE models, which treats your laptop as one elastic platform instead of a small GPU: active experts live in VRAM, the rest in system RAM, with computation split CPU/GPU by live bandwidth profiling. The claims: 39 tok/s from a 35B Qwen on an 8GB GPU, a 284B DeepSeek at 22 tok/s on 32GB, first-token latency in seconds where llama.cpp takes minutes — though one independent tester notes llama.cpp already does ~35 tok/s on similar hardware, so mind the benchmark lag. OpenAI- and Anthropic-compatible APIs, so Claude Code can point at it directly. Sparse-activation models like Flash-Next above are exactly what this is for — is anyone ready to run their coding agent off the machine it's coding on? — [paper](https://arxiv.org/html/2608.16157v1) — [Hugging Face](https://huggingface.co/papers/2608.16157)
-
-### ponytail
-
-The On the table item got its table time — the seven-rung decision ladder (does it need to exist → stdlib → platform → dependency → one line → minimum that works) that makes the model justify writing code before writing it, with reading always in-budget and validation, security and a11y off the chopping block. The room's angle was the honest re-benchmark: 54% mean LOC once the maintainer measured against a headless agent baseline instead of padded prose. Less a dependency than a CLAUDE.md with 124k stars — who's actually installing it versus stealing the ladder for their own instructions? — [github.com/DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — [benchmark writeup](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-06-18-agentic.md)
-
-### Superpowers
-
-The maximalist counterpoint to ponytail's one ladder — Jesse Vincent's (obra's) skills framework that installs a whole development methodology into Claude Code: red-green-refactor TDD where the test must fail first, four-phase debugging that demands a root cause before any fix, Socratic brainstorming before code, subagent-driven development with built-in review, worktree discipline, and a meta-skill whose only job is forcing the agent to check the other skills on every message. Fourteen skills, plugin-marketplace install, works on Codex and OpenCode too. ponytail wants the agent to write less; Superpowers wants it to behave like a disciplined engineer. Do these compose, or does stacking methodologies just burn context the way `/skill-doctor` now warns about? — [github.com/obra/superpowers](https://github.com/obra/superpowers/) — [claude.com/plugins/superpowers](https://claude.com/plugins/superpowers)
-
-### Debian's LLM policy
-
-Debian voted on August 28 and rejected banning AI-generated code — the winning option is voluntary disclosure, same review bar regardless of source, humans accountable for what they submit, no secrets or embargoed material sent to third-party AI services, and mass bug-filing or bulk patches only with prior community discussion. That last clause is aimed straight at the Hermes-megadiff problem — one study found AI code matches human quality line for line; the risk is volume outrunning review. The copyright question is punted entirely. If the most governance-obsessed project in open source lands on "disclose if you like, review as always" — is that the sane default, or the loudest canary yet? — [helpnetsecurity.com](https://www.helpnetsecurity.com/2026/08/31/debian-linux-llm-policy/)
-
-### codex-review
-
-The Manufactured-sources fix, packaged: a Claude Code skill that shells out to the Codex CLI so a different vendor's model reviews the diff — cross-model validation catching bug classes self-review can't, since the models share no training data or fine-tuning. Variants go further: adversarial-review runs Claude and Codex on the same diff independently, then has each try to refute the other's findings, so confidence means surviving cross-examination. There's even an arXiv paper benchmarking all six review pairings, and a practical footnote — if you can't go cross-vendor, at least strip the implementer's self-assessment from the handoff so the reviewer isn't anchored. So — who's adding this to their pre-commit today? — [codex-review](https://claudemarketplaces.com/skills/hyperb1iss/hyperskills/codex-review) — [cross-model review paper](https://arxiv.org/html/2607.21656v1)
-
-### Claude Artifacts
-
-Artifacts stopped being a chat sidebar this year. April's Live Artifacts in Cowork connect to your apps and refresh with current data on open; June's Claude Code Artifacts publish a coding session as a self-contained interactive page at a private URL that updates in place while the session runs — org-only, no public sharing, Team/Enterprise beta. Add inline editing (highlight, type the change), forking with personal or shared state, 20MB persistence per artifact, and since this month one unified Projects-and-Artifacts home across Chat and Cowork. It's the intention-design thread again: the agent doesn't return output, it builds you an interface to the output. When the session ships its own dashboard, does anyone still open the PR? — [VentureBeat](https://venturebeat.com/data/anthropics-claude-code-artifacts-update-brings-live-shared-dashboards-and-interactive-workspaces-to-enterprises)
-
-### Camoufox
-
-The browser your agent should be driving when the site doesn't want it there — a Firefox fork with fingerprint spoofing done at the C++ level rather than by JavaScript injection, so navigator, screen, fonts, WebGL and the rest all lie consistently and detection scripts can't see the seams. Playwright-compatible, humanised cursor movement, geoIP-aware locale and timezone, and it will happily run headless. The meat-proxy thread from a different angle: if the agent looks human enough to pass every bot check, whose terms of service is it breaking — yours, or the model's? — [github.com/daijro/camoufox](https://github.com/daijro/camoufox)
-
-### Local meeting transcription
+<TranscriptCell at="0:17" title="Local meeting transcription" sub="A WebVTT file shipped to a home-server GPU for diarisation, so a meeting can generate its own task list.">
 
 The pipeline behind these notes, shown on request: record locally, save a WebVTT file, ship it to a GPU on a home server to split the speakers apart, then let a local model turn the transcript into notes — nothing touches the cloud. Diarisation is the part that matters; a wall of undifferentiated text is useless for pulling tasks out of a meeting, but once you know who said what, the AI can tell everyone what to do afterwards and the manager role gets thin. If the meeting writes its own action items, who's accountable for them?
 
-### Digital doubles
+</TranscriptCell>
+
+<TranscriptCell at="0:18" title="New York's AI ban for minors" sub="Vaccine or poison, the bilingual-acquisition analogy, and homework scores hitting the ceiling while exam scores fall.">
+
+The other side of the anthropomorphism thread — New York passed S 9051 in June, banning "companion" chatbots for anyone under 18, right through high school: no simulated emotional relationships, no engagement-optimising off personal data, no misleading kids about talking to a machine. Age assurance is required but explicitly can't demand government ID, fines run to $25,000 per violation, and Hochul has until December 31 to sign. It sits on top of a five-year moratorium on AI-enabled toys and the Character.AI settlements. If chat interfaces really do over-anthropomorphise by design, is banning them for kids the fix — or an admission the design was the problem all along? — [S 9051](https://www.nysenate.gov/newsroom/press-releases/2026/kristen-gonzalez/ai-chatbot-ban-minors-passes-internet-technology) — [passage](https://www.transparencycoalition.ai/news/new-york-lawmakers-pass-kids-ai-chatbot-safety-bill-and-two-transparency-acts)
+
+</TranscriptCell>
+
+<TranscriptCell at="0:21" title="Meat proxy" sub="The phrase from the chat got its first outing at the table — nobody wants their kids to become one.">
+
+The season's pejorative, coined by Niklas Gruhn in August and boosted by Simon Willison: a human who forwards questions to an AI and forwards the answers back, adding nothing but latency. The canonical failure is the code review where the developer pastes reviewer comments into the agent and never reads either side — the reviewers end up doing the implementation through a person-shaped pipe. The etiquette line: relaying verbatim is fine when the artefact is the point; it's the unread paraphrase-free forward that earns the label. Sits neatly beside the unread Hermes megadiff and models marking their own homework. Honest hands up — when did you last ship agent output you hadn't actually read? — [meatproxy.me](https://meatproxy.me/) — [anti-pattern](https://agentpatterns.ai/patterns/anti-patterns/meat-proxy/)
+
+</TranscriptCell>
+
+<TranscriptCell at="0:27" title="Letters, calculators and the basics" sub="Letters-to-internet and calculator analogies: know the basics as a minimum, and treat tool mastery as a skill in its own right." />
+
+<TranscriptCell at="0:31" title="The parents' side" sub="It's a product optimised for addiction, so school- or state-level rules beat leaving it to each family." />
+
+<TranscriptCell at="0:33" title="LLM policies in schools" sub="An Osaka experimental middle school on Gemini via Workspace, a university with its own Japanese LLM. Ban the implementations, not the technology.">
+
+While New York is banning companion bots for minors, Google went the other way: Gemini in Classroom rolled out to K-12 students of *all ages* on August 10 — on by default where admins allow it, with a restricted under-18 mode, stricter filters, AI-literacy onboarding, and an automatic Search double-check the first time a young student asks a factual question. Image generation stays 18+, training on student data is off, and under-13s need verifiable parental consent. So the two live policies are "not until 18" and "from kindergarten, with guardrails". Round the table, most of us will have kids in one of these regimes — when *should* kids get LLMs? — [Gemini in Classroom for all ages](https://workspaceupdates.googleblog.com/2026/08/gemini-in-google-classroom-is-expanding-to-users-of-all-ages-with-contextualized-Gemini-starter-prompts-for-students.html) — [age-based access](https://knowledge.workspace.google.com/admin/getting-started/editions/control-access-to-google-services-by-age)
+
+</TranscriptCell>
+
+<TranscriptCell at="0:36" title="Why school exists" sub="Collaboration is the thing AI hasn't figured out. Researchers sending LLM-written letters, and a test that measures student, teacher and curriculum at once." />
+
+<TranscriptCell at="0:40" title="Continuous assessment" sub="Tests versus continuous assessment, spaced repetition, and whether the difference is anything more than speed.">
+
+Staying in the classroom — if LLMs make every take-home exam gameable, the exam stops being the unit of measurement. The move is from point-in-time tests to continuous assessment: AI aggregating evidence of learning over time, measuring the trajectory instead of the snapshot. The counter-trend is real too — Princeton now proctors all in-person exams after a long honor-code tradition, and a 95,513-student study in *Science* argues for discipline-specific reform over blanket bans, with traffic-light schemes (green: needs AI — yellow: AI optional — red: no AI possible) in between. Sound familiar? It's the same crisis as our benchmarks — a saturated point-in-time score versus watching the work happen. Would any of us want our own performance reviewed the continuous way? — [universities return to in-person exams](https://www.timeshighereducation.com/depth/are-universities-returning-person-exams-combat-ai-cheating) — [AI-resilient assessment](https://arxiv.org/pdf/2606.30655)
+
+</TranscriptCell>
+
+<TranscriptCell at="0:41" title="Digital doubles" sub="The high end of surveillance capitalism — unless a university runs it.">
 
 The dark end of the continuous-assessment thread: Chinese industry's digital doubles, where every worker's data goes into a database that simulates how the factory — and each person's health — yields over the next twenty years. Continuous assessment at population scale, and the highest form of surveillance capitalism one of us has seen. The counter: the mechanism isn't inherently capitalist — a university running its own LLM on its own hardware is the same technology under different ownership, and there's at least one in Osaka doing exactly that. Is the objection to the measurement, or to who owns it?
 
-### Agents in the team Slack
+</TranscriptCell>
+
+<TranscriptCell at="0:43" title="Agents in the team Slack" sub="Banned from social channels, an observability agent for “why is production slow”, a new hire mistaken for a bot.">
 
 A straw poll on agents in a team setting, and one workplace had plenty: a triage bot for support that hands humans a summary, an observability agent that answers "why is production slow?" by reading every API it has access to, shared containers where agents with job descriptions sit beside human users. The lessons were social — the agents got banned from social channels because nobody wants a bot in the banter, and a new hire got mistaken for one for a week. Meanwhile a five-person sister company built the whole agent infrastructure. Where's the line between an agent you'd ask a technical question and one you'd mute?
 
-### CMP 170HX
+</TranscriptCell>
+
+<TranscriptCell title="Grafana" sub="The commercial cousin of that observability agent.">
+
+The dashboards company has quietly become an agent company. This year's stack: a hosted Grafana Cloud MCP server and `gcx` CLI so coding agents can pull live metrics, logs, traces and SLOs while they work; Assistant agents for investigations and automations; Agent Observability for watching *your* agents (tokens, cost, per-exchange forensics, hallucination evaluators) — built because they needed to observe their own Assistant; and o11y-bench, an open benchmark grading agents on real observability tasks. Continuous assessment for software, in other words — the same move as the classroom thread. Is anyone wiring their agent's Bash loop into live telemetry yet, or are we still eyeballing dashboards ourselves? — [grafana.com](https://grafana.com/) — [AI Week GA](https://grafana.com/press/2026/07/27/grafana-labs-ships-six-tools-that-power-agentic-operations-from-planning-to-production/)
+
+</TranscriptCell>
+
+<TranscriptCell at="0:47" title="Isolate or connect?" sub="Learning a subject through an LLM is like learning chemistry through English: fluent in the tool, mute without it. Which basics survive — nobody learns the abacus." />
+
+<TranscriptCell at="0:50" title="The bleak turn" sub="What today's ten-year-olds will actually face is climate and an ageing society, and technology should be built for that." />
+
+<TranscriptCell at="0:52" title="CMP 170HX" sub="Show and tell: A100 silicon sold to miners, now unlockable from the OS. Datacentre bandwidth at 250 W, dusty and unsupported.">
 
 The show-and-tell: NVIDIA's crypto-mining card from 2021 is A100 silicon that couldn't be sold as A100s, throttled in firmware — FP32 crippled, a fraction of the memory exposed, PCIe cut to a trickle — and dumped on miners just before Ethereum's proof-of-stake switch made it worthless overnight. Someone found an exploit in the GPU's onboard controller that flips the registers back from the operating system, no soldering required, and now you get datacentre-grade HBM2e bandwidth at 250 W — close to an RTX Pro 6000 on memory speed, slower on compute, which is fine for MoE models that are bandwidth-bound anyway. Price went from a thousand dollars to two and a half since the driver leaked, the cards smell of mining-rig dust, and nothing links them together. Gamble on three of these, or pay for one 5090?
 
-### Attacking the speculator
+</TranscriptCell>
+
+<TranscriptCell at="1:05" title="DSpark" sub="The Chinese market flooded with cheap cards, million-token context on one of them, and speculative decoding as the way to cope with slow local models.">
+
+DeepSeek again — DSpark is their MIT-licensed speculative-decoding framework, the one behind the "up to 85% faster inference" headlines. A small draft module guesses tokens for the big model to verify in one pass; the actual trick is confidence scheduling — deciding which guesses are worth checking at all, trimming low-confidence tails under load so batch capacity goes to other users. No retraining, no new GPUs, no quality loss, and it ships trained draft checkpoints for Qwen3 and Gemma 4 too — Liquid AI already gets 3x on-device from it. For agent loops, latency *is* the product: every turn is another round trip. Not to be confused with NVIDIA's DGX Spark, which is a box. Would we notice an 80%-faster agent, or is our bottleneck the human in the loop anyway? — [paper](https://arxiv.org/abs/2607.05147) — [The Batch](https://www.deeplearning.ai/the-batch/deepseeks-dspark-gains-velocity)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:11" title="Qwen3.8-Flash-Next" sub="Lookup-style memory living in system RAM beside prediction, and 120–150B MoE as the long-term sweet spot over dense.">
+
+Alibaba's August 26 open-weight preview of the Qwen4 architecture — a 125B MoE that activates just 6B parameters per token, trained for roughly a ninth the cost of Qwen3.7-Plus. The interesting bits are structural: a Gated DeltaNet + Qwen Sparse Attention hybrid where sparse attention selects micro-blocks rather than tokens (aimed squarely at long-context agent latency), gated residual streams, n-gram embeddings, and the Muon optimizer. 262k context native, stretching to 1M, and it's on Hugging Face today — same playbook as Qwen3-Next before Qwen3.5: ship the skeleton early so the ecosystem is ready. When the frontier labs won't even publish parameter counts, how much is an open architecture preview actually worth to us? — [github.com/QwenLM/Qwen3.8-Flash-Next](https://github.com/QwenLM/Qwen3.8-Flash-Next) — [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:14" title="Attacking the speculator" sub="Poison the draft so the wrong token wins, from typo-squatted package installs upward.">
 
 Speculative decoding is a new component in the generation path, so it's a new place to break it — the room's security angle on DSpark. A draft model proposes tokens and the big model verifies; if you can shape the input so the draft's wrong candidate gets preferred, you've biased the output without touching the weights. The obvious payload: nudge a package name in an install command toward a typo-squatted one. "But we treat LLM output as untrusted anyway" — we should; we don't. Benchmarks and numbers promised for a future assembly. What else in the local stack are we assuming is a pure function of the prompt?
 
-### Local models in the editor
+</TranscriptCell>
+
+<TranscriptCell at="1:17" title="Local models in the editor" sub="Continue and Cline in VS Code, moving off Ollama, Vulkan over ROCm on AMD, and “local” meaning a VPN to the box at home.">
 
 The practical question from the floor: model's running, now how do you get VS Code to talk to it? Answers: Continue as the plugin that takes any local endpoint, Cline for the agentic side, and the observation that the editors themselves now ship local-model integration. Runtime choice depends on the card — on AMD skip ROCm and go Vulkan, and Ollama gets dropped once you want to tune anything. Also: "local" doesn't have to mean the laptop. A big box at home behind a VPN is local enough. Is Ollama still the on-ramp, or just the thing you outgrow in a week? — [continue.dev](https://www.continue.dev/) — [github.com/cline/cline](https://github.com/cline/cline)
 
-### Comment bloat
+</TranscriptCell>
+
+<TranscriptCell at="1:18" title="Cline" sub="Named from the floor as the agentic half of the VS Code answer.">
+
+A returning guest — last discussed at AA04 as the BYO-model VS Code agent, and it's grown up since: CLI 2.0 in February with parallel agents and headless CI/CD, an Apache-licensed SDK peeled out in May that turned the product into infrastructure (the same move as Copilot SDK and the Claude Agent SDK), and ClinePass bundling open-weight models from $9.99/mo. Now in JetBrains, Zed, Neovim and a Kanban board that orchestrates Cline, Claude Code and Codex side by side — 8M installs, still model-agnostic across 30+ providers plus local Ollama. The fork family tree (Roo Code, Kilo Code) all traces back here. Is the open SDK the part that outlives the product? — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:21" title="vLLM — SGLang" sub="The Ollama-replacement question, from the same thread.">
+
+The two engines you actually serve open weights with, now that Hugging Face has put TGI in maintenance mode and points everyone at these instead. The 2026 folk wisdom: vLLM for breadth — widest model and hardware support, no compile step, the default on every cloud; SGLang for agent-shaped work — multi-turn, prefix-heavy, structured outputs, where it overlaps grammar-mask generation with inference while vLLM's guided decoding throughput sags past batch 8. Both took `SGLANG_USE_MODELSCOPE`-style flags for the Qwen drop above, and DSpark plugs into this layer too — the whole local stack is converging. For the self-hosters in the room: which one is under your Ollama-replacement, and did you benchmark or vibe it? — [github.com/vllm-project/vllm](https://github.com/vllm-project/vllm) — [github.com/sgl-project/sglang](https://github.com/sgl-project/sglang)
+
+</TranscriptCell>
+
+<TranscriptCell title="FreeToken" sub="The third leg of the local stack, logged from the chat.">
+
+The local-stack thread's third leg — UC Berkeley's Apache-2.0 edge inference engine for MoE models, which treats your laptop as one elastic platform instead of a small GPU: active experts live in VRAM, the rest in system RAM, with computation split CPU/GPU by live bandwidth profiling. The claims: 39 tok/s from a 35B Qwen on an 8GB GPU, a 284B DeepSeek at 22 tok/s on 32GB, first-token latency in seconds where llama.cpp takes minutes — though one independent tester notes llama.cpp already does ~35 tok/s on similar hardware, so mind the benchmark lag. OpenAI- and Anthropic-compatible APIs, so Claude Code can point at it directly. Sparse-activation models like Flash-Next above are exactly what this is for — is anyone ready to run their coding agent off the machine it's coding on? — [paper](https://arxiv.org/html/2608.16157v1) — [Hugging Face](https://huggingface.co/papers/2608.16157)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:23" title="ponytail" sub="Buys a few percent and was benchmarked against Haiku. Token-cutting skills get absorbed into the next model, the way code-review and simplify did.">
+
+The On the table item got its table time — the seven-rung decision ladder (does it need to exist → stdlib → platform → dependency → one line → minimum that works) that makes the model justify writing code before writing it, with reading always in-budget and validation, security and a11y off the chopping block. The room's angle was the honest re-benchmark: 54% mean LOC once the maintainer measured against a headless agent baseline instead of padded prose. Less a dependency than a CLAUDE.md with 124k stars — who's actually installing it versus stealing the ladder for their own instructions? — [github.com/DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — [benchmark writeup](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-06-18-agentic.md)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:25" title="Superpowers" sub="The maximalist counterpoint — and the same absorption argument applies.">
+
+The maximalist counterpoint to ponytail's one ladder — Jesse Vincent's (obra's) skills framework that installs a whole development methodology into Claude Code: red-green-refactor TDD where the test must fail first, four-phase debugging that demands a root cause before any fix, Socratic brainstorming before code, subagent-driven development with built-in review, worktree discipline, and a meta-skill whose only job is forcing the agent to check the other skills on every message. Fourteen skills, plugin-marketplace install, works on Codex and OpenCode too. ponytail wants the agent to write less; Superpowers wants it to behave like a disciplined engineer. Do these compose, or does stacking methodologies just burn context the way `/skill-doctor` now warns about? — [github.com/obra/superpowers](https://github.com/obra/superpowers/) — [claude.com/plugins/superpowers](https://claude.com/plugins/superpowers)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:26" title="Comment bloat" sub="Files where comments outweigh code, fifty-line PR essays for two-line changes. Comments should say why, not what.">
 
 The pendulum has swung all the way round: from "good code doesn't need comments" to "comment the why, not the what" to files where the comments are twice the size of the code, because the agent narrates for the next agent. The same thing lands in PRs — a two-line change with fifty lines of AI-generated explanation that nobody asked for, and the reviewer has to read it all. The counter: those English tokens genuinely help the next model pick the right context. Are comments now for humans at all, or have they become the inter-agent protocol we just happen to be able to read?
 
-### Who gets to send a PR
+</TranscriptCell>
+
+<TranscriptCell at="1:30" title="Who gets to send a PR" sub="A whitelist-only project, a project shipping ten thousand lines per minor, and the question of whether you can tell a human PR from an agent's.">
 
 Two projects at opposite extremes. One agent-first project bans PRs from anyone not on a whitelist, so the only way to improve it is to fork and iterate alone — which is arguably how open source always worked, the PR button nobody presses. Another accepts everything: minor releases of ten thousand lines and five hundred commits, and a GUI that follows commits rather than releases, so you update thirty times in two hours. Both are answers to the same question — can you tell whether a PR came from a human? — and Debian's voluntary disclosure is a third. Do you disclose using spellcheck? — [herdr.dev](https://herdr.dev/) — [Hermes releases](https://github.com/NousResearch/hermes-agent/releases)
 
-### Fable 5.1 in practice
+</TranscriptCell>
+
+<TranscriptCell at="1:33" title="Debian's LLM policy" sub="Voluntary disclosure — do you disclose spellcheck?">
+
+Debian voted on August 28 and rejected banning AI-generated code — the winning option is voluntary disclosure, same review bar regardless of source, humans accountable for what they submit, no secrets or embargoed material sent to third-party AI services, and mass bug-filing or bulk patches only with prior community discussion. That last clause is aimed straight at the Hermes-megadiff problem — one study found AI code matches human quality line for line; the risk is volume outrunning review. The copyright question is punted entirely. If the most governance-obsessed project in open source lands on "disclose if you like, review as always" — is that the sane default, or the loudest canary yet? — [helpnetsecurity.com](https://www.helpnetsecurity.com/2026/08/31/debian-linux-llm-policy/)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:34" title="Fable 5.1 in practice" sub="Orchestrate in Fable, delegate to Opus 5, effort levels, the ultracode keyword, and a five-hour window gone in minutes.">
 
 Two weeks in and it's the default for most of the table. The emerging workflow: orchestrate and plan in Fable, delegate implementation to Opus 5; run the pipeline model at low or medium effort for everyday tasks and save the high end for planning sessions. The `ultracode` keyword spawns a multi-agent workflow, which is why it has to be typed exactly — typos on a phone keyboard turn out to cost tokens too. Cautionary tale: autocomplete on Fable plus a fleet of Fable subagents burned a full five-hour window in minutes. Is anyone measuring the delegation split, or just vibing it? — [what's new](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1)
 
-### OpenRouter — Venice
+</TranscriptCell>
+
+<TranscriptCell at="1:39" title="codex-review" sub="Models prefer their own output, so review cross-vendor. A Codex agent that pushed fixes upstream on a one-line prompt.">
+
+The Manufactured-sources fix, packaged: a Claude Code skill that shells out to the Codex CLI so a different vendor's model reviews the diff — cross-model validation catching bug classes self-review can't, since the models share no training data or fine-tuning. Variants go further: adversarial-review runs Claude and Codex on the same diff independently, then has each try to refute the other's findings, so confidence means surviving cross-examination. There's even an arXiv paper benchmarking all six review pairings, and a practical footnote — if you can't go cross-vendor, at least strip the implementer's self-assessment from the handoff so the reviewer isn't anchored. So — who's adding this to their pre-commit today? — [codex-review](https://claudemarketplaces.com/skills/hyperb1iss/hyperskills/codex-review) — [cross-model review paper](https://arxiv.org/html/2607.21656v1)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:42" title="OpenRouter — Venice" sub="Pin the provider for privacy, no-log uncensored claims that smell like a honeypot, sandbox the agent in Firecracker.">
 
 The privacy shape of routing: OpenRouter will spray your prompt across every provider by default, but you can pin it to one, and the choice of provider is the choice of who sees your code. Venice sells itself on no log retention and uncensored models, which the table immediately read as the perfect honeypot — "depending on your paranoia level, this is an option, and you might be too paranoid for it". Same instinct for the agent itself: the model is a pure function, the agent has a shell, so the agent goes in a Kubernetes pod or a Firecracker VM whatever the model's provenance. Which do you trust less — the model or the harness around it? — [openrouter.ai](https://openrouter.ai/) — [venice.ai](https://venice.ai/)
 
-### Cerebras
+</TranscriptCell>
+
+<TranscriptCell at="1:46" title="Cerebras" sub="Fifteen-times-faster tokens turn a twenty-minute wait into one, keeping the task in your head instead of the agent's.">
 
 Cerebras offering very high tokens per second as a provider, with the asterisk that the fast number is uncached. The argument for why it matters: most of us see thirty to a hundred tokens a second, and a fifteen-times jump doesn't just make agents cheaper per hour, it changes how you work. A twenty-minute task becomes one minute, so the task is still in your head when the agent comes back, instead of "what was I doing here?" after a context switch. The counter: some of us like the pause — it's thinking time, and you can always run ten agents instead of five. Would you actually work differently at fifteen hundred tokens a second, or just wait less? — [cerebras.ai](https://www.cerebras.ai/)
 
-### Clarifying questions
+</TranscriptCell>
+
+<TranscriptCell at="1:48" title="Clarifying questions" sub="Ask the agent to interrogate a vague prompt, learn from what it asks, and the one that silently chose compression over parallelism.">
 
 The co-pilot-not-autopilot thread. One habit: when a prompt feels vague, ask the agent to clarify it before it starts, get five questions back — sometimes unrelated to what you meant, sometimes the questions themselves teach you something you should have researched. The other side: an agent told to parallelise a slow upload came back having silently chosen to compress the file losslessly instead, without asking. It was the right call, and that's the unsettling part. When the agent's judgement beats your instruction, do you want it to ask, or just do it?
+
+</TranscriptCell>
+
+<TranscriptCell at="1:51" title="Claude Artifacts" sub="A study plan from a course's video list, a workflow visualiser, shareable and wired to data.">
+
+Artifacts stopped being a chat sidebar this year. April's Live Artifacts in Cowork connect to your apps and refresh with current data on open; June's Claude Code Artifacts publish a coding session as a self-contained interactive page at a private URL that updates in place while the session runs — org-only, no public sharing, Team/Enterprise beta. Add inline editing (highlight, type the change), forking with personal or shared state, 20MB persistence per artifact, and since this month one unified Projects-and-Artifacts home across Chat and Cowork. It's the intention-design thread again: the agent doesn't return output, it builds you an interface to the output. When the session ships its own dashboard, does anyone still open the PR? — [VentureBeat](https://venturebeat.com/data/anthropics-claude-code-artifacts-update-brings-live-shared-dashboards-and-interactive-workspaces-to-enterprises)
+
+</TranscriptCell>
+
+<TranscriptCell title="Camoufox" sub="Logged from the chat — the browser for when the site doesn't want your agent there.">
+
+The browser your agent should be driving when the site doesn't want it there — a Firefox fork with fingerprint spoofing done at the C++ level rather than by JavaScript injection, so navigator, screen, fonts, WebGL and the rest all lie consistently and detection scripts can't see the seams. Playwright-compatible, humanised cursor movement, geoIP-aware locale and timezone, and it will happily run headless. The meat-proxy thread from a different angle: if the agent looks human enough to pass every bot check, whose terms of service is it breaking — yours, or the model's? — [github.com/daijro/camoufox](https://github.com/daijro/camoufox)
+
+</TranscriptCell>
+
+<TranscriptCell at="1:56" title="Closing" sub="The bleak turn retracted, “building a tower when you need a bridge”, ready-to-hand versus present-at-hand on Discord. Next assembly September 19." />
+
+</Transcript>
 
 {/* news:start */}
 ## News since last assembly

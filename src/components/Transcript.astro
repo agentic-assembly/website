@@ -1,0 +1,21 @@
+---
+/**
+ * Transcript — a card of subdivided cells, one per topic the room covered.
+ * Wrap a run of <TranscriptCell> in it. Styles live in global.css (.tx*).
+ */
+interface Props {
+  label?: string;
+  note?: string;
+}
+const { label = "What we talked about", note } = Astro.props;
+---
+
+<section class="tx">
+  <header class="tx__head">
+    <span class="tx__label">{label}</span>
+    {note && <span class="tx__note">{note}</span>}
+  </header>
+  <div class="tx__cells">
+    <slot />
+  </div>
+</section>

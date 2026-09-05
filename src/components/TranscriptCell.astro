@@ -1,0 +1,50 @@
+---
+/**
+ * One cell of a <Transcript>. `at` is "h:mm" into the recording and is
+ * rendered human-readable ("18 min", "1 h 14 min"). The title becomes an
+ * <h3> with the same id GitHub/Astro would give a `### title` heading, so
+ * existing #anchor links keep working. Body (slot) is optional markdown.
+ */
+interface Props {
+  title: string;
+  at?: string;
+  sub?: string;
+  id?: string;
+}
+const { title, at, sub, id } = Astro.props;
+
+function slugify(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N} -]/gu, "")
+    .replace(/ /g, "-");
+}
+
+function human(at?: string): string | undefined {
+  if (!at) return undefined;
+  const [h, m] = at.split(":").map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return at;
+  return h > 0 ? `${h} h ${String(m).padStart(2, "0")} min` : `${m} min`;
+}
+
+const slug = id ?? slugify(title);
+const when = human(at);
+const hasBody = Astro.slots.has("default");
+---
+
+<div class={`tx-cell${hasBody ? "" : " tx-cell--brief"}`} id={slug}>
+  <div class="tx-cell__time">
+    {when ? <time datetime={at ? `PT${at.replace(":", "H")}M` : undefined}>{when}</time> : <span class="tx-cell__untimed">—</span>}
+  </div>
+  <div class="tx-cell__main">
+    <h3 class="tx-cell__title">{title}</h3>
+    {sub && <p class="tx-cell__sub">{sub}</p>}
+    {
+      hasBody && (
+        <div class="tx-cell__body">
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</div>

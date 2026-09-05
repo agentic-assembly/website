@@ -1,6 +1,6 @@
 ---
-import Footer from "../components/Footer.astro";
 import Container from "../components/Container.astro";
+import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { type Asset, formatSize } from "../lib/assets";
 import { partsRecord } from "../lib/date";
@@ -59,20 +59,6 @@ const teaserDateFmt = new Intl.DateTimeFormat("en-GB", {
   timeZone: "Asia/Tokyo",
 });
 const formatTeaserDate = (d: Date) => teaserDateFmt.format(d).toUpperCase().replace(/\./g, "");
-
-const hostFromUrl = (url: string) => {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-};
-
-const refRows = references.map((r) => ({
-  title: r.title,
-  url: r.url,
-  src: hostFromUrl(r.url),
-}));
 ---
 
 <Layout title={`${title} — Agentic Assembly`}>
@@ -129,23 +115,6 @@ const refRows = references.map((r) => ({
         )
       }
 
-      {
-        refRows.length > 0 && (
-          <section class="va-further">
-            <div class="va-further-title">Further reading</div>
-            <ul>
-              {refRows.map((r) => (
-                <li>
-                  <a href={r.url} target="_blank" rel="noopener noreferrer">
-                    {r.title}
-                  </a>
-                  <span class="src">{r.src}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
 
       {
         nextAssembly && (

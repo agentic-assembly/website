@@ -65,12 +65,31 @@ Back to coding harnesses — Cline as the open-source, VS Code-native agent, oft
 
 ### 4. Place the entry
 
-**If the target already has a `## What we talked about` section:**
+**If the target uses the `<Transcript>` component (look for `</Transcript>`):**
+
+Newer entries (AA14 onward) render the section as a card of cells rather than `###` headings. Each cell is:
+
+```mdx
+<TranscriptCell at="1:23" title="Cline" sub="One-line subtitle — what the room actually said about it.">
+
+The house-style paragraph, ending in a question. — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
+
+</TranscriptCell>
+```
+
+- `title` is the topic in canonical casing; it becomes the `<h3>` and its `#anchor`.
+- `sub` is a one-line subtitle — the hook or the note the user gave, not a repeat of the title. Keep it under ~20 words.
+- `at` is optional: `h:mm` into the recording. Live during the event you usually won't know it — **omit it** (the cell renders an em-dash in the time gutter) rather than guess. The organiser fills timestamps in afterwards from the recording.
+- The paragraph goes between the tags with a blank line on each side (it's markdown inside JSX).
+- If a cell with that `title` already exists (case-insensitive), **augment** its paragraph and/or `sub` rather than adding a duplicate.
+- Otherwise append the new cell immediately **before `</Transcript>`**, with a blank line above.
+
+**If the target has a plain `## What we talked about` section (older entries):**
 
 - If a `### <topic>` heading already exists in it (case-insensitive match), **augment** that entry — fold the new note/link into the existing paragraph rather than adding a duplicate heading.
 - Otherwise append the new `### Topic` block at the **end** of the section (just before the next `##` heading — usually `## Announcements` or the `{/* news:start */}` block).
 
-**If the target has no `## What we talked about` section yet (generate it):**
+**If the target has neither (generate it):**
 
 Insert a new `## What we talked about` section followed by your entry. Placement, in order of preference:
 

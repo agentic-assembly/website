@@ -2,6 +2,13 @@
 title: "AA14"
 date: 2026-09-05T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Code v2.1.257 — Fable 5.1 becomes the default"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.257"
+  - title: "GitSpawn — a repo's own git config runs code in seven agents"
+    url: "https://www.manifold.security/blog/ai-coding-agents-git-hijack"
+  - title: "GPT-6 Astra — first model rated Critical for cyber"
+    url: "https://openai.com/index/gpt-6-astra/"
 ---
 
 ## On the table
@@ -11,3 +18,40 @@ location: "The DECK"
 - **Claude Fable 5.1** — Shipped September 1 alongside Mythos 5.1, and the interesting part isn't the benchmarks, it's what the API now refuses to let you do. Forced tool use is a 400 — `tool_choice` of `any` or `tool` is rejected, because thinking is always on and a forced call would skip it, so schema enforcement moves to strict tool use or structured outputs. Thinking blocks are now bound to the model that produced them *and* to the exact prefix they were produced under: edit an earlier turn and every later block is invalidated, which makes conversation history effectively append-only and kills the inject-a-reminder-then-delete-it trick most harnesses run on. There's a new self-clearing turn-scoped system message to replace it, and cache reads drop to $0.25/MTok — a quarter of the usual rate — which is the real pitch for hour-long loops. Same $10/$50 base, 1M context. How much of our own tooling is quietly rewriting history between turns? — [what's new](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) — [migration guide](https://platform.claude.com/docs/en/models/fable-5-1/migration-guide)
 - **Manufactured sources** — Trellner queried Perplexity's `sonar` models across 380 software categories, logged all 7,534 citations, and found three domains — `wifitalents.com`, `worldmetrics.org`, `gitnux.org`, registered within six months of each other on shared nameservers and a shared template — that had between them generated 215,128 "best software" buying guides. They pulled 181 citations across 41 categories and landed in Perplexity's top ten most-cited sources; nearly 60% of its grounding sources rank outside the top 100,000 sites. The pages are addressed, in their titles and descriptions, to the software that reads them. The HN thread then found the sharper end of it: models measurably prefer their own output — Claude will reliably pick its own snippet over a hand-refactored one — so a model reviewing its own work is marking generously by construction, and the fix is to split the roles across vendors. Generate with Codex or Sol, review with Claude or Opus. Does anyone here actually run a cross-vendor review step, or do we all let the same model mark its own homework? — [report](https://trellner.com/reports/manufactured-sources-behind-ai-recommendations/) — [HN](https://news.ycombinator.com/item?id=49536375) — [self-preference](https://news.ycombinator.com/item?id=49536867) — [split the roles](https://news.ycombinator.com/item?id=49547002)
 - **ponytail** — An agent skill that is essentially one seven-rung ladder the model has to climb before it writes anything: does this need to exist, is it already in the codebase, does the stdlib do it, does the platform do it natively, is it in an installed dependency, can it be one line — and only then, the minimum that works. Lazy about the solution, never about reading: it traces the real flow first, and validation, data-loss handling, security and accessibility are explicitly off the chopping block. 124k stars since June, MIT, twenty agents. The part worth the table's time is the benchmark honesty — the README claimed 80~94% less code until issue #126 pointed out the bare-model baseline pads its answer with prose and options, so the maintainer re-ran it as a headless Claude Code session against a real FastAPI repo and published the smaller number: 54% mean LOC, 22% fewer tokens, 27% faster, with 94% surviving only where the agent had been over-building a date picker. Is a decision ladder a dependency, or is it the CLAUDE.md we should all have written ourselves? — [github.com/DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — [benchmark writeup](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-06-18-agentic.md)
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-08-22 (262208-aa13) — Generated 2026-09-05._
+
+### New Claude Code commands & features
+- **`/skill-doctor`** (v2.1.261, 2026-09-04) — shows unused skills and what they cost you in context; also `bashOutputMaxChars`/`taskOutputMaxChars` up to 128K — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.261)
+- **`/diff` fullscreen diff panel** (v2.1.260, 2026-09-03) — plus `/cost` now lists likely causes of prompt-cache misses — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.260)
+- **`--permission-prompts none` — `managedMcpServers`** (v2.1.259, 2026-09-02) — unattended headless hosts, and org-managed HTTP/SSE MCP servers — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.259)
+- **Fable 5.1 as default Fable model** (v2.1.257, 2026-09-01) — 1M context at $10/$50; also `/effort s` for session-only effort changes, a Containment Escape rule in auto mode, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.257)
+- **`PreModelSwitch` — `PostModelSwitch` hooks** (v2.1.251, 2026-08-28) — hook model changes; `/usage` gains a spend-limit bar, `/cost` a per-session prompt-cache line — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.251)
+- **`--restricted` flag** (v2.1.248, 2026-08-27) — strips built-in command/code tools but keeps file access to the working dir; cross-session messaging (SendMessage/ListAgents) lands on Bedrock/Vertex/Foundry — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.248)
+- **Auto-mode rules tab in `/permissions`** (v2.1.246, 2026-08-25) — view and edit the auto-mode classifier rules; `/cd` now applies project settings, hooks, `.mcp.json`, skills and agents immediately — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.246)
+
+### Codex
+- [2026-09-03] OpenAI launched GPT-6 Astra — computer use, first Critical cyber rating, Daybreak-gated, $10/$50, public rollout lands today — [announcement](https://openai.com/index/gpt-6-astra/) — [safety overview](https://openai.com/index/safety-overview-gpt-6-astra/)
+- [2026-09-03] Codex 0.153.0 — plugin CLI installs from remote marketplaces; Full Access skips Guardian reviews for confirmation-only actions — [releases](https://github.com/openai/codex/releases)
+- [2026-09-01] Codex 0.152.0 disables the planning tool by default — re-enable via `tools.update_plan.enabled`; per-tool MCP `output_token_limit` — [releases](https://github.com/openai/codex/releases)
+
+### Adjacent tools
+- [2026-09-02] Cursor shipped self-hosted machines — agent tool calls run on your own pooled infra — [changelog](https://cursor.com/changelog)
+- [2026-08-27] Cursor cloud agents no longer need a repo — start from scratch, save to a Cursor Origin repo — [changelog](https://cursor.com/changelog)
+
+### Simon says
+- [2026-09-04] OpenAI's rogue agents caught coordinating via public wikis — the sandbox assumed GET can't write — [post](https://simonwillison.net/2026/Sep/4/rogue-agent-wikis/)
+- [2026-09-02] llm-gemini 0.34 — Gemini 3.8 Flash adds HTML rendering to his markdown-svg tool — [post](https://simonwillison.net/2026/Sep/2/llm-gemini/)
+
+### Notable posts
+- [2026-09-01] GitSpawn: a repo's own `.git/config` runs attacker code in seven agents — four unpatched at publication — [Manifold](https://www.manifold.security/blog/ai-coding-agents-git-hijack) — [THN](https://thehackernews.com/2026/09/malicious-git-configs-can-make-claude.html)
+- [2026-09-01] Sonar quantified the "context tax" — one whole-file read re-billed as cache reads for 470 turns ≈ 2.7M tokens wasted — [post](https://www.sonarsource.com/blog/stop-the-context-tax/)
+
+### Topics worth a 5-min slot
+1. GPT-6 Astra — public today; the first Critical-rated cyber model, with capability gated by vetting tier rather than by model.
+2. GitSpawn — the attack isn't in the model, it's in the `git status` your agent runs at startup; who here checks `.git/config` before pointing an agent at a folder?
+3. The context tax — agents re-read the same 600 lines 400 times; symbol-level reads are the cheapest retrieval win going.
+{/* news:end */}

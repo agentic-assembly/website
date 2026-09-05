@@ -1419,22 +1419,28 @@ a:hover {
   margin: 0;
   color: var(--ink);
 }
+.va-prose .tx-cell__sub,
+.va-prose .tx-cell__takes,
+.va-prose .tx-cell__body p {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0;
+}
 .va-prose .tx-cell__sub {
-  font-size: 13px;
-  line-height: 1.55;
-  margin: 4px 0 0;
+  margin-top: 6px;
   color: var(--ink-dim);
+}
+.va-prose .tx-cell__takes {
+  margin-top: 12px;
+  padding-left: 14px;
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
 }
 .tx-cell__body {
   margin-top: 12px;
 }
-.va-prose .tx-cell__body p {
-  font-size: 14px;
-  line-height: 1.65;
-  margin: 0 0 14px;
-}
-.va-prose .tx-cell__body p:last-child {
-  margin-bottom: 0;
+.va-prose .tx-cell__body p + p {
+  margin-top: 12px;
 }
 .tx-cell--brief .tx-cell__main {
   padding-top: 14px;

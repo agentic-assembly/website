@@ -3,15 +3,18 @@
  * One cell of a <Transcript>. `at` is "h:mm" into the recording and is
  * rendered human-readable ("18 min", "1 h 14 min"). The title becomes an
  * <h3> with the same id GitHub/Astro would give a `### title` heading, so
- * existing #anchor links keep working. Body (slot) is optional markdown.
+ * existing #anchor links keep working. `sub` is a couple of sentences on what
+ * the topic is; `takes` is a few sentences on what the room made of it; the
+ * body (slot) is the optional long-form paragraph.
  */
 interface Props {
   title: string;
   at?: string;
   sub?: string;
+  takes?: string;
   id?: string;
 }
-const { title, at, sub, id } = Astro.props;
+const { title, at, sub, takes, id } = Astro.props;
 
 function slugify(s: string): string {
   return s
@@ -39,6 +42,7 @@ const hasBody = Astro.slots.has("default");
   <div class="tx-cell__main">
     <h3 class="tx-cell__title">{title}</h3>
     {sub && <p class="tx-cell__sub">{sub}</p>}
+    {takes && <p class="tx-cell__takes">{takes}</p>}
     {
       hasBody && (
         <div class="tx-cell__body">

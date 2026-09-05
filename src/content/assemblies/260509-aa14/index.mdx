@@ -85,6 +85,10 @@ Debian voted on August 28 and rejected banning AI-generated code — the winning
 
 The Manufactured-sources fix, packaged: a Claude Code skill that shells out to the Codex CLI so a different vendor's model reviews the diff — cross-model validation catching bug classes self-review can't, since the models share no training data or fine-tuning. Variants go further: adversarial-review runs Claude and Codex on the same diff independently, then has each try to refute the other's findings, so confidence means surviving cross-examination. There's even an arXiv paper benchmarking all six review pairings, and a practical footnote — if you can't go cross-vendor, at least strip the implementer's self-assessment from the handoff so the reviewer isn't anchored. So — who's adding this to their pre-commit today? — [codex-review](https://claudemarketplaces.com/skills/hyperb1iss/hyperskills/codex-review) — [cross-model review paper](https://arxiv.org/html/2607.21656v1)
 
+### Claude Artifacts
+
+Artifacts stopped being a chat sidebar this year. April's Live Artifacts in Cowork connect to your apps and refresh with current data on open; June's Claude Code Artifacts publish a coding session as a self-contained interactive page at a private URL that updates in place while the session runs — org-only, no public sharing, Team/Enterprise beta. Add inline editing (highlight, type the change), forking with personal or shared state, 20MB persistence per artifact, and since this month one unified Projects-and-Artifacts home across Chat and Cowork. It's the intention-design thread again: the agent doesn't return output, it builds you an interface to the output. When the session ships its own dashboard, does anyone still open the PR? — [VentureBeat](https://venturebeat.com/data/anthropics-claude-code-artifacts-update-brings-live-shared-dashboards-and-interactive-workspaces-to-enterprises)
+
 {/* news:start */}
 ## News since last assembly
 

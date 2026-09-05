@@ -53,6 +53,10 @@ The dashboards company has quietly become an agent company. This year's stack: a
 
 DeepSeek again — DSpark is their MIT-licensed speculative-decoding framework, the one behind the "up to 85% faster inference" headlines. A small draft module guesses tokens for the big model to verify in one pass; the actual trick is confidence scheduling — deciding which guesses are worth checking at all, trimming low-confidence tails under load so batch capacity goes to other users. No retraining, no new GPUs, no quality loss, and it ships trained draft checkpoints for Qwen3 and Gemma 4 too — Liquid AI already gets 3x on-device from it. For agent loops, latency *is* the product: every turn is another round trip. Not to be confused with NVIDIA's DGX Spark, which is a box. Would we notice an 80%-faster agent, or is our bottleneck the human in the loop anyway? — [paper](https://arxiv.org/abs/2607.05147) — [The Batch](https://www.deeplearning.ai/the-batch/deepseeks-dspark-gains-velocity)
 
+### Qwen3.8-Flash-Next
+
+Alibaba's August 26 open-weight preview of the Qwen4 architecture — a 125B MoE that activates just 6B parameters per token, trained for roughly a ninth the cost of Qwen3.7-Plus. The interesting bits are structural: a Gated DeltaNet + Qwen Sparse Attention hybrid where sparse attention selects micro-blocks rather than tokens (aimed squarely at long-context agent latency), gated residual streams, n-gram embeddings, and the Muon optimizer. 262k context native, stretching to 1M, and it's on Hugging Face today — same playbook as Qwen3-Next before Qwen3.5: ship the skeleton early so the ecosystem is ready. When the frontier labs won't even publish parameter counts, how much is an open architecture preview actually worth to us? — [github.com/QwenLM/Qwen3.8-Flash-Next](https://github.com/QwenLM/Qwen3.8-Flash-Next) — [Hugging Face](https://huggingface.co/Qwen/Qwen3.8-Flash-Next)
+
 {/* news:start */}
 ## News since last assembly
 

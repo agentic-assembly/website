@@ -61,6 +61,10 @@ Alibaba's August 26 open-weight preview of the Qwen4 architecture — a 125B MoE
 
 A returning guest — last discussed at AA04 as the BYO-model VS Code agent, and it's grown up since: CLI 2.0 in February with parallel agents and headless CI/CD, an Apache-licensed SDK peeled out in May that turned the product into infrastructure (the same move as Copilot SDK and the Claude Agent SDK), and ClinePass bundling open-weight models from $9.99/mo. Now in JetBrains, Zed, Neovim and a Kanban board that orchestrates Cline, Claude Code and Codex side by side — 8M installs, still model-agnostic across 30+ providers plus local Ollama. The fork family tree (Roo Code, Kilo Code) all traces back here. Is the open SDK the part that outlives the product? — [github.com/cline/cline](https://github.com/cline/cline) — [cline.bot](https://cline.bot/)
 
+### vLLM — SGLang
+
+The two engines you actually serve open weights with, now that Hugging Face has put TGI in maintenance mode and points everyone at these instead. The 2026 folk wisdom: vLLM for breadth — widest model and hardware support, no compile step, the default on every cloud; SGLang for agent-shaped work — multi-turn, prefix-heavy, structured outputs, where it overlaps grammar-mask generation with inference while vLLM's guided decoding throughput sags past batch 8. Both took `SGLANG_USE_MODELSCOPE`-style flags for the Qwen drop above, and DSpark plugs into this layer too — the whole local stack is converging. For the self-hosters in the room: which one is under your Ollama-replacement, and did you benchmark or vibe it? — [github.com/vllm-project/vllm](https://github.com/vllm-project/vllm) — [github.com/sgl-project/sglang](https://github.com/sgl-project/sglang)
+
 {/* news:start */}
 ## News since last assembly
 

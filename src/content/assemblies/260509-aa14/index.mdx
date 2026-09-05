@@ -81,6 +81,10 @@ The maximalist counterpoint to ponytail's one ladder — Jesse Vincent's (obra's
 
 Debian voted on August 28 and rejected banning AI-generated code — the winning option is voluntary disclosure, same review bar regardless of source, humans accountable for what they submit, no secrets or embargoed material sent to third-party AI services, and mass bug-filing or bulk patches only with prior community discussion. That last clause is aimed straight at the Hermes-megadiff problem — one study found AI code matches human quality line for line; the risk is volume outrunning review. The copyright question is punted entirely. If the most governance-obsessed project in open source lands on "disclose if you like, review as always" — is that the sane default, or the loudest canary yet? — [helpnetsecurity.com](https://www.helpnetsecurity.com/2026/08/31/debian-linux-llm-policy/)
 
+### codex-review
+
+The Manufactured-sources fix, packaged: a Claude Code skill that shells out to the Codex CLI so a different vendor's model reviews the diff — cross-model validation catching bug classes self-review can't, since the models share no training data or fine-tuning. Variants go further: adversarial-review runs Claude and Codex on the same diff independently, then has each try to refute the other's findings, so confidence means surviving cross-examination. There's even an arXiv paper benchmarking all six review pairings, and a practical footnote — if you can't go cross-vendor, at least strip the implementer's self-assessment from the handoff so the reviewer isn't anchored. So — who's adding this to their pre-commit today? — [codex-review](https://claudemarketplaces.com/skills/hyperb1iss/hyperskills/codex-review) — [cross-model review paper](https://arxiv.org/html/2607.21656v1)
+
 {/* news:start */}
 ## News since last assembly
 

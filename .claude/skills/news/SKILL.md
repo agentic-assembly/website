@@ -75,6 +75,7 @@ Now lean on domains you already know are reliable. Use these as a **safety net**
 | **Claude Code blog/docs** | `site:code.claude.com whats-new`, `site:claude.com blog claude-code <Month> <Year>` (catches feature posts that don't appear in the GitHub changelog) |
 | **Codex blog/docs** | `site:developers.openai.com codex changelog`, `site:openai.com codex <Month> <Year>` |
 | **Adjacent tools** | `Cursor changelog <Month> <Year>`, `Cline release <Month> <Year>`, `Aider release <Month> <Year>` |
+| **Models** | `new LLM release <Month> <Year> benchmarks price`, `DeepSeek OR Qwen OR Kimi OR GLM OR Gemini OR Grok OR Muse new model <Month> <Year>`, `site:api-docs.deepseek.com updates`, `llm-stats.com/llm-updates`. Third-party and open-weight models matter as much as the Big Two — the room runs them through OpenRouter and locally. For every model dated after the floor, collect: release date, price per 1M in/out (and cache-hit / off-peak if the vendor splits them), context, weights (open licence or closed), and scores on a **common benchmark set** — currently DeepSWE v1.1, Terminal-Bench 2.1, Terminal-Bench 3.0, SWE-bench Pro. Also catch **price moves** on existing models (cuts, hikes, scheduled doublings). |
 | **Simon Willison** | `site:simonwillison.net <Month> <Year>` — Simon publishes nearly every day and is a primary signal for what the LLM-tools community is paying attention to. Always check him separately. |
 | **Research & papers** | `arxiv agentic coding <Month> <Year>`, `arxiv LLM software engineering <Month> <Year>` |
 | **Notable posts** | `Hacker News agentic coding <Month> <Year>`, vendor blogs not covered above, named author write-ups surfaced in step 2 |
@@ -133,6 +134,16 @@ _Floor: <floor-date> (<floor-entry-id>). Generated <today>._
 ### Adjacent tools
 - [YYYY-MM-DD] short claim — [source](url)
 
+### Models
+- [YYYY-MM-DD] short claim about a new model or price move — price, weights, the one number that matters — [source](url)
+
+| Model | Date | $/1M in — out | DeepSWE v1.1 | TB 2.1 | TB 3.0 | Weights |
+|---|---|---|---|---|---|---|
+| **New model** (post-floor rows in bold) | YYYY-MM-DD | 0.15 — 0.60 | 74.2 | 90.6 | 31.2 | MIT |
+| Yardstick model (pre-floor, for comparison — keep to 3–4 rows) | … | … | … | … | … | … |
+
+_Vendor-reported unless marked; cross-vendor comparisons are marketing until a neutral harness reruns them._
+
 ### Simon says
 - [YYYY-MM-DD] short claim — [post](https://simonwillison.net/...)
 
@@ -152,6 +163,8 @@ _Floor: <floor-date> (<floor-entry-id>). Generated <today>._
 On re-run: if the file already contains the `<!-- news:start -->` … `<!-- news:end -->` block, replace it in place. Do not duplicate.
 
 Omit a bucket entirely if there are no items in it. Do not pad with low-signal entries.
+
+**Models bucket rules:** every post-floor model or price move gets a bullet; the table lists post-floor models in bold plus three or four pre-floor yardsticks (the current frontier and the open-weight leader) so the new rows mean something. Use one consistent benchmark set across rows; write `—` for a score the vendor hasn't published rather than substituting a different benchmark. Always keep the vendor-reported caveat line.
 
 ### 8. Verify
 

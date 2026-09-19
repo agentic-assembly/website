@@ -77,6 +77,10 @@ Dex Horthy again, this time the phrase from his AI Engineer World's Fair talk: t
 
 The follow-on to the dumb zone: when you compact matters for cost as much as for cleverness. Claude Code's prompt cache expires after a gap — five minutes by default once you're past your plan's included usage, an hour on subscription — and the next turn after that rewrites the whole prefix at 1.25x or 2x base rate, so a coffee break costs more than a compaction. Compacting doesn't bust the cache: the summary still sits on a warm prefix and every turn after it is shorter, so `/compact` before you step away and you come back cheap and sharp, where `/clear` and a long lunch pays full price twice. Anthropic quietly dropped the default TTL from an hour to five minutes in March, users measured a 20 to 30% jump in cache-write costs, and the fix is `CLAUDE_CODE_PROMPT_CACHE_TTL=1h`, which only takes effect at the next compaction. Does anyone here time their compactions, and is it worth a hook that does it for you? — [how Claude Code uses prompt caching](https://code.claude.com/docs/en/prompt-caching) — [issue #46829](https://github.com/anthropics/claude-code/issues/46829)
 
+### Claude Code Projects
+
+The coordinator shape from the talking points, actually demoed: you hand Projects a goal, a coordinator scopes it into pieces, delegates each to a parallel cloud thread on its own branch, reviews what comes back and assembles the result, and you steer the whole thing from your phone. It shipped Wednesday, Pro and Max beta first, a week after Cursor Projects did the same thing with "thousands of subagents", and the constraint both share is the interesting one — the coordinator never edits code itself. It's also the software factory in miniature, and the dumb-zone fix by construction: every thread starts with a clean context and the coordinator only ever sees summaries. What nobody's said yet is what the coordinator's own context looks like after fifty threads. Has anyone here run a real task through it, and did the review step catch anything you wouldn't have? — [post](https://claude.com/blog/projects-redesigned)
+
 {/* news:start */}
 ## News since last assembly
 

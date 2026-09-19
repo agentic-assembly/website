@@ -65,6 +65,10 @@ Zed's answer to "why does every agent need its own editor plugin": a JSON-RPC st
 
 The video-generation workflow that follows naturally from Higgsfield's moodboards: settle the look in a single approved still — face, wardrobe, lighting, location all in one frame — then hand that anchor to every clip so the video inherits it, because image iterations are cheap and video iterations aren't. The research side calls it anchor frames: an ICLR 2026 poster bridges first-and-last-frame generation so the middle stops drifting, and AnchorWeave conditions on local geometric anchors instead of a wobbly global 3D reconstruction. The honest caveat from the practitioners is that an anchor pair is not a contract — the model still invents the motion, the physics and what happens to the coffee cup in between. For anyone here generating video: are you anchoring on stills already, and how many clips survive before the identity drifts? — [anchor frame method](https://invideo.io/blog/anchor-frame-method-ai-video/) — [Anchor Frame Bridging](https://iclr.cc/virtual/2026/poster/10007927)
 
+### Claude Code memory woes
+
+The perennial: a long session, one or two compactions, and the claude process is sitting on thirteen, twenty, a hundred and twenty gigabytes until the OOM killer or a hard reboot ends it. The GitHub issues run from August 2025 to this spring across Linux, macOS, WSL and Windows, and the causes keep changing — an unbounded conversation cache, historical copies of the message list retained by the scroller, truncated MCP outputs keeping the full result alive, the Electron layer in the desktop app. Anthropic has been shipping fixes all year, and this week's 2.1.274 turned it into a feature: a visible warning when memory goes critical and a `/heapdump` to attach to the report. The workaround hasn't changed since day one — restart before it eats the box. Who at the table has been bitten, and is a memory warning progress or an admission? — [issue #33735](https://github.com/anthropics/claude-code/issues/33735) — [v2.1.274](https://github.com/anthropics/claude-code/releases/tag/v2.1.274)
+
 {/* news:start */}
 ## News since last assembly
 

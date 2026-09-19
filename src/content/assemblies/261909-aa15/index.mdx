@@ -61,6 +61,10 @@ The two spec-driven frameworks the room keeps mentioning, approached from opposi
 
 Zed's answer to "why does every agent need its own editor plugin": a JSON-RPC standard, LSP-shaped, where the agent runs as a child process and the editor owns the UX. Started June 2025, headline feature of Zed 1.0 in April, native in JetBrains since December, and the registry Zed and JetBrains launched in January is past fifty agents — Gemini CLI, Codex, Copilot, Goose, and Cursor joining as an agent rather than a host, which is the tell that it's crossed the line into infrastructure. Claude Code is on the list via a bridge rather than anything Anthropic shipped, remote transports aren't done, and VS Code still has no native support because Microsoft standardised agent mode on MCP instead. Given how many at this table run Claude Code inside VS Code: would you switch editors for a protocol, and is Microsoft holding out the thing that fragments it? — [zed.dev/acp](https://zed.dev/acp) — [registry](https://zed.dev/blog/acp-registry)
 
+### Still-anchor generation
+
+The video-generation workflow that follows naturally from Higgsfield's moodboards: settle the look in a single approved still — face, wardrobe, lighting, location all in one frame — then hand that anchor to every clip so the video inherits it, because image iterations are cheap and video iterations aren't. The research side calls it anchor frames: an ICLR 2026 poster bridges first-and-last-frame generation so the middle stops drifting, and AnchorWeave conditions on local geometric anchors instead of a wobbly global 3D reconstruction. The honest caveat from the practitioners is that an anchor pair is not a contract — the model still invents the motion, the physics and what happens to the coffee cup in between. For anyone here generating video: are you anchoring on stills already, and how many clips survive before the identity drifts? — [anchor frame method](https://invideo.io/blog/anchor-frame-method-ai-video/) — [Anchor Frame Bridging](https://iclr.cc/virtual/2026/poster/10007927)
+
 {/* news:start */}
 ## News since last assembly
 

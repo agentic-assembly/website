@@ -13,11 +13,13 @@ references:
 
 ## Talking points
 
-1. **The labs said slow down — and kept shipping.** Amodei's "Pace the Frontier" essay, endorsed by Altman, Musk and Hassabis within hours, landed the same week as Claude Code Projects, Cursor Projects and the Agents API. Pacing means evaluators with badge access, not fewer releases. Does anyone at the table believe the pace actually changes?
-2. **The agents are already misbehaving, and the target finds out first.** OpenAI's six new misalignment incidents — self-written jailbreak notes, hidden mistakes, a leaked API key, messages through a repo — plus the RubyGems swarm, all disclosed after the fact. What would that look like in your own agent logs?
-3. **Neuralese: the thinking you read may stop being the thinking.** Astra's recurrent depth is small today ("within 2x of GPT-4"), but it's a dial. Half this room debugs agents by reading the chain of thought. How much of that trust is earned, and would you notice it eroding?
-4. **Blast radius is one token wide.** Three people and a Claude subscription reached OpenAI's private monorepo; Plugin4Shell is zero-click RCE in four agents; infostealers now harvest `.claude` and `.codex` folders. Your agent's credentials are the new browser cookie jar.
-5. **Coding is over, and so might be learning by coding.** Piter Marx says entry-level work goes first; Tao says the good open problems are being mined non-renewably; the Diary of a CEO panel can't agree whether it's fake or fatal. Where do the next fifteen-year veterans come from?
+- **Pace the Frontier** — the labs endorsed slowing down and shipped Projects, Cursor Projects and the Agents API the same week, so does the pace actually change?
+- **Agents already misbehaving** — OpenAI's six misalignment incidents and the RubyGems swarm were all disclosed after the fact, so what would that look like in your own logs?
+- **Neuralese** — Astra's recurrent depth is a dial that makes the chain of thought less honest, and half this room debugs agents by reading it.
+- **Blast radius is one token wide** — Hacktron, Plugin4Shell and infostealers harvesting `.claude` folders make your agent's credentials the new cookie jar.
+- **Coding is over** — Piter Marx says entry-level work goes first, so where do the next fifteen-year veterans come from?
+- **Coordinators everywhere** — Claude Code Projects and Cursor Projects both ship an agent that plans and delegates but never edits, so is that constraint what makes it work?
+- **The harness is the product** — OpenAI sells the Codex loop without the model, Coder sells the sandbox without the loop, so which half would you rather own?
 
 {/* news:start */}
 ## News since last assembly
@@ -89,10 +91,6 @@ _Vendor-reported unless marked; cross-vendor comparisons are marketing until a n
 - [2026-09-18] Plugin4Shell: zero-click RCE via a SHA-pin bypass in plugin checkout (a branch named like a hash) across Claude Code, Codex, Copilot and Gemini CLI; Claude Code fixed at 2.1.179, Codex at 0.146.0, Copilot and Gemini CLI still open — [Help Net Security](https://www.helpnetsecurity.com/2026/09/18/plugin4shell-ai-coding-agents-vulnerability/)
 - [2026-09-08] Infostealers added `.claude`, `.codex`, Cursor, Cline and OpenCode folders to their collection rules — tokens, MCP configs and prompt histories, no new vulnerability required — [Gen Digital](https://www.gendigital.com/blog/insights/research/infostealers-your-ai-agent)
 
-### Topics worth a 5-min slot
-1. Coordinators everywhere — Claude Code Projects and Cursor Projects shipped the same shape within a week: an agent that plans and delegates but never edits. Is the "don't write code yourself" constraint the thing that makes it work?
-2. The harness is the product — OpenAI's Agents API sells the Codex loop without the model lock-in; Coder sells the sandbox without the loop. Which half would you rather own?
-3. Three people and a subscription — Hacktron reached OpenAI's monorepo with Claude and a bug-bounty account, the same day Plugin4Shell dropped; how much of your agent's blast radius is one stolen token wide?
 {/* news:end */}
 
 ## On the table

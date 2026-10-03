@@ -2,4 +2,109 @@
 title: "AA16"
 date: 2026-10-03T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Claude Opus 5.5 — Fable-level coding at $4/$20, now Claude Code's default Opus"
+    url: "https://www.anthropic.com/claude-opus-5-5"
+  - title: "GPT-6.1 Sol — near-Astra for a fifth of the price, now the Codex default"
+    url: "https://github.com/openai/codex/releases/tag/rust-v0.159.1"
+  - title: "Claude Code mods — TypeScript functions that rewrite events, draw UI and replace built-ins"
+    url: "https://claude.com/blog/claude-code-mods"
 ---
+
+import Transcript from "../../../components/Transcript.astro";
+import TranscriptCell from "../../../components/TranscriptCell.astro";
+
+## Talking points
+
+## What we talked about
+
+<Transcript>
+
+<TranscriptCell title="Reverse-engineering a closed app with tcpdump" sub="The old Sonos home-speaker app was closed source — so point an agent at the network traffic and let it work out the interface.">
+
+A member’s fix for a speaker system whose official app is a closed box: ask an agent to run a `tcpdump`, watch what the app actually sends, and reconstruct the protocol from the packets. The agent does the tedious part — capturing, diffing, guessing at the message shapes — and you end up with an interface you can script against. The vendor never published a spec, and now it doesn’t need to. How many abandoned closed-source gadgets in your house are one packet capture away from getting a second life?
+
+</TranscriptCell>
+
+</Transcript>
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-09-19 (261909-aa15) — Generated 2026-10-03._
+
+### New Claude Code commands & features
+- **Ctrl+C draft recovery — `/code-review --max-findings`** (v2.1.288, 2026-10-02) — press Up on an empty prompt to bring back a draft you cleared, pasted images included; `--max-findings <n>|all` sticks until you pass `default`; Ctrl+F finds a session by name in the agents view; MCP servers can ask for more OAuth scope mid-call; mid-response API timeouts now continue from the partial reply instead of failing the turn; auto mode compacts a conversation too long for its classifier instead of prompting on every tool call — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.288)
+- **Claude Mods — the "You should know" side agent** (v2.1.287, 2026-10-01) — plugins can now modify deeper behaviour through mods; the built-in "You should know" mod runs a side agent that flags what you or Claude might miss (`/plugin enable cc-plugin-you-should-know@builtin`); `n:<text>` filters the agents view; MCP servers on the 2025-11-25 protocol can open URL prompts, e.g. to sign in — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.287)
+- **`verify` skill before commits — a stricter `--bare`** (v2.1.286, 2026-09-30) — if your project or user skills include one named `verify`, Claude runs it right before committing (docs- and tests-only commits excepted); `--bare` now connects only the MCP servers you name, sends no system reminders and starts no background tasks; stacked permission prompts show "2 of 5"; ctrl+enter in a subagent's view backgrounds its running command; `/hooks` opens on one grouped list; a failing model call is capped at 14 requests — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.286)
+- **`claude --desktop` — `claude plugin configure`** (v2.1.285, 2026-09-29) — open the desktop app on the current directory or a resumed session; inspect and set plugin options from stdin; `allowedProviders` managed setting pins which API providers a machine may use; `CLAUDE_CODE_DISABLE_WEB_FETCH` turns WebFetch off — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.285)
+- **Sonnet 5.5 — `/mcp reconnect all`** (v2.1.284, 2026-09-28) — `claude-sonnet-5-5` is the default Sonnet on the Anthropic API (1M context, $2/$10, $0.20 cache reads); retry every failed MCP server at once; auto mode gains "Yes, but ask again next time" for a read outside the working directories; gateway spend limits show in dollars; `/effort` keys rebindable, including `toggleUltracode` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.284)
+- **`/doctor prompt-audit` — `deniedModels`** (v2.1.283, 2026-09-25) — audit CLAUDE.md files, skills, agents and commands for prompting patterns written for older models, stale paths and contradicting instructions first; `deniedModels` and `availableModelsMatch: "exact"` keep new model releases blocked until an admin lists them; sessions on third-party providers or with telemetry off now start in auto mode — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.283)
+- **`maxProseWidth` — project settings can't switch on telemetry** (v2.1.282, 2026-09-24) — cap prose width in wide terminals while tables and code keep full width; project and local settings now ignore OTel variables that enable export or capture content; auto mode uses the server-side classifier by default on a direct API connection with telemetry off — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.282)
+- **`"attribution": false` — `/insights` auto-mode estimate** (v2.1.281, 2026-09-23) — hide all commit and PR attribution from `settings.json`; `/insights` estimates how many of your recent permission prompts auto mode would have handled; `claude plugin validate` now flags `.mcp.json` entries that would be silently dropped and insecure URLs; MCP URL-mode elicitation on the 2026-07-28 protocol — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.281)
+- **Opus 5.5 by default — Opus for Pro too** (v2.1.280, 2026-09-22) — `claude-opus-5-5` becomes the default Opus (1M context, $4/$20, $0.20 cache reads), and Pro and Team Standard plans switch their default from Sonnet to Opus; old saved effort levels no longer carry over to new models; VS Code gets typed `/plan`, `/sandbox`, `/status`, `/export`, `/chrome` and `/skills`; `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` lifts the 2,048-char MCP description cap — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.280)
+
+### Claude Code — other notes
+- [2026-10-01] Mods explained: small TypeScript functions that wrap events to block, rewrite or retry a tool call, redact output, draw UI or replace built-ins — `/diff` now ships as one — and Claude Code can write and hot-reload them for you mid-session — [post](https://claude.com/blog/claude-code-mods)
+- [2026-10-02] Anthropic puts $100M into training 10,000 engineers to close the enterprise AI talent gap — [Anthropic](https://www.anthropic.com/news/claude-frontier-academy)
+- [2026-09-28] Claude Managed Agents with NVIDIA: credentials in a separate vault, agent actions governed by NVIDIA's Apache-2.0 OpenShell for external policy and audit logs — [post](https://claude.com/blog/giving-companies-more-control-over-their-ai-agents-with-nvidia)
+- [2026-09-25] Paid-plan developers can now submit plugins (MCP connectors plus Agent Skills) to the Claude directory, with installs by surface and version — [post](https://claude.com/blog/build-plugins-for-claude)
+- [2026-09-24] Anthropic's numbers behind Opus 5.5: developers now work 3.3x longer per prompt with 2.6x more context per request, and the input-to-output ratio went from 189:1 to 324:1 — [post](https://claude.com/blog/claude-opus-5-5-built-for-coding-sessions-that-use-more-context)
+- [2026-09-23] Claude Marketplace consolidates plugins, 2,000+ connectors, agents and partner services, and lets committed Anthropic spend buy Claude-powered software — [post](https://claude.com/blog/claude-marketplace)
+
+### Codex
+- [2026-10-01] Codex 0.160.0 — browse older tasks in the agent command center, start sessions outside a project when policy allows, Guardian review can fetch earlier user instructions and handoff context — [release](https://github.com/openai/codex/releases/tag/rust-v0.160.0)
+- [2026-09-29] Codex 0.159.0 — 0.159.1 — opt-in instant interrupt to steer mid-response, a compact welcome screen with tips, wider Mermaid rendering; 0.159.1 makes GPT-6.1 Sol the default in the bundled and Bedrock catalogs — [release](https://github.com/openai/codex/releases/tag/rust-v0.159.0) — [0.159.1](https://github.com/openai/codex/releases/tag/rust-v0.159.1)
+- [2026-09-29] DevDay: GPT-6.1 Sol; Ultrafast inference at 8x the speed for 6x the price (Astra now, 6.1 Sol soon); plugin extensions inside ChatGPT and Codex plus an OpenAI Marketplace; Codex Security Cloud for scan, dedupe, patch and verify; computer use in the Agents API; Dots, personal agents for Pro and Enterprise; a $200 Pro 500 tier — [live blog](https://simonwillison.net/2026/Sep/29/openai-devday-2026-live-blog/)
+- [2026-09-28] Codex 0.158.0 — copy-on-select in the fullscreen TUI, `codex mcp add --oauth-client-secret`, bearer-token auth on exec-server WebSockets, terminal approval on by default for elevated commands — [release](https://github.com/openai/codex/releases/tag/rust-v0.158.0)
+- [2026-09-25] Codex 0.157.0 — GPT-6 Sol and Luna with migration prompts off older models, fullscreen transcripts by default, `f` forks a conversation open in another app, `/import` in remote sessions — [release](https://github.com/openai/codex/releases/tag/rust-v0.157.0)
+- [2026-09-22] Codex 0.156.0 — `/tui` fullscreen with transcript search and mouse selection, voice on by default (F8), a `/usage` dashboard with plugin and skill activity, worktrees on by default in the agent command center, `/daemon` and `--no-daemon` — [release](https://github.com/openai/codex/releases/tag/rust-v0.156.0)
+
+### Adjacent tools
+- [2026-09-23] Cursor ships two shipping bots: Rollouts watches deployments across environments, Security Review hunts exploitable bugs in PRs; Teams and Enterprise — [changelog](https://cursor.com/changelog)
+- [2026-10-02] Cline Desktop 0.0.42 adds `/compact` and makes Connectors the default Customize tab; Cline 4.1.22 (09-30) wires up Anthropic's server-side refusal fallback — [releases](https://github.com/cline/cline/releases)
+- [2026-09-28] Gemini CLI 0.61.0 hardens prompt-injection defences and tightens sandbox isolation; Kiro CLI 2.24.0 streamlines tool approvals across sessions — [Havoptic week 39](https://www.havoptic.com/blog/weekly-digest-week-39-2026)
+
+### Models
+- [2026-09-22] Claude Opus 5.5 — $4/$20 (down from $5/$25), cache reads $0.20 (down 60%), 1M context, 30% faster than Opus 5; 66.4 on Terminal-Bench 4.0 against Fable 5.1's 55.8, i.e. Fable-level at 60% less — [Anthropic](https://www.anthropic.com/claude-opus-5-5)
+- [2026-09-22] GPT-6 Sol and GPT-6 Luna replace the 5.6 pair at half price — Sol $2/$10, Luna $0.10/$0.50, 1.05M context; DeepSWE v1.1 68.8 and 66.6 at max effort — [OpenAI](https://openai.com/index/introducing-gpt-6-sol-and-luna/) — [Simon](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)
+- [2026-09-28] Claude Sonnet 5.5 — price unchanged at $2/$10, up to 30% cheaper per task; Terminal-Bench 4.0 jumps from 10.3 to 70.6, ahead of Opus 5.5; first Sonnet launched with cyber safeguards — [Anthropic](https://www.anthropic.com/claude-sonnet-5-5)
+- [2026-09-29] GPT-6.1 Sol — one week after GPT-6 Sol, same $2/$10 with $0.10 cached input; OpenAI says it ties GPT-6 Astra on DeepSWE v1.1 at a fifth of the cost, 6.4 points over GPT-6 Sol — [TestingCatalog](https://www.testingcatalog.com/openai-launches-gpt-6-1-sol-at-one-fifth-of-astra-pricing/)
+- [2026-09-21] Xiaomi MiMo-V2.6-Pro and Flash — MIT weights, 1.02T total with 42B active, 1M context, $0.435/$0.87 on Xiaomi's API; 71.9 DeepSWE v1.1 and 89.9 Terminal-Bench 2.1, the new open-weight leader on both — [DataNorth](https://datanorth.ai/news/xiaomi-releases-mimo-v2-6-pro-and-flash)
+- [2026-09-21] Grok 4.7 — same $2/$6 as 4.6 on a 2.1T base; 71.0 DeepSWE v1.1, 46.3 CursorBench 4.0 — [Decrypt](https://decrypt.co/378824/xai-launches-grok-4-7)
+
+| Model | Date | $/1M in — out | DeepSWE v1.1 | TB 2.1 | TB 3.0 | Weights |
+|---|---|---|---|---|---|---|
+| **Claude Opus 5.5** | 2026-09-22 | 4 — 20 | — | — | — (TB 4.0: 66.4) | closed |
+| **Claude Sonnet 5.5** | 2026-09-28 | 2 — 10 | — | — | — (TB 4.0: 70.6) | closed |
+| **GPT-6.1 Sol** | 2026-09-29 | 2 — 10 (cached 0.10) | — (ties Astra) | — | — | closed |
+| **GPT-6 Sol** | 2026-09-22 | 2 — 10 | 68.8 | — | — | closed |
+| **GPT-6 Luna** | 2026-09-22 | 0.10 — 0.50 | 66.6 | — | — | closed |
+| **MiMo-V2.6-Pro** | 2026-09-21 | 0.435 — 0.87 | 71.9 | 89.9 | — | MIT |
+| **Grok 4.7** | 2026-09-21 | 2 — 6 | 71.0 | — | — | closed |
+| DeepSeek V4.1-Flash | 2026-09-10 | 0.30 — 1.20 (off-peak 0.15 — 0.60) | 74.2 | 90.6 | 31.2 | MIT |
+| Claude Opus 5 | — | 5 — 25 | 74.0 | 89.1 | 43.3 | closed |
+| GPT-5.6 Sol | — | 4 — 20 | 73.0 | 88.8 | 34.6 | closed |
+| Claude Fable 5.1 | 2026-09-01 | 10 — 50 | — | — | — (TB 4.0: 55.8) | closed |
+
+_Vendor-reported unless marked; cross-vendor comparisons are marketing until a neutral harness reruns them. Anthropic's launches quoted only Terminal-Bench 4.0, so it's noted in brackets — and the GPT-6 generation scoring below GPT-5.6 Sol on DeepSWE at half the price is the price war in one row._
+
+### Simon says
+- [2026-10-01] Matthew Green: agents in separately isolated sandboxes left instructions for each other in a shared package cache, and the recipients followed them — [post](https://simonwillison.net/2026/Oct/1/matthew-green/)
+- [2026-09-29] OpenAI DevDay 2026 live blog — GPT-6.1 Sol, Ultrafast, Dots, Codex Security Cloud, Pro 500 — [post](https://simonwillison.net/2026/Sep/29/openai-devday-2026-live-blog/)
+- [2026-09-27] "2026 in LLMs (so far)", his WeAreDevelopers keynote: agents got good enough to brute-force any well-defined goal — "it doesn't get easier, you just get faster" — [post](https://simonwillison.net/2026/Sep/27/2026-in-llms-so-far/)
+- [2026-09-24] Coding agents make software engineering harder, not easier — they demand extraordinary discipline and knowledge — [post](https://simonwillison.net/2026/Sep/24/harder/)
+- [2026-09-22] Opus 5.5, GPT-6 Sol, GPT-6 Luna and a new price war; Opus 5.5's `max` effort is "effectively useless" after a $2.56 pelican blew the token limit — [post](https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/)
+
+### Research & papers
+- [2026-09-29] Merged, Not Measured: 1,262 agent-authored performance PRs across 582 repos, 57% of closed ones merged — but of 30 re-executed merged fixes only 18 delivered, and 9 showed no gain or regressed — [arXiv](https://arxiv.org/abs/2609.37985)
+- [2026-09-28] The Compiler May Read It, the Agent May Not: fifteen read routes, and none of containers, permission rules or sandboxes can tell which program is reading the code — [arXiv](https://arxiv.org/abs/2609.35557)
+- [2026-09-25] Compact Documentation for Coding Agents: an optimizer gets full-fidelity docs, yet across two model families and ten repos neither docs nor retrieved context beat the issue text alone — [arXiv](https://arxiv.org/abs/2609.31587)
+
+### Notable posts
+- [2026-09-30] Matthew Green, "Is sandboxing sufficient to contain rogue agents?" — the labs never built proper containment, perfect isolation is impractical for a useful agent, and an obedient agent can still carry a worm between sandboxes — [post](https://blog.cryptographyengineering.com/2026/09/30/is-sandboxing-sufficient-to-contain-rogue-agents/)
+- [2026-09-29] Anthropic's Frontier Red Team on GLM-5.3: open weights now match Claude Mythos Preview at end-to-end exploit development, abliteration drops refusals from over 90% to 3–14%, and an exploit costs about $20 in API calls — [Anthropic](https://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities)
+
+{/* news:end */}
+
+## On the table

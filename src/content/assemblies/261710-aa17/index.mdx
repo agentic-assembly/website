@@ -27,6 +27,17 @@ Anthropic has moved its monorepo off git. Agent-driven merges went from about 2,
 
 Simon reads Scion as Subversion reinvented for always-online agents: centralised again because the clients never go offline. jj argues the fix belongs in the client, not the server. If agents broke git at Anthropic's scale, is version control the next thing they break for the rest of us, and is anyone here already on jj? — [Anthropic](https://www.anthropic.com/engineering/redesigning-source-control) — [Simon](https://simonwillison.net/2026/Oct/13/redesigning-source-control-at-anthropic/) — [jj](https://github.com/jj-vcs/jj)
 
+### How Anthropic does code review
+
+The Claude Code team published how they review code a day after Code Review left research preview for Team and Enterprise. Put together, the two posts describe a review loop where the model goes first and humans spend their attention where the risk is.
+
+- **Self-check first:** Claude reviews its own work before a human sees it.
+- **Risk-scaled approval:** how much human sign-off a change needs depends on how risky it is, not a flat one-approver rule.
+- **The product:** about 3x faster than in preview, taking 6 to 10 minutes, with Quick, Standard and Deep levels set per repo.
+- **Adoption checklist:** the post ends with one for teams copying the setup.
+
+At AA15 we heard that AI-authored PRs wait 4.6x longer for a first review. This is Anthropic's answer to that bottleneck. Which of your PRs still need a human, and who decides what counts as risky? — [post](https://claude.dev/blog/solving-code-review-at-anthropic/) — [GA](https://claude.com/resources/articles/code-review-is-now-generally-available)
+
 ### Chirp Pong
 
 Simon built a two-phone pong game in Claude Code on Opus 5.5, and the two phones talk to each other entirely through sound. The ball leaves one screen and arrives on the other because one phone chirps and the other listens.
@@ -47,17 +58,6 @@ Four frontier-ish releases landed in a fortnight, two of them from Meta. Prices 
 - **Meta Muse Spark Open:** an 816B mixture-of-experts model with 42B parameters active per token, released as BF16 and NVFP4 weights. It's the top US open-weight model, but trails Kimi K3 and GLM-5.3, and it runs on two paired Mac desktops.
 
 Simon's read on Haiku is the useful lens: the per-token price is only half the cost once a tokenizer changes underneath it. Has anyone actually switched models this fortnight, or is your harness's default the only model you really use? — [Haiku 5.5](https://www.anthropic.com/claude-haiku-5-5) — [Muse Wonder](https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder/) — [Gemini 4 Argon](https://www.datacamp.com/blog/gemini-4-argon) — [Muse Spark Open](https://venturebeat.com/technology/meta-unveils-muse-spark-open-the-new-top-u-s-open-weights-model-and-it-runs-on-two-paired-mac-desktops)
-
-### How Anthropic does code review
-
-The Claude Code team published how they review code a day after Code Review left research preview for Team and Enterprise. Put together, the two posts describe a review loop where the model goes first and humans spend their attention where the risk is.
-
-- **Self-check first:** Claude reviews its own work before a human sees it.
-- **Risk-scaled approval:** how much human sign-off a change needs depends on how risky it is, not a flat one-approver rule.
-- **The product:** about 3x faster than in preview, taking 6 to 10 minutes, with Quick, Standard and Deep levels set per repo.
-- **Adoption checklist:** the post ends with one for teams copying the setup.
-
-At AA15 we heard that AI-authored PRs wait 4.6x longer for a first review. This is Anthropic's answer to that bottleneck. Which of your PRs still need a human, and who decides what counts as risky? — [post](https://claude.dev/blog/solving-code-review-at-anthropic/) — [GA](https://claude.com/resources/articles/code-review-is-now-generally-available)
 
 ### Is sandboxing sufficient?
 

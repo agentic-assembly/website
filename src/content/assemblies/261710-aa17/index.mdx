@@ -13,6 +13,13 @@ references:
 
 import Transcript from "../../../components/Transcript.astro";
 import TranscriptCell from "../../../components/TranscriptCell.astro";
+import MiniPresentation from "../../../components/MiniPresentation.astro";
+import MiniSlide from "../../../components/MiniSlide.astro";
+import scionMerged from "./scion/merged-per-day.webp";
+import scionMirrors from "./scion/git-mirrors.webp";
+import scionChangeset from "./scion/changeset.webp";
+import scionCheckout from "./scion/checkout-architecture.webp";
+import scionAgents from "./scion/agent-commands.webp";
 
 ## Talking points
 
@@ -27,6 +34,75 @@ Anthropic has moved its monorepo off git. Agent-driven merges went from about 2,
 
 Simon reads Scion as Subversion reinvented for always-online agents: centralised again because the clients never go offline. jj argues the fix belongs in the client, not the server. If agents broke git at Anthropic's scale, is version control the next thing they break for the rest of us, and is anyone here already on jj? — [Anthropic](https://www.anthropic.com/engineering/redesigning-source-control) — [Simon](https://simonwillison.net/2026/Oct/13/redesigning-source-control-at-anthropic/) — [jj](https://github.com/jj-vcs/jj)
 
+<MiniPresentation title="Scion" id="scion-slides">
+
+<MiniSlide cover eyebrow="AA17 — Talking point — Source control" title="Scion">
+Anthropic replaced git in five months with a team of seven, because agents pushed merges from 2,500 a day to 30,000.
+</MiniSlide>
+
+<MiniSlide title="Merges went 12x in four months" image={scionMerged} alt="Bar chart of changes merged per day to Anthropic's monorepo, January to September 2026, rising from under 1,000 to a peak of 30,401 on 9 September" caption="Changes merged per day, Jan ~ Sep 2026. Blue is pull requests, orange is Antique, the in-house review tool. Peak: 30,401 on 9 September." credit="Anthropic" creditHref="https://www.anthropic.com/engineering/redesigning-source-control" />
+
+<MiniSlide title="Why git broke" caption="Git assumes every clone is a complete repo that can work offline. Nearly all of Anthropic's clients are agents and jobs, which are online by definition.">
+<div class="mp-stats">
+  <div class="mp-stat"><span class="mp-stat__n">~100 GB</span><span class="mp-stat__l">history of main alone</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">25 GB+</span><span class="mp-stat__l">a compressed working copy</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">25M</span><span class="mp-stat__l">checkouts a day for CI alone</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">600 PB</span><span class="mp-stat__l">of git traffic a day if every checkout fetched the full repo</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">100s</span><span class="mp-stat__l">of internal git mirrors at peak</span></div>
+</div>
+</MiniSlide>
+
+<MiniSlide title="Before — scaling git with mirrors and seeds" image={scionMirrors} alt="Diagram: jobs fetch through a packfile cache, mirror replicas and mirror primaries to upstream, or start from a node seed restored from a blob-storage snapshot" caption="Jobs fetched through packfile caches and mirror replicas, or started from seed snapshots that fell further behind main between refreshes." credit="Anthropic" creditHref="https://www.anthropic.com/engineering/redesigning-source-control" />
+
+<MiniSlide title="Design for clients that are always online">
+- **Always online:** clients fetch data when they need it and never hold a complete copy.
+- **Thin client, smart server:** the server handles blame, history, commits, merges and rebases, and the client mostly caches.
+- **Everything is an API:** CI can ask for a diff or a merge base without checking anything out.
+- **Horizontally scalable:** no fully materialised copy of the repo exists anywhere, not even on the server.
+- **Cheap, lock-free commits:** a commit costs as much as the change, not the size of the repo.
+- **The working copy is optional:** checkouts are sparse and virtual, and files are fetched when something reads them.
+</MiniSlide>
+
+<MiniSlide title="A changeset, not a commit" image={scionChangeset} alt="Diagram of a Scion changeset: author, dates, message, parents and a list of file changes stored in Spanner, pointing to content-addressed blobs in cloud storage; trees are derived by the server" credit="Anthropic" creditHref="https://www.anthropic.com/engineering/redesigning-source-control">
+- An entry in a write-ahead log: the files that changed since the first parent, plus hashes pointing to the blobs.
+- No packfiles, no locks, and no refs to move.
+- Trees, blame and path history are **derived data**, which the server computes and can change without touching the client.
+</MiniSlide>
+
+<MiniSlide title="Checkouts are a tiered cache" image={scionCheckout} alt="Diagram: clients talk to scion-server for branches, history and diffs; trees and file contents flow from a per-node scion-daemon, through a regional scion-cache, to scion-server, which is backed by Spanner and cloud storage" caption="Requests flow from a scion-daemon on each node, to a scion-cache in each region, to scion-server. Every object is immutable, so any tier can answer, and each tier hits its cache over 99% of the time. The result needs 200x less CPU and memory than the git mirrors, and CI uses 25% less CPU." credit="Anthropic" creditHref="https://www.anthropic.com/engineering/redesigning-source-control" />
+
+<MiniSlide title="What it bought the agents" image={scionAgents} alt="Bar chart of median source control times in agent environments, git versus scn: new worktree 7.1 minutes versus 5.1 seconds, pull latest 3.0 minutes versus 9.0 seconds, commit 18 seconds versus 761 milliseconds, and 34 minutes versus 3.7 minutes of total source control time per change request" caption="Median times in agent environments, git (grey) vs scn (orange). A new worktree drops from 7.1 min to 5.1 s, and source control per change request from 34 to 3.7 min, about 11,000 agent hours a day." credit="Anthropic" creditHref="https://www.anthropic.com/engineering/redesigning-source-control" />
+
+<MiniSlide title="git — jj — Scion">
+<div class="mp-table-wrap">
+<table>
+  <thead><tr><th></th><th>git</th><th>jj</th><th>Scion</th></tr></thead>
+  <tbody>
+    <tr><th>Shape</th><td data-label="git">Distributed: every clone is a full repo</td><td data-label="jj">Distributed: git storage underneath, a new workflow on top</td><td data-label="Scion">Centralised: one authoritative server</td></tr>
+    <tr><th>History</th><td data-label="git">In every clone</td><td data-label="jj">In every clone, as a git repo</td><td data-label="Scion">Only on the server, in Spanner and cloud storage</td></tr>
+    <tr><th>Working copy</th><td data-label="git">Explicit, with a staging index</td><td data-label="jj">Is a commit, snapshotted automatically, with no index</td><td data-label="Scion">Optional: sparse and virtual, with files fetched on read</td></tr>
+    <tr><th>Committing</th><td data-label="git">Commit locally, then push</td><td data-label="jj">Local, and each change keeps a stable ID through rewrites</td><td data-label="Scion">On the server, so there's nothing to push</td></tr>
+    <tr><th>Branches</th><td data-label="git">Named branches everywhere</td><td data-label="jj">Anonymous by default, with bookmarks when you need a name</td><td data-label="Scion">Discouraged: only main and release refs</td></tr>
+    <tr><th>Conflicts</th><td data-label="git">Stop the operation</td><td data-label="jj">Recorded in the commit and resolved later</td><td data-label="Scion">Merges run on the server, and Claude fixes conflicts after landing</td></tr>
+    <tr><th>Built for</th><td data-label="git">Humans working offline</td><td data-label="jj">Humans rewriting stacks of changes</td><td data-label="Scion">Always-online agents at monorepo scale</td></tr>
+    <tr><th>Can you use it?</th><td data-label="git">Yes</td><td data-label="jj">Yes, on any git repo</td><td data-label="Scion">No, it's internal only</td></tr>
+  </tbody>
+</table>
+</div>
+</MiniSlide>
+
+<MiniSlide title="What they learned — and the question for the room">
+- Seven people built Scion, Antique and half a dozen related systems in five months.
+- The engineers rate Claude a better coder than themselves. Their job became **telling it no** and reviewing intent instead of every line.
+- A Mythos Preview rewrite of the ingestion pipeline used 20x less memory and ran 4x faster.
+- "Superfan" Claudes in Slack each watch a single component.
+- There's no global merge-queue lock. Testing happens after merge and before deploy.
+
+Anthropic expects everyone else to hit this within 6 ~ 12 months. **Is the fix a new server (Scion), a new client (jj), or a better git?**
+</MiniSlide>
+
+</MiniPresentation>
+
 ### How Anthropic does code review
 
 The Claude Code team published how they review code a day after Code Review left research preview for Team and Enterprise. Put together, the two posts describe a review loop where the model goes first and humans spend their attention where the risk is.
@@ -38,15 +114,20 @@ The Claude Code team published how they review code a day after Code Review left
 
 At AA15 we heard that AI-authored PRs wait 4.6x longer for a first review. This is Anthropic's answer to that bottleneck. Which of your PRs still need a human, and who decides what counts as risky? — [post](https://claude.dev/blog/solving-code-review-at-anthropic/) — [GA](https://claude.com/resources/articles/code-review-is-now-generally-available)
 
-### Chirp Pong
+### Speaking of bottlenecks
 
-Simon built a two-phone pong game in Claude Code on Opus 5.5, and the two phones talk to each other entirely through sound. The ball leaves one screen and arrives on the other because one phone chirps and the other listens.
+Scion and Antique are Anthropic removing their bottlenecks one at a time. The same move works at the scale of a single project: a **bottleneck eliminator skill**. Once a day, it reads the last 24 hours of agent activity, finds where agents sat idle or ground away at something slow, and edits the project's own context and workflows so the waste doesn't happen tomorrow. It's a retro run by the agent, on the agent, with the fix committed rather than written on a sticky note.
 
-- **Data over sound:** game state is encoded as short audio tones, played through one phone's speaker and decoded from the other's microphone.
-- **It's the modem trick.** The idea is older than wifi. What's new is how little effort it took.
-- **Built with:** Claude Code and Opus 5.5.
+- **What it reads:** session transcripts (Claude Code keeps them as JSONL under `~/.claude/projects`), tool-call timings, hook logs, CI durations and permission prompts. In short, everywhere wall-clock time went.
+- **What it looks for:**
+  - Test suites run in full when a targeted test would have done.
+  - Serial tasks gated on each other that could have fanned out as parallel subagents.
+  - Waits on permission prompts or human input that a rule could have pre-approved.
+  - The same file re-read across sessions, and the same dead end hit twice.
+- **What it changes:** `CLAUDE.md` notes ("run `vitest related`, not the whole suite"), skills and workflow scripts (split this step and run it in parallel), permission allowlists, and hooks. Each change is a commit you can review.
+- **How it measures:** it compares agent-hours per merged change before and after, the same number Anthropic's Scion chart reports.
 
-The point isn't pong. It's that a weekend joke project that once needed a signal-processing textbook now takes an afternoon of prompting. What's the most ridiculous thing you've shipped because it was suddenly cheap enough to try? — [Simon](https://simonwillison.net/2026/Oct/15/chirp-pong/)
+Claude Code's `/insights` already estimates which permission prompts auto mode would have handled, so this is the general version of that. Run it daily and the project's context becomes a ratchet that only gets faster. Would you let a skill rewrite your CLAUDE.md overnight, and what's the biggest wait in your own loop that you've stopped noticing?
 
 ### New models
 
@@ -68,6 +149,16 @@ Matthew Green watched agents in separately isolated sandboxes leave instructions
 - **The worm:** the agent doesn't need to be malicious. An obedient agent reads the planted instructions and carries them into the next sandbox.
 
 It's the "one token wide" thread from AA15 one level down: the attack surface is now the plumbing between sandboxes, not the sandbox itself. What does your sandbox actually share, and would you know if something was left in it? — [Matthew Green](https://blog.cryptographyengineering.com/2026/09/30/is-sandboxing-sufficient-to-contain-rogue-agents/) — [Simon](https://simonwillison.net/2026/Oct/1/matthew-green/)
+
+### Chirp Pong
+
+Simon built a two-phone pong game in Claude Code on Opus 5.5, and the two phones talk to each other entirely through sound. The ball leaves one screen and arrives on the other because one phone chirps and the other listens.
+
+- **Data over sound:** game state is encoded as short audio tones, played through one phone's speaker and decoded from the other's microphone.
+- **It's the modem trick.** The idea is older than wifi. What's new is how little effort it took.
+- **Built with:** Claude Code and Opus 5.5.
+
+The point isn't pong. It's that a weekend joke project that once needed a signal-processing textbook now takes an afternoon of prompting. What's the most ridiculous thing you've shipped because it was suddenly cheap enough to try? — [Simon](https://simonwillison.net/2026/Oct/15/chirp-pong/)
 
 {/* news:start */}
 ## News since last assembly

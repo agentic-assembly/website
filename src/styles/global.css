@@ -1510,3 +1510,332 @@ a:hover {
     columns: 1;
   }
 }
+
+/* ============ MINI PRESENTATION (inline slideshow) ============
+   Full-bleed band — width and margin-left set by the component's script so it
+   escapes the prose column. Slides scroll-snap horizontally; all slides share
+   the tallest one's height so flicking doesn't jump the page. */
+
+.mp {
+  position: relative;
+  margin-block: 40px 48px;
+  border-block: 1px solid var(--line);
+  background: var(--bg-card);
+  box-sizing: border-box;
+}
+.mp__inner {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding: 20px var(--gutter) 18px;
+  box-sizing: border-box;
+}
+.mp__head,
+.mp__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.mp__label {
+  color: var(--accent);
+  letter-spacing: 0.3em;
+}
+.mp__count {
+  font-variant-numeric: tabular-nums;
+}
+.mp__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  margin-block: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+.mp__track::-webkit-scrollbar {
+  display: none;
+}
+.mp__track:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+.mp__btn {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.mp__btn:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.mp__btn:disabled {
+  color: var(--line);
+  cursor: default;
+}
+.va-prose .mp__dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.va-prose .mp__dots li {
+  margin: 0;
+  padding: 0;
+}
+.mp__dot {
+  display: block;
+  width: 18px;
+  height: 3px;
+  padding: 0;
+  border: none;
+  background: var(--line);
+  cursor: pointer;
+}
+.mp__dot[aria-current="true"] {
+  background: var(--accent);
+}
+
+/* one slide */
+.mp-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 32px 24px;
+  box-sizing: border-box;
+  min-height: min(68vh, 620px);
+}
+.va-prose .mp-slide__eyebrow {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mp-slide__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.mp-slide__stage {
+  flex: 1;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  min-height: 0;
+}
+.mp-slide__figure {
+  flex: 1 1 60%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+.va-prose .mp-slide__figure img {
+  display: block;
+  max-width: 100%;
+  max-height: 52vh;
+  width: auto;
+  height: auto;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 0;
+}
+.mp-slide__body {
+  flex: 1 1 40%;
+  min-width: 0;
+}
+.mp-slide--text .mp-slide__stage {
+  align-items: center;
+}
+.mp-slide--text .mp-slide__body {
+  flex: 1 1 100%;
+}
+.va-prose .mp-slide__body p,
+.va-prose .mp-slide__body li {
+  font-size: 17px;
+  line-height: 1.55;
+}
+.va-prose .mp-slide__body ul {
+  margin-bottom: 0;
+}
+.va-prose .mp-slide__body li {
+  margin: 10px 0;
+}
+.va-prose .mp-slide__body strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+.va-prose .mp-slide__caption {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+.va-prose .mp-slide__caption a {
+  color: var(--ink-dim);
+}
+
+/* title slide */
+.mp-slide--cover .mp-slide__stage {
+  align-items: flex-end;
+}
+.mp-slide--cover .mp-slide__title {
+  font-size: clamp(40px, 7vw, 84px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.va-prose .mp-slide--cover .mp-slide__body p {
+  font-size: 20px;
+  color: var(--ink-dim);
+  max-width: 640px;
+}
+
+/* big-number grid inside a text slide */
+.mp-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.mp-stat {
+  background: var(--bg);
+  padding: 18px 20px;
+}
+.mp-stat__n {
+  display: block;
+  font-family: var(--mono);
+  font-size: 34px;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.mp-stat__l {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+
+/* comparison table inside a text slide */
+.mp-slide__body .mp-table-wrap {
+  overflow-x: auto;
+}
+.mp-slide__body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.mp-slide__body th,
+.mp-slide__body td {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.mp-slide__body thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mp-slide__body tbody th {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .mp-slide {
+    padding: 20px 18px;
+    min-height: 0;
+  }
+  .mp-slide__stage {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .mp-slide__title {
+    font-size: 21px;
+  }
+  .va-prose .mp-slide__body p,
+  .va-prose .mp-slide__body li {
+    font-size: 15px;
+  }
+  .mp__foot .mp__dots {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .mp__head {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+  .mp__label {
+    letter-spacing: 0.16em;
+  }
+  .mp__count {
+    white-space: nowrap;
+  }
+  .mp__track {
+    align-items: flex-start;
+    overflow-y: hidden;
+    transition: height 0.25s ease;
+  }
+  /* comparison table stacks: one block per row, cells labelled */
+  .mp-slide__body thead {
+    display: none;
+  }
+  .mp-slide__body table,
+  .mp-slide__body tbody,
+  .mp-slide__body tr,
+  .mp-slide__body th,
+  .mp-slide__body td {
+    display: block;
+  }
+  .mp-slide__body tr {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .mp-slide__body tbody th {
+    padding: 0 0 4px;
+    border: none;
+    color: var(--accent);
+  }
+  .mp-slide__body td {
+    padding: 2px 0;
+    border: none;
+  }
+  .mp-slide__body td[data-label]::before {
+    content: attr(data-label) " — ";
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+  }
+}

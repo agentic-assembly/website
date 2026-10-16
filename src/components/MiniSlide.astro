@@ -1,0 +1,59 @@
+---
+/**
+ * One slide of a <MiniPresentation>. Give it an `image` (an imported image
+ * or a URL) for a figure slide, or a slot body for a text slide — or both.
+ * `cover` makes it a title slide. `credit`/`creditHref` attribute borrowed
+ * figures.
+ */
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  image?: ImageMetadata | string;
+  alt?: string;
+  caption?: string;
+  credit?: string;
+  creditHref?: string;
+  cover?: boolean;
+}
+const { title, eyebrow, image, alt = "", caption, credit, creditHref, cover = false } = Astro.props;
+
+const src = typeof image === "string" ? image : image?.src;
+const hasBody = Astro.slots.has("default");
+const kind = cover ? "cover" : src ? (hasBody ? "split" : "figure") : "text";
+---
+
+<article class={`mp-slide mp-slide--${kind}`} aria-roledescription="slide">
+  {eyebrow && <p class="mp-slide__eyebrow">{eyebrow}</p>}
+  {title && <h4 class="mp-slide__title">{title}</h4>}
+  <div class="mp-slide__stage">
+    {
+      src && (
+        <figure class="mp-slide__figure">
+          <img src={src} alt={alt} loading="lazy" decoding="async" />
+        </figure>
+      )
+    }
+    {
+      hasBody && (
+        <div class="mp-slide__body">
+          <slot />
+        </div>
+      )
+    }
+  </div>
+  {
+    (caption || credit) && (
+      <p class="mp-slide__caption">
+        {caption}
+        {credit && (
+          <span class="mp-slide__credit">
+            {caption && " — "}
+            {creditHref ? <a href={creditHref}>{credit}</a> : credit}
+          </span>
+        )}
+      </p>
+    )
+  }
+</article>

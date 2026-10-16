@@ -2,4 +2,90 @@
 title: "AA17"
 date: 2026-10-17T10:00:00+09:00
 location: "The DECK"
+references:
+  - title: "Idle compaction — long Claude Code sessions compact before the prompt cache expires"
+    url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.299"
+  - title: "Claude Haiku 5.5 — $0.10/$0.50, 1M context, now Claude Code's default Haiku"
+    url: "https://www.anthropic.com/claude-haiku-5-5"
+  - title: "Scion — Anthropic replaced git after agents pushed merges to 30,000 a day"
+    url: "https://www.anthropic.com/engineering/redesigning-source-control"
 ---
+
+import Transcript from "../../../components/Transcript.astro";
+import TranscriptCell from "../../../components/TranscriptCell.astro";
+
+## Talking points
+
+{/* news:start */}
+## News since last assembly
+
+_Floor: 2026-10-03 (260310-aa16) — Generated 2026-10-17._
+
+### New Claude Code commands & features
+- **Fork subagents everywhere — `CLAUDE_CODE_AUTO_MODE_MODEL`** (v2.1.302, 2026-10-16) — `subagent_type: "fork"` is now on by default in `claude -p`, the Agent SDK, the desktop app and VS Code, as it already was in the terminal (`CLAUDE_CODE_FORK_SUBAGENT=0` turns it off); desktop and VS Code always run the main conversation's subagents in the background; pick the auto mode classifier's model; an "Idle compaction" row in `/config`; `claude -p` on third-party providers now starts in `default` permission mode, not auto — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.302)
+- **Vim `%` — `fable` falls back** (v2.1.301, 2026-10-15) — jump to the matching bracket, alone or with d/c/y; the `fable` and `best` aliases retry once on the previous Fable model if the newest is unavailable; switching to a smaller-context model now has the previous model summarise the conversation first; auto mode classifier verdicts land in OTel `tool_decision` events; LaTeX math in VS Code — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.301)
+- **`/advisor` on AWS — mods get `virtualText`** (v2.1.300, 2026-10-14) — the advisor tool comes to Claude Platform on AWS (`advisorModel`, `--advisor`); mods can draw text in the prompt box that never enters the draft, show any agent's transcript with `$.ui.view({ agentId })`, and rewrite a workflow agent's prompt and model in `agent.spawn`; large API requests are gzipped; `claude remote-control` drops `--sandbox` in favour of `sandbox.enabled`; Claude in Slack works in Slack Connect channels — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.300)
+- **Idle compaction — `/effort` and `/fast` in agent view** (v2.1.299, 2026-10-14) — a 200K+ token terminal session idle for ~54 minutes is compacted before its one-hour prompt cache expires, so coming back reprocesses a summary rather than the whole history (`"idleCompaction": false` to opt out); `CLAUDE_CODE_DISABLE_FILE_MENTIONS` sends `@` paths instead of contents; `/usage` warns about max effort, workflows and large tool results; `claude plugin eval --disallow-tools`; MCP allow rules now match only the exact named server — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.299)
+- **Subagent `autoCompactWindow` — Read `allow_large`** (v2.1.296, 2026-10-09) — subagents can compact earlier than the main conversation; the Read tool can take a big text file in one call; `CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL` runs every workflow agent on one model; Sonnet 5.5 cache reads drop to $0.10; the MCP description cap doubles to 4,096 chars; Claude Tag can edit workspace and channel memory files — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.296)
+- **Fail-closed hooks — terminal status via OSC 7501** (v2.1.295, 2026-10-08) — `onFailure: "block"` on command and HTTP hooks means a hook that can't start, times out or crashes blocks the action instead of waving it through; terminals that speak Program Status Protocol can show working, waiting or done; mods get native notifications with `$.ui.notify`; `CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS` caps unattended 429/529 waits — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.295)
+- **Haiku 5.5 by default** (v2.1.293, 2026-10-07) — `claude-haiku-5-5` becomes the default Haiku on the Anthropic API (1M context, $0.10/$0.50, $0.50/$2.50 over 100K); `agentType` in the `subagentStatusLine` payload; mods can register tools that skip tool search with `isDeferred: false` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.293)
+- **Per-subagent `effort` — `claude plugin install --marketplace`** (v2.1.292, 2026-10-06) — the Agent tool takes an `effort` parameter so Claude runs a sub-agent at the level you ask for; install a plugin and its marketplace in one command; mods can add autocomplete rows (`prompt.autocomplete`) and cache `$.model.complete` calls — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.292)
+- **`/claude-api managed-agents-onboard` — attach by name** (v2.1.290, 2026-10-05) — turn a page describing a Managed Agents pattern, or a Console quickstart like `deep-researcher`, into `ant apply` files; `claude attach` and `claude logs` accept part of a session name; mod `tool.check` hooks see `agentId` and the org's approval `ceiling` — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.290)
+
+### Claude Code — other notes
+- [2026-10-16] How the Claude Code team does code review — Claude checks its own work first, human approval scales with risk, plus an adoption checklist — [post](https://claude.dev/blog/solving-code-review-at-anthropic/)
+- [2026-10-15] Code Review leaves research preview for Team and Enterprise — about 3x faster (6–10 minutes), Quick — Standard — Deep levels per repo, $10,000+ credits for eligible Enterprise orgs — [post](https://claude.com/resources/articles/code-review-is-now-generally-available)
+- [2026-10-14] OpenTelemetry traces from Managed Agents, the Messages API and the Claude SDKs — [post](https://claude.com/resources/articles/agent-observability-on-the-claude-platform)
+- [2026-10-08] Claude Dashboards and Motion launch; Docs, Slides and Design leave beta on every plan, and standalone Claude Design (claude.ai/design) closes December 14 — `/design-sync` now warns about it — [migration guide](https://support.claude.com/en/articles/17440474-migrate-from-standalone-claude-design-to-claude)
+
+### Codex
+- [2026-10-15] Codex 0.163.0 — a searchable `/config` that applies settings live, follow-up messages steer the running turn, `/keymap` with a leader key (default Ctrl+X), `/daemon` restart, parallel read-only tool calls, Daybreak on by default for eligible accounts, and no more bundled patched zsh — [release](https://github.com/openai/codex/releases/tag/rust-v0.163.0)
+- [2026-10-08] Codex 0.162.0 — managed Git worktree tools, pin tasks in the agent command center with `p`, `/copy` for transcript blocks, live web access and remote compaction for custom Responses-compatible providers, honours server `Retry-After` — [release](https://github.com/openai/codex/releases/tag/rust-v0.162.0)
+- [2026-10-07] Codex 0.161.0 — GPT-6.1 Sol is the default in the bundled and Bedrock catalogs, `/mcp login <name>` mid-session, mic and speaker picker for voice, Daybreak made opt-in (`--enable cli_daybreak`), and permission grants bound to the turn that asked for them — [release](https://github.com/openai/codex/releases/tag/rust-v0.161.0)
+
+### Adjacent tools
+- [2026-10-13] Cursor opens an Origin App Marketplace — 20+ integrations across deploys, CI, review, security and monitoring, with public submissions — [changelog](https://cursor.com/changelog)
+- [2026-10-06] Cursor Remote Control — view and reply to agents running on your own machine from the iOS app, on by default outside Enterprise — [changelog](https://cursor.com/changelog)
+- [2026-10-14] Copilot CLI 1.0.98 expands `/ask` answers with Ctrl+E and reopens the last one with `/ask` or `/btw`; Gemini 4 Argon is GA across GitHub Copilot from 10-13 — [releases](https://github.com/github/copilot-cli/releases) — [GitHub](https://github.blog/changelog/2026-10-13-gemini-4-argon-in-github-copilot/)
+- [2026-10-11] OpenCode 1.19.0 — `opencode upgrade --major` moves you to OpenCode 2, `/update` installs updates (no more auto-install), and the OpenAI ultrafast tier is allowed — [AI Agents Store](https://aiagentstore.ai/ai-agent-news/this-week)
+
+### Models
+- [2026-10-07] Claude Haiku 5.5 — $0.10/$0.50 up to 100K, then the whole request reprices at $0.50/$2.50; 1M context, first Haiku with an effort dial; 39.2 on Terminal-Bench 4.0 at max effort (Haiku 4.5: 0.0, Artificial Analysis measured 33); a new tokenizer uses ~1.25x the tokens — [Anthropic](https://www.anthropic.com/claude-haiku-5-5) — [Simon](https://simonwillison.net/2026/Oct/7/claude-haiku-5-5/)
+- [2026-10-07] Sonnet 5.5 cache reads cut from $0.20 to $0.10 per 1M, shipped alongside Haiku 5.5 — [release](https://github.com/anthropics/claude-code/releases/tag/v2.1.296)
+- [2026-10-06] Mistral Large 4 "Le Chonk" — public preview, 1.05T total / 52B active, 1M context; $1.36/$4.18 list, 50% off at launch; 61.7 DeepSWE v1.1 self-reported; weights promised by end of October after red-teaming — [Lindy](https://www.lindy.ai/blog/mistral-large-4)
+- [2026-10-12] Meta Muse Wonder — Meta's first frontier model, $4/$20, exactly Opus 5.5's price; 78.8 DeepSWE v1.1, Wonder Full 79.0, but Wonder Full is only inside the $50/month Muse Code; closed — [TechCrunch](https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder/)
+- [2026-10-13] Gemini 4 Argon opens to developers — $2/$10 until November 30, then doubling to $4/$20; 77.9 DeepSWE v1.1 vendor-reported, 57.4 on Terminal-Bench 4.0, last of the four frontier models Google compared — [DataCamp](https://www.datacamp.com/blog/gemini-4-argon) — [Simon (llm-gemini 0.35)](https://simonwillison.net/2026/Oct/13/llm-gemini/)
+- [2026-10-15] Meta Muse Spark Open — 816B / 42B active, 1M context, BF16 and NVFP4 weights under the custom Muse Model License; the top US open-weight model, but 60 DeepSWE and 76.4 TB 2.1 trail Kimi K3 and GLM-5.3; ~$1.25/$4.25 median on hosts — [VentureBeat](https://venturebeat.com/technology/meta-unveils-muse-spark-open-the-new-top-u-s-open-weights-model-and-it-runs-on-two-paired-mac-desktops) — [MarkTechPost](https://www.marktechpost.com/2026/10/15/meta-muse-spark-open-816b-open-weight-model/)
+
+| Model | Date | $/1M in — out | DeepSWE v1.1 | TB 2.1 | TB 3.0 | Weights |
+|---|---|---|---|---|---|---|
+| **Claude Haiku 5.5** | 2026-10-07 | 0.10 — 0.50 (over 100K: 0.50 — 2.50) | — | — | — (TB 4.0: 39.2) | closed |
+| **Mistral Large 4** | 2026-10-06 | 1.36 — 4.18 (launch 0.68 — 2.09) | 61.7 | — | — | promised |
+| **Muse Wonder** | 2026-10-12 | 4 — 20 | 78.8 | — | — | closed |
+| **Gemini 4 Argon** | 2026-10-13 | 2 — 10 (4 — 20 from Dec 1) | 77.9 | — | — (TB 4.0: 57.4) | closed |
+| **Muse Spark Open** | 2026-10-15 | ~1.25 — 4.25 (hosted median) | 60 | 76.4 | — | Muse licence |
+| Claude Opus 5.5 | 2026-09-22 | 4 — 20 | — | — | — (TB 4.0: 66.4) | closed |
+| GPT-6.1 Sol | 2026-09-29 | 2 — 10 (cached 0.10) | — (ties Astra) | — | — | closed |
+| Kimi K3 | 2026-07-16 | — | 68 | 85.0 | — | Kimi K3 licence |
+| DeepSeek V4.1-Flash | 2026-09-10 | 0.30 — 1.20 (off-peak 0.15 — 0.60) | 74.2 | 90.6 | 31.2 | MIT |
+
+_Vendor-reported unless marked; cross-vendor comparisons are marketing until a neutral harness reruns them. Anthropic and Google quoted Terminal-Bench 4.0, so it's noted in brackets — and Meta's open Muse trailing its own closed sibling by nearly 19 DeepSWE points is the open-weight gap in one row._
+
+### Simon says
+- [2026-10-15] Chirp Pong — a two-phone pong game networked entirely by audio chirps, built with Opus 5.5 in Claude Code — [post](https://simonwillison.net/2026/Oct/15/chirp-pong/)
+- [2026-10-14] AI is mass-decompiling games — great for mashups and preservation, scary for everyone else — [post](https://simonwillison.net/2026/Oct/14/ai-is-mass-decompiling-games/)
+- [2026-10-13] Anthropic replaced git with Scion: merges went from ~2,500 a day in May to 30,000+ in September; he reads it as Subversion reinvented for always-online agents — [post](https://simonwillison.net/2026/Oct/13/redesigning-source-control-at-anthropic/)
+- [2026-10-09] He built a blog feature by talking to his laptop while cooking dinner — Codex voice mode on GPT-6 Astra High — [post](https://simonwillison.net/2026/Oct/9/built-using-my-voice/)
+- [2026-10-07] Claude Haiku 5.5 matches GPT-6 Luna's price and beats it under 100K tokens, but Luna wins past that, and the new tokenizer is a hidden price rise — [post](https://simonwillison.net/2026/Oct/7/claude-haiku-5-5/)
+
+### Research & papers
+- [2026-10-13] The Agentic Scientist (Lange, Ha et al.): orchestrating coding agents for automated discovery; ablations say reliable autonomy lives in the orchestration layer, not the base model — [arXiv](https://arxiv.org/abs/2610.18933)
+- [2026-10-09] AgentSWE: can coding agents build the agent you actually want? Across create, edit and optimise tasks, none come close, and the gap between what they demo and what they deliver is "the norm, not the corner case" — [arXiv](https://arxiv.org/abs/2610.13361)
+
+### Notable posts
+- [2026-10-13] Anthropic, "Redesigning source control": a seven-person team moved the monorepo off git to Scion — one authoritative server, sparse virtual checkouts, 200x less CPU and memory than the git mirrors, CI CPU down 25% — not for release, but a heads-up to GitHub and GitLab — [Anthropic](https://www.anthropic.com/engineering/redesigning-source-control)
+- [2026-10-12] CyberXero used Claude Code in a campaign that hit 429 WordPress admin panels and took 628,000+ records from four Ukrainian organisations — [The Hacker News](https://thehackernews.com/2026/10/cyberxero-uses-claude-code-in-campaign.html)
+
+{/* news:end */}
+
+## On the table

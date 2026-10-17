@@ -3,6 +3,7 @@
  * MiniPresentation — an inline slideshow that breaks out of the prose column
  * to the full viewport width. Wrap a run of <MiniSlide> in it. Flick with
  * touch/trackpad (scroll-snap), the prev/next buttons, or ←/→ when focused.
+ * The ⛶ button (or F) goes full screen; Esc leaves.
  * Styles live in global.css (.mp*).
  */
 interface Props {
@@ -16,7 +17,10 @@ const { title, id } = Astro.props;
   <div class="mp__inner">
     <header class="mp__head">
       <span class="mp__label">Mini presentation — {title}</span>
-      <span class="mp__count" aria-live="polite"><span data-mp-current>01</span> — <span data-mp-total>01</span></span>
+      <span class="mp__tools">
+        <span class="mp__count" aria-live="polite"><span data-mp-current>01</span> — <span data-mp-total>01</span></span>
+        <button type="button" class="mp__btn" data-mp-full aria-pressed="false">full screen</button>
+      </span>
     </header>
     <div class="mp__track" tabindex="0" data-mp-track>
       <slot />
@@ -46,6 +50,11 @@ const { title, id } = Astro.props;
     // Break out of whatever column we're in: span the viewport, measured, so
     // it works whether or not the page has the side rail.
     const bleed = () => {
+      if (root.classList.contains("is-full")) {
+        root.style.width = "";
+        root.style.marginLeft = "";
+        return;
+      }
       root.style.marginLeft = "0px";
       const left = root.getBoundingClientRect().left;
       root.style.width = `${document.documentElement.clientWidth}px`;
@@ -76,12 +85,18 @@ const { title, id } = Astro.props;
     window.addEventListener("resize", fit);
 
     let index = 0;
+    // Where a smooth scroll is heading, so rapid presses stack up instead of
+    // re-reading a half-scrolled position.
+    let pending: number | null = null;
     const go = (i: number) => {
-      const target = slides[Math.max(0, Math.min(slides.length - 1, i))];
-      track.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: "smooth" });
+      const to = Math.max(0, Math.min(slides.length - 1, i));
+      pending = to;
+      track.scrollTo({ left: slides[to].offsetLeft - track.offsetLeft, behavior: "smooth" });
     };
     const sync = () => {
-      index = Math.round(track.scrollLeft / track.clientWidth);
+      const at = Math.round(track.scrollLeft / track.clientWidth);
+      if (pending === at) pending = null;
+      index = pending ?? at;
       if (current) current.textContent = pad(index + 1);
       dotButtons.forEach((b, i) => b.setAttribute("aria-current", String(i === index)));
       if (prev) prev.disabled = index === 0;
@@ -89,13 +104,54 @@ const { title, id } = Astro.props;
       fit();
     };
     track.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
-    prev?.addEventListener("click", () => go(index - 1));
-    next?.addEventListener("click", () => go(index + 1));
-    track.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") go(index + 1);
-      else if (e.key === "ArrowLeft") go(index - 1);
+    prev?.addEventListener("click", () => go((pending ?? index) - 1));
+    next?.addEventListener("click", () => go((pending ?? index) + 1));
+    // Full screen: the Fullscreen API where there is one, plus an is-full
+    // class that pins the band over the viewport (iPhone Safari has no
+    // element fullscreen, so the class alone does the job there).
+    const fullBtn = root.querySelector<HTMLButtonElement>("[data-mp-full]");
+    const resnap = () => {
+      track.scrollTo({ left: index * track.clientWidth, behavior: "instant" });
+    };
+    const setFull = (on: boolean) => {
+      const at = pending ?? index;
+      pending = null;
+      root.classList.toggle("is-full", on);
+      document.documentElement.classList.toggle("mp-locked", on);
+      fullBtn?.setAttribute("aria-pressed", String(on));
+      if (fullBtn) fullBtn.textContent = on ? "exit" : "full screen";
+      bleed();
+      fit();
+      requestAnimationFrame(() => {
+        index = at;
+        resnap();
+        track.focus({ preventScroll: true });
+      });
+    };
+    const toggleFull = () => {
+      const on = !root.classList.contains("is-full");
+      if (on) root.requestFullscreen?.().catch(() => {});
+      else if (document.fullscreenElement === root) document.exitFullscreen();
+      setFull(on);
+    };
+    fullBtn?.addEventListener("click", toggleFull);
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement && root.classList.contains("is-full")) setFull(false);
+    });
+    window.addEventListener("resize", resnap);
+
+    const onKey = (e: KeyboardEvent) => {
+      const from = pending ?? index;
+      if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && root.classList.contains("is-full"))) go(from + 1);
+      else if (e.key === "ArrowLeft" || e.key === "PageUp") go(from - 1);
+      else if (e.key === "f" || e.key === "F") toggleFull();
+      else if (e.key === "Escape" && root.classList.contains("is-full")) setFull(false);
       else return;
       e.preventDefault();
+    };
+    track.addEventListener("keydown", onKey);
+    document.addEventListener("keydown", (e) => {
+      if (root.classList.contains("is-full") && !track.contains(e.target as Node)) onKey(e);
     });
     sync();
   }

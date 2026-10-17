@@ -1839,3 +1839,68 @@ a:hover {
     color: var(--ink-dim);
   }
 }
+
+/* full screen — pinned over the viewport; slides fill the height */
+.mp__tools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+html.mp-locked {
+  overflow: hidden;
+}
+.mp.is-full {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  margin: 0;
+  border: none;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.mp.is-full .mp__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: none;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) var(--gutter) calc(14px + env(safe-area-inset-bottom, 0px));
+}
+.mp.is-full .mp__track {
+  flex: 1;
+  min-height: 0;
+  height: auto !important;
+  align-items: stretch;
+}
+.mp.is-full .mp-slide {
+  min-height: 0;
+  overflow-y: auto;
+  padding: clamp(24px, 4vh, 56px) clamp(24px, 5vw, 96px);
+}
+.mp.is-full .mp-slide__title {
+  font-size: clamp(26px, 3vw, 44px);
+}
+.mp.is-full .mp-slide--cover .mp-slide__title {
+  font-size: clamp(56px, 11vw, 160px);
+}
+.va-prose .mp.is-full .mp-slide__figure img {
+  max-height: 70vh;
+}
+.va-prose .mp.is-full .mp-slide__body p,
+.va-prose .mp.is-full .mp-slide__body li {
+  font-size: clamp(17px, 1.6vw, 24px);
+}
+.va-prose .mp.is-full .mp-slide__caption {
+  font-size: clamp(12px, 1vw, 15px);
+}
+.mp.is-full .mp-slide__body table {
+  font-size: clamp(14px, 1.2vw, 18px);
+}
+.mp.is-full .mp-stat__n {
+  font-size: clamp(34px, 3.4vw, 56px);
+}
+.mp.is-full .mp-stat__l {
+  font-size: clamp(14px, 1.1vw, 18px);
+}
+.mp.is-full .mp__track:focus-visible {
+  outline: none;
+}

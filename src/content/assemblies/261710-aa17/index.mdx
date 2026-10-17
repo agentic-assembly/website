@@ -339,6 +339,12 @@ Google's open-weights answer to Muse Spark Open and the Chinese models, built to
 
 </TranscriptCell>
 
+<TranscriptCell title="ESP-IDF" sub="Espressif's official framework for ESP32 chips, which came up as the stack under the hardware projects at the table.">
+
+Espressif's own development framework for the ESP32 family: C on top of FreeRTOS, built with CMake and driven by `idf.py`, with Wi-Fi, Bluetooth and the peripherals in its components. Arduino-ESP32 is a friendlier layer on top of it. It's also a good test for coding agents. The training data is full of Arduino sketches and older IDF versions, so the model writes code against yesterday's API, and the only real check is flashing the board and watching the serial monitor. That's the verification problem from the code review deck, with a USB cable in the loop. Has anyone had an agent drive `idf.py build flash monitor` end to end, and does it cope when the fix is a pin number rather than a line of code? — [github.com/espressif/esp-idf](https://github.com/espressif/esp-idf) — [docs.espressif.com](https://docs.espressif.com/projects/esp-idf/en/latest/)
+
+</TranscriptCell>
+
 </Transcript>
 
 {/* news:start */}

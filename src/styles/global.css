@@ -1882,8 +1882,18 @@ html.mp-locked {
 .mp.is-full .mp-slide--cover .mp-slide__title {
   font-size: clamp(56px, 11vw, 160px);
 }
+/* figures fit the space left under the title and above the caption */
+.mp.is-full .mp-slide--figure .mp-slide__stage,
+.mp.is-full .mp-slide--split .mp-slide__stage {
+  align-items: stretch;
+}
+.mp.is-full .mp-slide__figure {
+  min-height: 0;
+  align-items: center;
+}
 .va-prose .mp.is-full .mp-slide__figure img {
-  max-height: 70vh;
+  max-height: 100%;
+  object-fit: contain;
 }
 .va-prose .mp.is-full .mp-slide__body p,
 .va-prose .mp.is-full .mp-slide__body li {
@@ -1903,4 +1913,57 @@ html.mp-locked {
 }
 .mp.is-full .mp__track:focus-visible {
   outline: none;
+}
+
+/* collapsed inline — just the header band until "show slides" */
+.mp.is-collapsed:not(.is-full) .mp__track,
+.mp.is-collapsed:not(.is-full) .mp__foot {
+  display: none;
+}
+.mp.is-collapsed:not(.is-full) .mp__count {
+  display: none;
+}
+.mp.is-full [data-mp-toggle] {
+  display: none;
+}
+@media (max-width: 480px) {
+  .mp__tools {
+    gap: 8px;
+  }
+}
+/* projector-sized type for text slides in full screen */
+.va-prose .mp.is-full .mp-slide--text .mp-slide__body p,
+.va-prose .mp.is-full .mp-slide--text .mp-slide__body li {
+  font-size: clamp(17px, 1.9vw, 34px);
+}
+.va-prose .mp.is-full .mp-slide--split .mp-slide__body li {
+  font-size: clamp(16px, 1.35vw, 26px);
+}
+.mp.is-full .mp-slide__body table {
+  font-size: clamp(14px, 1.15vw, 22px);
+}
+.mp.is-full .mp-slide__body thead th,
+.mp.is-full .mp-slide__body tbody th {
+  font-size: 0.7em;
+}
+.mp.is-full .mp-stat__n {
+  font-size: clamp(34px, 4vw, 76px);
+}
+.mp.is-full .mp-stat__l {
+  font-size: clamp(14px, 1.3vw, 24px);
+}
+.va-prose .mp.is-full .mp-slide__caption {
+  font-size: clamp(12px, 1.05vw, 19px);
+}
+.mp-stat__n {
+  white-space: nowrap;
+}
+.mp.is-full .mp-stat__n {
+  font-size: clamp(30px, 3.2vw, 60px);
+}
+.va-prose .mp-slide__body code {
+  font-size: 0.85em;
+}
+.va-prose .mp.is-full .mp-slide--split .mp-slide__body p {
+  font-size: clamp(15px, 1.2vw, 23px);
 }

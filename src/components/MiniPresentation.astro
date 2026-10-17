@@ -3,7 +3,8 @@
  * MiniPresentation — an inline slideshow that breaks out of the prose column
  * to the full viewport width. Wrap a run of <MiniSlide> in it. Flick with
  * touch/trackpad (scroll-snap), the prev/next buttons, or ←/→ when focused.
- * The ⛶ button (or F) goes full screen; Esc leaves.
+ * Inline it starts collapsed to its header; "show slides" opens it. The
+ * full-screen button (or F) goes full screen from either state; Esc leaves.
  * Styles live in global.css (.mp*).
  */
 interface Props {
@@ -13,12 +14,13 @@ interface Props {
 const { title, id } = Astro.props;
 ---
 
-<section class="mp" id={id} aria-roledescription="carousel" aria-label={title}>
+<section class="mp is-collapsed" id={id} aria-roledescription="carousel" aria-label={title}>
   <div class="mp__inner">
     <header class="mp__head">
       <span class="mp__label">Mini presentation — {title}</span>
       <span class="mp__tools">
         <span class="mp__count" aria-live="polite"><span data-mp-current>01</span> — <span data-mp-total>01</span></span>
+        <button type="button" class="mp__btn" data-mp-toggle aria-expanded="false">show slides</button>
         <button type="button" class="mp__btn" data-mp-full aria-pressed="false">full screen</button>
       </span>
     </header>
@@ -36,6 +38,19 @@ const { title, id } = Astro.props;
 <script>
   const pad = (n: number) => String(n).padStart(2, "0");
 
+  // Every deck on the page, in document order, so stepping past either end
+  // of one carries on into its neighbour.
+  interface Deck {
+    count: number;
+    sync: () => void;
+    enter: (at: number, full: "api" | "class" | false) => void;
+  }
+  const decks: Deck[] = [];
+
+  const exitAllFullscreen = async () => {
+    while (document.fullscreenElement) await document.exitFullscreen();
+  };
+
   for (const root of document.querySelectorAll<HTMLElement>(".mp")) {
     const track = root.querySelector<HTMLElement>("[data-mp-track]");
     const dots = root.querySelector<HTMLOListElement>("[data-mp-dots]");
@@ -45,12 +60,20 @@ const { title, id } = Astro.props;
     const total = root.querySelector("[data-mp-total]");
     const prev = root.querySelector<HTMLButtonElement>("[data-mp-prev]");
     const next = root.querySelector<HTMLButtonElement>("[data-mp-next]");
+    const fullBtn = root.querySelector<HTMLButtonElement>("[data-mp-full]");
+    const toggle = root.querySelector<HTMLButtonElement>("[data-mp-toggle]");
+    const position = decks.length;
     if (total) total.textContent = pad(slides.length);
+
+    const isFull = () => root.classList.contains("is-full");
+    // True while this deck owns the browser's fullscreen (as opposed to the
+    // is-full class alone, which is all iPhone Safari gets).
+    let usingApi = false;
 
     // Break out of whatever column we're in: span the viewport, measured, so
     // it works whether or not the page has the side rail.
     const bleed = () => {
-      if (root.classList.contains("is-full")) {
+      if (isFull()) {
         root.style.width = "";
         root.style.marginLeft = "";
         return;
@@ -75,6 +98,11 @@ const { title, id } = Astro.props;
       return b;
     });
 
+    let index = 0;
+    // Where a smooth scroll is heading, so rapid presses stack up instead of
+    // re-reading a half-scrolled position.
+    let pending: number | null = null;
+
     // Narrow screens: slides stack tall, so size the track to the current
     // slide rather than the tallest one.
     const narrow = window.matchMedia("(max-width: 720px)");
@@ -84,75 +112,143 @@ const { title, id } = Astro.props;
     narrow.addEventListener("change", fit);
     window.addEventListener("resize", fit);
 
-    let index = 0;
-    // Where a smooth scroll is heading, so rapid presses stack up instead of
-    // re-reading a half-scrolled position.
-    let pending: number | null = null;
+    const resnap = () => {
+      track.scrollTo({ left: index * track.clientWidth, behavior: "instant" });
+    };
     const go = (i: number) => {
       const to = Math.max(0, Math.min(slides.length - 1, i));
       pending = to;
       track.scrollTo({ left: slides[to].offsetLeft - track.offsetLeft, behavior: "smooth" });
     };
     const sync = () => {
+      if (!track.clientWidth) return;
       const at = Math.round(track.scrollLeft / track.clientWidth);
       if (pending === at) pending = null;
       index = pending ?? at;
       if (current) current.textContent = pad(index + 1);
       dotButtons.forEach((b, i) => b.setAttribute("aria-current", String(i === index)));
-      if (prev) prev.disabled = index === 0;
-      if (next) next.disabled = index === slides.length - 1;
+      const before = decks[position - 1];
+      const after = decks[position + 1];
+      if (prev) {
+        prev.disabled = index === 0 && !before;
+        prev.textContent = index === 0 && before ? "← prev deck" : "← prev";
+      }
+      if (next) {
+        next.disabled = index === slides.length - 1 && !after;
+        next.textContent = index === slides.length - 1 && after ? "next deck →" : "next →";
+      }
       fit();
     };
     track.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
-    prev?.addEventListener("click", () => go((pending ?? index) - 1));
-    next?.addEventListener("click", () => go((pending ?? index) + 1));
-    // Full screen: the Fullscreen API where there is one, plus an is-full
-    // class that pins the band over the viewport (iPhone Safari has no
-    // element fullscreen, so the class alone does the job there).
-    const fullBtn = root.querySelector<HTMLButtonElement>("[data-mp-full]");
-    const resnap = () => {
-      track.scrollTo({ left: index * track.clientWidth, behavior: "instant" });
+
+    const setOpen = (open: boolean) => {
+      root.classList.toggle("is-collapsed", !open);
+      toggle?.setAttribute("aria-expanded", String(open));
+      if (toggle) toggle.textContent = open ? "hide slides" : "show slides";
     };
-    const setFull = (on: boolean) => {
-      const at = pending ?? index;
+
+    // Full screen: the Fullscreen API where there is one, plus an is-full
+    // class that pins the band over the viewport.
+    const setFull = (on: boolean, at = pending ?? index) => {
       pending = null;
+      if (!on) usingApi = false;
       root.classList.toggle("is-full", on);
       document.documentElement.classList.toggle("mp-locked", on);
       fullBtn?.setAttribute("aria-pressed", String(on));
       if (fullBtn) fullBtn.textContent = on ? "exit" : "full screen";
       bleed();
-      fit();
       requestAnimationFrame(() => {
         index = at;
         resnap();
+        sync();
         track.focus({ preventScroll: true });
       });
     };
+    const requestApi = () => {
+      if (!root.requestFullscreen) return;
+      usingApi = true;
+      root.requestFullscreen().catch(() => {
+        usingApi = false;
+      });
+    };
     const toggleFull = () => {
-      const on = !root.classList.contains("is-full");
-      if (on) root.requestFullscreen?.().catch(() => {});
-      else if (document.fullscreenElement === root) document.exitFullscreen();
-      setFull(on);
+      if (isFull()) {
+        if (usingApi) exitAllFullscreen();
+        setFull(false);
+      } else {
+        requestApi();
+        setFull(true);
+      }
     };
     fullBtn?.addEventListener("click", toggleFull);
     document.addEventListener("fullscreenchange", () => {
-      if (!document.fullscreenElement && root.classList.contains("is-full")) setFull(false);
+      if (usingApi && document.fullscreenElement !== root) setFull(false);
     });
+
+    toggle?.addEventListener("click", () => {
+      const open = root.classList.contains("is-collapsed");
+      setOpen(open);
+      if (open) {
+        resnap();
+        sync();
+        track.focus({ preventScroll: true });
+      }
+    });
+
+    // Step one slide, or hand over to the neighbouring deck at either end.
+    const step = (dir: 1 | -1) => {
+      const to = (pending ?? index) + dir;
+      if (to >= 0 && to < slides.length) return go(to);
+      const other = decks[position + dir];
+      if (!other) return;
+      const full = isFull() ? (usingApi ? "api" : "class") : false;
+      if (full) {
+        usingApi = false; // the next deck takes the fullscreen over
+        setFull(false);
+      }
+      other.enter(dir > 0 ? 0 : other.count - 1, full);
+    };
+    prev?.addEventListener("click", () => step(-1));
+    next?.addEventListener("click", () => step(1));
+
+    decks.push({
+      count: slides.length,
+      sync,
+      enter: (at, full) => {
+        setOpen(true);
+        if (full) {
+          if (full === "api") requestApi();
+          setFull(true, at);
+          return;
+        }
+        pending = null;
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
+        requestAnimationFrame(() => {
+          index = at;
+          resnap();
+          sync();
+          track.focus({ preventScroll: true });
+        });
+      },
+    });
+
     window.addEventListener("resize", resnap);
 
     const onKey = (e: KeyboardEvent) => {
-      const from = pending ?? index;
-      if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && root.classList.contains("is-full"))) go(from + 1);
-      else if (e.key === "ArrowLeft" || e.key === "PageUp") go(from - 1);
+      if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && isFull())) step(1);
+      else if (e.key === "ArrowLeft" || e.key === "PageUp") step(-1);
       else if (e.key === "f" || e.key === "F") toggleFull();
-      else if (e.key === "Escape" && root.classList.contains("is-full")) setFull(false);
+      else if (e.key === "Escape" && isFull()) toggleFull();
       else return;
       e.preventDefault();
     };
     track.addEventListener("keydown", onKey);
     document.addEventListener("keydown", (e) => {
-      if (root.classList.contains("is-full") && !track.contains(e.target as Node)) onKey(e);
+      // defaultPrevented: the key that handed over from the previous deck
+      // bubbles here after this deck has gone full screen — don't step twice.
+      if (isFull() && !e.defaultPrevented && !track.contains(e.target as Node)) onKey(e);
     });
-    sync();
   }
+  // Button labels depend on neighbours, which only exist once all decks are in.
+  for (const d of decks) d.sync();
 </script>

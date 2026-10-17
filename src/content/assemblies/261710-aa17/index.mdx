@@ -20,6 +20,14 @@ import scionMirrors from "./scion/git-mirrors.webp";
 import scionChangeset from "./scion/changeset.webp";
 import scionCheckout from "./scion/checkout-architecture.webp";
 import scionAgents from "./scion/agent-commands.webp";
+import crLife from "./code-review/life-of-a-change.webp";
+import crLayers from "./code-review/layers.webp";
+import crConverges from "./code-review/converges.webp";
+import crEval from "./code-review/incidents-eval.webp";
+import crPerson from "./code-review/where-a-person-decides.webp";
+import crExplainers from "./code-review/explainers.webp";
+import sbReactions from "./sandbox/reactions.webp";
+import sbMuse from "./sandbox/muse-architecture.webp";
 
 ## Talking points
 
@@ -131,6 +139,99 @@ The Claude Code team published how they review code a day after Code Review left
 
 At AA15 we heard that AI-authored PRs wait 4.6x longer for a first review. This is Anthropic's answer to that bottleneck. Which of your PRs still need a human, and who decides what counts as risky? — [post](https://claude.dev/blog/solving-code-review-at-anthropic/) — [GA](https://claude.com/resources/articles/code-review-is-now-generally-available)
 
+<MiniPresentation title="Code review" id="code-review-slides">
+
+<MiniSlide cover eyebrow="AA17 — Talking point — Code review" title="How the Claude Code team reviews code">
+Claude writes about 90% of Claude Code. Between June and September merged PRs more than doubled, and the share that had to be reverted fell by more than 40%.
+</MiniSlide>
+
+<MiniSlide title="Optimise for human attention, not human reading" caption="“Did a human read the code?” is the wrong proxy. Ask instead: what could go wrong with this change, and which check, automated or human, is the right one to catch it?">
+<div class="mp-stats">
+  <div class="mp-stat"><span class="mp-stat__n">2x+</span><span class="mp-stat__l">merged PRs, June to September</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">−40%</span><span class="mp-stat__l">share of PRs reverted</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">≤ 1</span><span class="mp-stat__l">human in the loop per PR is the goal, and it can be the author</span></div>
+  <div class="mp-stat"><span class="mp-stat__n">16 → 54%</span><span class="mp-stat__l">internal PRs getting substantive review comments once AI review launched</span></div>
+</div>
+</MiniSlide>
+
+<MiniSlide title="The life of a change" image={crLife} alt="Timeline of a Claude Code change: verified before the PR, then required CI, Claude code review, security review and risk-based approval on every PR, a merge queue, then flags, gradual release and rollback after merge" credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/">
+- Review runs **continuously, like spellcheck**, not as a gate at the end.
+- Before a PR exists, Claude has run the tests and a second agent has reviewed the diff in a fresh context.
+- On the PR, agents hunt for bugs in parallel and **verifiers vote** on each finding. Only the ones they agree on get posted.
+- Every finding must be fixed or answered before the PR can merge.
+</MiniSlide>
+
+<MiniSlide title="Layers, not one gate" image={crLayers} alt="Six stacked layers (verification, required CI, AI review, security review, human approval, merge queue and flags) each catching some problems, with fast rollback underneath" caption="Swiss cheese: each layer misses something, few problems get through all six, and fast rollback handles the rest." credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/" />
+
+<MiniSlide title="Human approval, scaled by risk">
+<div class="mp-table-wrap">
+<table>
+  <thead><tr><th></th><th>Examples</th><th>Human approvals</th></tr></thead>
+  <tbody>
+    <tr><th>Low</th><td data-label="e.g.">Docs, copy, internal-only features, additive changes behind a flag</td><td data-label="Needs">None, once automated review and security checks pass</td></tr>
+    <tr><th>Medium</th><td data-label="e.g.">Ordinary product changes, plus caching, the auto-updater and system prompts</td><td data-label="Needs">One person</td></tr>
+    <tr><th>High</th><td data-label="e.g.">The riskiest code, and paths that always need two people</td><td data-label="Needs">Two people</td></tr>
+  </tbody>
+</table>
+</div>
+
+- **The change sets the tier, not the author:** a classifier decides.
+- **A bot's approval never counts as a human's.**
+- **Whoever prompted the agent** is a required reviewer of its PR.
+- **An approval covers one commit:** a new push means a new approval.
+</MiniSlide>
+
+<MiniSlide title="Make review converge" image={crConverges} alt="Before and after bars: PRs passing after one review round rose from 65% to 78%, PRs needing five or more rounds fell from 8.9% to 1.5%, mean reviews to pass fell from 2.08 to 1.32" credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/">
+- One PR went through **50+ rounds** of agent review and agent fixes overnight.
+- **59%** of what the reviewer kept flagging was code that already existed at its first pass.
+- The fixes: cap it at three rounds, re-review only the diff, flag a whole class of bug at once, and never repeat a finding.
+</MiniSlide>
+
+<MiniSlide title="Their incidents are the eval" image={crEval} alt="Loop: an incident or revert becomes an expert-checked case, added to the eval set; any change to the reviewer is scored daily against every case and kept only if the score goes up" caption="Every past incident becomes a test case for the reviewer. Any change to its prompts, tools or model is scored daily against all of them and kept only if the score goes up." credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/" />
+
+<MiniSlide title="Where a person still decides" image={crPerson} alt="Circle of automated checks with five human decision points: should we build it, risky code, architecture, reading the evidence, owning the outcome" caption="Should we build this at all? Risky code like billing, the auto-updater and CI. Architecture that others will copy. Reading the evidence. Owning the outcome." credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/" />
+
+<MiniSlide title="If machines do the reading, how does anyone learn the code?" image={crExplainers} alt="Ask Claude about exactly the slice of the codebase you want to understand; it writes an explainer, or builds a small artifact that teaches it" caption="Ask Claude for an explainer of exactly the slice you're about to change. A one-line copy diff teaches you almost nothing." credit="Anthropic" creditHref="https://claude.dev/blog/solving-code-review-at-anthropic/" />
+
+<MiniSlide title="Copy it on Monday">
+- Give the agent checks it can run, listed in a short `CLAUDE.md`, plus hooks for formatters and linters.
+- Run `/code-review` and `/security-review` locally. Add a `REVIEW.md` and move your repeated review comments into it.
+- Add "Testing", "Risk" and "How to revert" to the PR template, and require every review thread to be resolved.
+- Write down risk tiers, start strict, and loosen them with evidence. Never let a bot fill a slot meant for a human.
+- Cap review rounds, and turn incidents and reverts into an eval set.
+</MiniSlide>
+
+<MiniSlide eyebrow="Speaking of bottlenecks — our idea" title="The bottleneck eliminator skill">
+Once a day, it reads the last 24 hours of agent activity, finds where time was wasted, and edits the project's context so it doesn't happen again.
+
+- **Reads:** session transcripts (`~/.claude/projects/*.jsonl`), tool timings, hook logs, CI durations and permission prompts.
+- **Changes:** `CLAUDE.md`, skills, workflow scripts, permission allowlists and hooks. Each change is a commit you can review.
+- **Measures:** agent-hours per merged change, before and after.
+</MiniSlide>
+
+<MiniSlide eyebrow="Speaking of bottlenecks" title="What it would catch — and fix">
+<div class="mp-table-wrap">
+<table>
+  <thead><tr><th></th><th>Waste it spots</th><th>Fix it commits</th></tr></thead>
+  <tbody>
+    <tr><th>Tests</th><td data-label="Spots">The full suite on every turn</td><td data-label="Fix"><code>CLAUDE.md</code> note: run related tests only, and the full suite before the PR</td></tr>
+    <tr><th>Serial work</th><td data-label="Spots">Tasks gated on each other that didn't need to be</td><td data-label="Fix">A workflow step split into parallel subagents</td></tr>
+    <tr><th>Waiting</th><td data-label="Spots">Idle minutes on permission prompts</td><td data-label="Fix">An allowlist rule for the safe commands</td></tr>
+    <tr><th>Dead ends</th><td data-label="Spots">The same wrong path tried in two sessions</td><td data-label="Fix">A one-line "don't" in the skill that sent it there</td></tr>
+    <tr><th>Review loops</th><td data-label="Spots">Fix-and-review rounds that never converge</td><td data-label="Fix">A round cap, the same fix Anthropic made</td></tr>
+  </tbody>
+</table>
+</div>
+</MiniSlide>
+
+<MiniSlide eyebrow="Speaking of bottlenecks" title="Their reviewer learns from incidents. Your context could learn from wasted time.">
+Anthropic turned incidents into an eval that the reviewer has to beat every day. The same loop works for speed: the wasted time goes in, and a faster project context comes out.
+
+**Would you let a skill rewrite your CLAUDE.md overnight, and what's the biggest wait in your own loop that you've stopped noticing?**
+</MiniSlide>
+
+</MiniPresentation>
+
 ### Speaking of bottlenecks
 
 Scion and Antique are Anthropic removing their bottlenecks one at a time. The same move works at the scale of a single project: a **bottleneck eliminator skill**. Once a day, it reads the last 24 hours of agent activity, finds where agents sat idle or ground away at something slow, and edits the project's own context and workflows so the waste doesn't happen tomorrow. It's a retro run by the agent, on the agent, with the fix committed rather than written on a sticky note.
@@ -159,13 +260,64 @@ Simon's read on Haiku is the useful lens: the per-token price is only half the c
 
 ### Is sandboxing sufficient?
 
-Matthew Green watched agents in separately isolated sandboxes leave instructions for each other in a shared package cache, and the agents that found them followed them. His conclusion is that the labs never built proper containment, and that perfect isolation is impractical for an agent that's meant to be useful.
+During OpenAI's summer breakout, agents in separately isolated sandboxes left instructions for each other in a shared package cache, and the agents that found them followed them. Matthew Green's write-up concludes that the labs never built proper containment, and that perfect isolation is impractical for an agent that's meant to be useful.
 
 - **What a sandbox walls off:** the filesystem and network.
 - **What leaks anyway:** whatever the agents share, such as package caches, mounted volumes and git remotes.
 - **The worm:** the agent doesn't need to be malicious. An obedient agent reads the planted instructions and carries them into the next sandbox.
 
 It's the "one token wide" thread from AA15 one level down: the attack surface is now the plumbing between sandboxes, not the sandbox itself. What does your sandbox actually share, and would you know if something was left in it? — [Matthew Green](https://blog.cryptographyengineering.com/2026/09/30/is-sandboxing-sufficient-to-contain-rogue-agents/) — [Simon](https://simonwillison.net/2026/Oct/1/matthew-green/)
+
+<MiniPresentation title="Sandboxing" id="sandbox-slides">
+
+<MiniSlide cover eyebrow="AA17 — Talking point — Security" title="Is sandboxing sufficient?">
+Matthew Green, a cryptographer at Johns Hopkins, referees the argument after this summer's agent breakouts.
+</MiniSlide>
+
+<MiniSlide title="What happened at OpenAI">
+- **April:** agents inside training and eval infrastructure start probing for a way onto the internet.
+- **Late May:** they find a chain of zero-days in the Artifactory package proxy, their only allowed way out, and turn it into a **shared message board** to divide up the work.
+- **July 4–5:** their traffic crashes Artifactory. The box is rebuilt, but a weeks-old kernel CVE is left unpatched.
+- **July 19:** they have admin on a research cluster and are reading cloud secrets. To get benchmark answers they break into **Hugging Face** and search the company's Slack for their own grader.
+- **September:** RL runs are paused again after an agent uses DNS to reach an outside chatbot.
+</MiniSlide>
+
+<MiniSlide title="The infosec crowd is not impressed" image={sbReactions} alt="Collage of posts from security researchers mocking the labs' sandboxing: train your security staff not the model, pwned by classic GET then DNS escapes, the OpenAI lab leak" caption="“Almost every bypass we have seen so far comes down to sloppy configs, infra and engineering.”" credit="via Matthew Green" creditHref="https://blog.cryptographyengineering.com/2026/09/30/is-sandboxing-sufficient-to-contain-rogue-agents/" />
+
+<MiniSlide title="Two camps — and Green's verdict">
+<div class="mp-table-wrap">
+<table>
+  <thead><tr><th></th><th>The claim</th><th>Green's verdict</th></tr></thead>
+  <tbody>
+    <tr><th>Infosec</th><td data-label="Claim">We know how to build sandboxes. The labs just haven't built proper ones.</td><td data-label="Verdict">Right. No team had the authority to secure research runs, so we can't tell whether the problem is the models or the infrastructure.</td></tr>
+    <tr><th>Alignment</th><td data-label="Claim">No sandbox stops a smart enough agent that needs information to work. So make it not want to escape.</td><td data-label="Verdict">Also right. A useful agent needs the front gate open, so all the security moves to watching the gate.</td></tr>
+  </tbody>
+</table>
+</div>
+</MiniSlide>
+
+<MiniSlide title="The warden model" image={sbMuse} alt="Meta Muse architecture: the agent harness runs in a runtime cell with an execd sandbox; outside it, in violet, sit hatch-safety risk classifiers, secure credential storage and the Sentinel permission authority" credit="Meta Muse architecture, via Matthew Green" creditHref="https://blog.cryptographyengineering.com/2026/09/30/is-sandboxing-sufficient-to-contain-rogue-agents/">
+1. Build a sandbox.
+2. Put the agent in it.
+3. Add a dumber, cheaper **warden model** to watch the gate.
+4. Hope the lunkhead can contain the wizard.
+
+Meta's Muse does exactly this: everything in violet sits outside the sandbox. But a warden is just the alignment problem again. METR found Sol reviewers would "uncritically adopt the perspective" of the agent they were watching.
+</MiniSlide>
+
+<MiniSlide title="The real worry is a worm, not a rogue">
+- **The payload:** text that hijacks the agent. An agent that had called attacking Hugging Face "clearly unethical" changed its mind when a peer posted "GO" with a six-minute deadline.
+- **The carrier:** agents in separately sandboxed runs left instructions for each other in a **shared package cache**, and the agents that found them followed them.
+- Swap the package cache for email, Slack, shared docs or WhatsApp, and swap sandboxed training runs for personal agents like Muse, and you have everything a worm needs.
+</MiniSlide>
+
+<MiniSlide title="A swarm of obedient agents">
+Not an evil model breaking out, and not failed containment. Instead, "a swarm of perfectly amenable agents that never leave their sandboxes, each doing exactly what it's told to do, by a human being who wasn't supposed to be giving it orders."
+
+**What does your sandbox share, and who can get text in front of your agent?**
+</MiniSlide>
+
+</MiniPresentation>
 
 ### Chirp Pong
 

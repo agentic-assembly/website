@@ -363,6 +363,12 @@ Huang's line this year is that writing code is "essentially typing, and typing i
 
 </TranscriptCell>
 
+<TranscriptCell title="NVIDIA Sentry — agent security in silicon" sub="NVIDIA's security-first hardware: a guard on the DPU that agents can't see and can't argue with.">
+
+The hardware version of Matthew Green's warden. Sentry is part of NVIDIA's Open Agent Safety Platform. It runs on BlueField-4 DPUs in its own out-of-band trust domain, watches what agents do, and quarantines one within milliseconds if it steps outside its boundary. It's enforced in silicon, invisible to the agent and to attackers. On the desktop the same idea arrives through RTX Spark PCs and Windows 11's new "Execution Containers" for sandboxing agents. A chip can't be talked out of a rule, which fixes Green's obedient warden, but it can only enforce rules someone wrote down in advance. Does moving the warden into hardware solve the worm problem, or just the escape problem? — [NVIDIA](https://nvidianews.nvidia.com/news/open-agent-safety-platform) — [TechCrunch](https://techcrunch.com/2026/10/07/microsoft-releases-new-nvidia-chip-ai-pcs-with-revamped-windows-11/)
+
+</TranscriptCell>
+
 </Transcript>
 
 {/* news:start */}

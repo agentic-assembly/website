@@ -351,6 +351,12 @@ Amazon's agentic IDE, built on Code OSS with a CLI alongside it, and the most op
 
 </TranscriptCell>
 
+<TranscriptCell title="EnvHarness" sub="Google Research's framework that rewires an agent's environment around its weaknesses, leaving the agent itself untouched.">
+
+The bottleneck eliminator idea, aimed at the world instead of the prompt. EnvHarness wraps any environment's `reset()` and `step()` with three pieces: Setup (the starting state), Rule (limits on transitions) and Link (what the agent observes). Then EnvRigger runs the loop: it watches the agent, finds its recurring mistakes, generates a fix to the environment, and checks the fix with fresh runs. On WebArena, SWE-bench Verified and ALFWorld that bought 2.9 to 3.7 points across Gemini, Qwen and Sonnet without changing the agents at all. If shaping the environment works as well as tuning the agent, is your `CLAUDE.md` and tool setup worth more engineering than your choice of model? — [InfoQ](https://www.infoq.com/news/2026/10/envharness-self-evolving-agents/) — [github.com/google-research/envharness](https://github.com/google-research/envharness)
+
+</TranscriptCell>
+
 </Transcript>
 
 {/* news:start */}

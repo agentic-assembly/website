@@ -91,6 +91,23 @@ Anthropic replaced git in five months with a team of seven, because agents pushe
 </div>
 </MiniSlide>
 
+<MiniSlide title="Open-source alternatives" caption="No open-source project does everything Scion does. The pieces exist, but only Meta has put them together, and it built them for its own infrastructure.">
+<div class="mp-table-wrap">
+<table>
+  <thead><tr><th></th><th>What it gives you</th><th>The catch</th></tr></thead>
+  <tbody>
+    <tr><th>Sapling + Mononoke + EdenFS</th><td data-label="Gives">The closest match: a server that does the heavy lifting, and checkouts where files are fetched only when read. It's the prior art Anthropic cites.</td><td data-label="Catch">Built for Meta's infrastructure, and hard to run anywhere else</td></tr>
+    <tr><th>Scalar + partial clone</th><td data-label="Gives">Built into git: objects are fetched on demand, the checkout is sparse, and maintenance runs in the background</td><td data-label="Catch">Still git, so every client still does the work locally</td></tr>
+    <tr><th>Gitaly</th><td data-label="Gives">GitLab's open-source git server, which answers repository queries as API calls</td><td data-label="Catch">Speeds up the server but doesn't change what clients do</td></tr>
+    <tr><th>Josh</th><td data-label="Gives">A git proxy that serves one project from a monorepo as if it were its own repo</td><td data-label="Catch">Makes repos look smaller; it doesn't make checkouts faster</td></tr>
+    <tr><th>VFS for Git</th><td data-label="Gives">Microsoft's virtualised checkouts, built for the Windows repo</td><td data-label="Catch">Largely superseded by Scalar</td></tr>
+    <tr><th>jj</th><td data-label="Gives">Has a pluggable storage backend, and Google runs it on Piper internally</td><td data-label="Catch">The public release only ships git storage</td></tr>
+    <tr><th>Subversion</th><td data-label="Gives">Centralised, with partial checkouts. It's what Simon compared Scion to</td><td data-label="Catch">Not designed for agent-scale traffic</td></tr>
+  </tbody>
+</table>
+</div>
+</MiniSlide>
+
 <MiniSlide title="What they learned — and the question for the room">
 - Seven people built Scion, Antique and half a dozen related systems in five months.
 - The engineers rate Claude a better coder than themselves. Their job became **telling it no** and reviewing intent instead of every line.
